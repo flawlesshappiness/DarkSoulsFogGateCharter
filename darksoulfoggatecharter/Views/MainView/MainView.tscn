@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba2lcgh1l41v5"]
+
+[ext_resource type="Script" uid="uid://3fc7ycbd12b5" path="res://Views/MainView/MainView.cs" id="1_qg6sy"]
+[ext_resource type="PackedScene" uid="uid://be8eu5wtkcvso" path="res://Prefabs/UI/Graph/gate_graph.tscn" id="2_k4w8c"]
+[ext_resource type="Script" uid="uid://cs4ht1xspdo6x" path="res://Views/MainView/ScrollPopupMenu.cs" id="5_k4w8c"]
+
+[node name="MainView" type="Control" node_paths=PackedStringArray("GateGraph")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_qg6sy")
+GatesPath = "res://Assets/gates.txt"
+GateGraph = NodePath("GateGraph")
+
+[node name="GateGraph" parent="." instance=ExtResource("2_k4w8c")]
+layout_mode = 1
+
+[node name="ScrollPopupMenu" type="PopupMenu" parent="."]
+position = Vector2i(365, 0)
+item_count = 1
+item_0/text = "Test"
+item_0/id = 0
+script = ExtResource("5_k4w8c")

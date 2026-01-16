@@ -1,0 +1,106 @@
+Firelink Shrine,Crow transport from Firelink to Asylum
+Firelink Shrine,Between Firelink Shrine and Upper Burg
+Firelink Shrine,In front of Firelink Shrine dual elevator
+Firelink Shrine,Between Firelink Shrine and Catacombs
+Firelink Shrine,Between the Firelink Shrine elevator and New Londo Ruins
+Firelink Shrine,Between female Undead Merchant and Lower Burg
+Darkroot Garden/Basin,Between the Darkroot Garden bonfire and the area with the stone knights
+Darkroot Garden/Basin,To Moonlight Butterfly
+Darkroot Garden/Basin,After Moonlight Butterfly
+Darkroot Garden/Basin,Between Darkroot and Andre
+Darkroot Garden/Basin,Between Darkroot and tunnel leading to Valley of the Drakes
+Darkroot Garden/Basin,At one end of the bridge at the top of the waterfall with the hydra below
+Darkroot Garden/Basin,To Sif
+Darkroot Garden/Basin,Warp to DLC
+Kiln,Between the Kiln door and Black Knight area
+Kiln,To Gwyn
+Catacombs,Between Firelink Shrine and Catacombs
+Catacombs,Between the bridge Patches flips over and the room with two skeletons
+Catacombs,Between TotG and Catacombs
+Catacombs,To Pinwheel
+Duke's Archives,At the first elevator in Duke's Archives
+Duke's Archives,At the hallway with the crystal warrior in Duke's Archives
+Duke's Archives,Between Duke's Archives and the field before Crystal Caves
+Duke's Archives,To Duke's Archives prison
+Duke's Archives,To Seath in Crystal Caves
+Duke's Archives,To Seath in Archives
+Duke's Archives,Golden fog gate leading to Duke's Archives
+Demon Ruins + Quelaags Domain,After Quelaag
+Demon Ruins + Quelaags Domain,Between Quelaag's Domain and the Demon Ruins bonfire
+Demon Ruins + Quelaags Domain,Golden fog gate in Demon Ruins
+Demon Ruins + Quelaags Domain,To Ceaseless Discharge
+Demon Ruins + Quelaags Domain,To Demon Firesage
+Demon Ruins + Quelaags Domain,After Demon Firesage
+Demon Ruins + Quelaags Domain,To Centipede Demon
+Demon Ruins + Quelaags Domain,After Centipede Demon
+Demon Ruins + Quelaags Domain,To Bed of Chaos
+Demon Ruins + Quelaags Domain,Between stairways behind Firesage and elevator to Quelaag's Domain
+Demon Ruins + Quelaags Domain,Between the Demon Ruins lava area (drained by Ceaseless) and the cliffside path where Kirk invades
+DLC,To Sanctuary Guardian
+DLC,After Sanctuary Guardian
+DLC,To Manus
+DLC,To Artorias
+DLC,After Artorias
+DLC,To Kalameet
+DLC,At the bottom of the elevator from before Artorias to before Manus
+DLC,Between Sanctuary Garden and Royal Forest
+DLC,At the top of the elevator from before Artorias to before Manus
+DLC,Between Gough's stairway and Oolacile Township
+DLC,Between Gough's stairway and Artorias
+Blighttown + Great Hollow,Between Blighttown and the Great Hollow
+Blighttown + Great Hollow,Between Blighttown and Valley of the Drakes
+Blighttown + Great Hollow,To Quelaag
+Blighttown + Great Hollow,After Quelaag
+Blighttown + Great Hollow,Between Great Hollow and Ash Lake
+Blighttown + Great Hollow,In between the main pit and wood planks while climbing up/down Blighttown
+Burg/Parish,In front of Firelink Shrine dual elevator
+Burg/Parish,At the bridge crossing over the boar in Undead Parish
+Burg/Parish,Near the drake encounter in Upper Burg
+Burg/Parish,To Gargoyles
+Burg/Parish,After Gargoyles
+Burg/Parish,To Taurus Demon
+Burg/Parish,After Taurus Demon
+Burg/Parish,To Capra Demon
+Burg/Parish,Between area after Taurus Demon and Hellkite bridge
+Burg/Parish,Lower doorway of room with burg bonfire
+Burg/Parish,Between Firelink Shrine and Upper Burg
+Burg/Parish,Between Undead Parish and Andre
+Burg/Parish,Upper doorway of room with burg bonfire
+Burg/Parish,Between female Undead Merchant and Lower Burg
+Burg/Parish,Between very long ladder and Lower Burg
+Burg/Parish,Between Sen's Fortress gate and Andre
+Painted World,Leaving Painted World back to Anor Londo
+Painted World,Between tower with statue and courtyard with phalanx
+Painted World,To Priscilla
+Depths,Near the area with the Channeler in the Depths
+Depths,To Gaping Dragon
+Sens Fortress,Near the outside boulder stairway and Siegmeyer in Sen's Fortress
+Sens Fortress,Between final swinging axes and Sen's Fortress roof
+Sens Fortress,From Sen's to Anor Londo
+Sens Fortress,To Iron Golem
+Sens Fortress,Between Sen's Fortress gate and Andre
+Anor Londo,From Anor Londo back to Sen's
+Anor Londo,Using Peculiar Doll to access Painted World
+Anor Londo,To O&S
+Anor Londo,After O&S on left side
+Anor Londo,After O&S on right side
+Anor Londo,Golden fog gate leading to Duke's Archives
+Anor Londo,At the doorway connecting the first Anor Londo elevator and the first gargoyle
+Anor Londo,From the Anor Londo main cathedral out of a broken window in front
+Anor Londo,Between the Anor Londo main cathedral and the area with bedrooms and paintings
+Anor Londo,Between the Anor Londo main cathedral and the Giant Blacksmith
+Anor Londo,Between the Painting Guardian rafters and the elevator contraption
+Anor Londo,Between the first two Silver Knights and the main building
+Anor Londo,To Gwyndolin
+Valley of Drakes,Between Darkroot and tunnel leading to Valley of the Drakes
+Valley of Drakes,Between Blighttown and Valley of the Drakes
+Tomb of the Giants,Getting into coffin to Nito
+Tomb of the Giants,Getting back in coffin at Nito
+Tomb of the Giants,Before the Halberd Black Knight in TotG
+Tomb of the Giants,Between TotG and Catacombs
+Tomb of the Giants,To Nito
+Tomb of the Giants,Golden fog gate in Tomb of the Giants
+New Londo,Near the New Londo Ruins shortcut ladder
+New Londo,On an entrance to the building with the Very Large Ember in lower ruins
+New Londo,Between the Firelink Shrine elevator and New Londo Ruins
+New Londo,To Four Kings
