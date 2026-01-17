@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cql0nc6fu4met"]
+
+[ext_resource type="Script" uid="uid://ccsp83faj7uvb" path="res://Prefabs/Node/ConnectionObject.cs" id="1_g1xko"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nv0pr"]
+size = Vector3(0.02, 0, 1)
+
+[node name="ConnectionObject" type="Node3D" node_paths=PackedStringArray("Mesh")]
+script = ExtResource("1_g1xko")
+Mesh = NodePath("MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_nv0pr")

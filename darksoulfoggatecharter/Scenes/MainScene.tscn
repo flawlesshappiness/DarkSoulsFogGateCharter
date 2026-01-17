@@ -1,8 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://clyuuo5hd2vmu"]
+[gd_scene load_steps=9 format=3 uid="uid://clyuuo5hd2vmu"]
 
 [ext_resource type="Script" uid="uid://ddhtn3by3njeq" path="res://Scenes/MainScene.cs" id="1_hpc76"]
 [ext_resource type="PackedScene" uid="uid://ba2lcgh1l41v5" path="res://Views/MainView/MainView.tscn" id="2_tr2i4"]
+[ext_resource type="Script" uid="uid://edduin2t4myb" path="res://Gates/GateController.cs" id="3_nhkr4"]
+[ext_resource type="PackedScene" uid="uid://dgy363muffbtj" path="res://Prefabs/Node/node_sphere.tscn" id="4_7rqgy"]
+[ext_resource type="Script" uid="uid://bshctxoalddri" path="res://Camera/DraggableCamera.cs" id="4_y4jh7"]
+[ext_resource type="PackedScene" uid="uid://c7378janorkoj" path="res://Prefabs/Node/node_cube.tscn" id="5_qxria"]
+[ext_resource type="PackedScene" uid="uid://cql0nc6fu4met" path="res://Prefabs/Node/connection_object.tscn" id="7_q68mp"]
 
-[node name="MainScene" type="Node3D"]
+[sub_resource type="Environment" id="Environment_nhkr4"]
+background_mode = 1
+background_color = Color(0, 0.433333, 1, 1)
+
+[node name="MainScene" type="Node3D" node_paths=PackedStringArray("NodeParent", "GateNodeTemplate", "AreaNodeTemplate", "ConnectionObjectTemplate")]
 script = ExtResource("1_hpc76")
-MainView = ExtResource("2_tr2i4")
+MainViewPrefab = ExtResource("2_tr2i4")
+NodeParent = NodePath("Nodes")
+GateNodeTemplate = NodePath("Nodes/NodeCube")
+AreaNodeTemplate = NodePath("Nodes/NodeSphere")
+ConnectionObjectTemplate = NodePath("Nodes/ConnectionObject")
+
+[node name="GateController" type="Node" parent="."]
+script = ExtResource("3_nhkr4")
+GatesPath = "res://Assets/gates2.txt"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+environment = SubResource("Environment_nhkr4")
+projection = 1
+size = 5.0
+script = ExtResource("4_y4jh7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, 0, 0, 0)
+
+[node name="Nodes" type="Node3D" parent="."]
+
+[node name="NodeSphere" parent="Nodes" instance=ExtResource("4_7rqgy")]
+
+[node name="NodeCube" parent="Nodes" instance=ExtResource("5_qxria")]
+
+[node name="ConnectionObject" parent="Nodes" instance=ExtResource("7_q68mp")]

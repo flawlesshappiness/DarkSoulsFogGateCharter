@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7378janorkoj"]
+
+[ext_resource type="Script" uid="uid://bfx1ef8t76xlv" path="res://Prefabs/Node/GateNodeObject.cs" id="1_d6nvu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d6nvu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jidx6"]
+
+[sub_resource type="Animation" id="Animation_d6nvu"]
+resource_name = "grow"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector3(0.75, 0.75, 0.75), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_luwc0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.75, 0.75, 0.75)]
+}
+
+[sub_resource type="Animation" id="Animation_jxqiy"]
+resource_name = "shrink"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.75, 0.75, 0.75)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t0cd5"]
+_data = {
+&"RESET": SubResource("Animation_luwc0"),
+&"grow": SubResource("Animation_d6nvu"),
+&"shrink": SubResource("Animation_jxqiy")
+}
+
+[node name="NodeCube" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Label")]
+script = ExtResource("1_d6nvu")
+Animation = NodePath("AnimationPlayer")
+Mesh = NodePath("Anim/MeshInstance3D")
+Label = NodePath("Anim/Label3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_d6nvu")
+
+[node name="Anim" type="Node3D" parent="."]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Anim"]
+mesh = SubResource("BoxMesh_jidx6")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="Anim"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.501, 0)
+modulate = Color(0, 0, 0, 1)
+text = "TEST"
+outline_size = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_t0cd5")
+}
+playback_default_blend_time = 0.1

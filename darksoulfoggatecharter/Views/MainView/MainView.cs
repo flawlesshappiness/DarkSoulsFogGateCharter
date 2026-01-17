@@ -1,18 +1,13 @@
 using Godot;
 using System.Collections.Generic;
-using System.Linq;
 
 public partial class MainView : Control
 {
+    [Export]
+    public ScrollPopupMenu PopupMenu;
+
     public static MainView Instance { get; private set; }
 
-    [Export(PropertyHint.File)]
-    public string GatesPath;
-
-    [Export]
-    public GateGraph GateGraph;
-
-    private bool initialized;
     public List<Gate> Gates { get; private set; } = new();
     public List<string> Areas { get; private set; } = new();
     public List<AreaGraphNode> Nodes { get; private set; } = new();
@@ -27,61 +22,37 @@ public partial class MainView : Control
     {
         base._Ready();
         Instance = this;
-        ReadGatesFile();
-    }
-
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-        Initialize();
+        CallDeferred(nameof(Initialize));
     }
 
     private void Initialize()
     {
-        if (initialized) return;
-        initialized = true;
-
-        CreateGateNodes();
     }
 
-    private void ReadGatesFile()
+    public void RightClickGateNode(GateNodeObject node)
     {
-        var file = FileAccess.GetFileAsString(GatesPath);
-        var lines = file.Split("\n");
+        PopupMenu.ClearItems();
 
-        foreach (var line in lines)
+        var gates = GateController.Instance.Gates;
+        foreach (var gate in gates)
         {
-            if (string.IsNullOrEmpty(line)) continue;
+            if (string.IsNullOrEmpty(gate.Id)) continue;
+            if (MainScene.Instance.IsGateCreated(gate)) continue;
 
-            var data = line.Split(',');
-            var gate = new Gate
-            {
-                Area = data[0],
-                Description = data[1]
-            };
-
-            Gates.Add(gate);
-            AddArea(gate.Area);
+            var gate_to_create = gate;
+            PopupMenu.AddActionItem(gate_to_create.Name, () => MainScene.Instance.CreateGateConnection(node, gate_to_create));
         }
+
+        PopupMenu.Show();
+        PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
     }
 
-    private void AddArea(string area)
+    public void RightClickAreaNode(AreaNodeObject node)
     {
-        if (Areas.Contains(area)) return;
-        Areas.Add(area);
-    }
-
-    private void CreateGateNodes()
-    {
-        Nodes.Clear();
-
-        foreach (var gate in Gates)
-        {
-            var node = Nodes.FirstOrDefault(x => x.Title == gate.Area);
-            node ??= GateGraph.CreateNode();
-            node.SetArea(gate.Area);
-            node.AddGate(gate.Description);
-            Nodes.Add(node);
-        }
+        PopupMenu.ClearItems();
+        PopupMenu.AddActionItem("Delete", () => MainScene.Instance.DeleteArea(node.Area));
+        PopupMenu.Show();
+        PopupMenu.Size = new Vector2I(100, 0);
+        PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
     }
 }

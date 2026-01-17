@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://5y5aka6d16lw" path="res://Prefabs/UI/Graph/AreaGraphNode.cs" id="1_wmcyl"]
 
 [node name="AreaGraphNode" type="GraphNode" node_paths=PackedStringArray("GateLabelTemplate")]
-offset_left = 151.0
-offset_top = 177.0
-offset_right = 466.0
-offset_bottom = 310.0
+offset_right = 315.0
+offset_bottom = 133.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 mouse_filter = 1
 position_offset = Vector2(151, 177)
 title = "Area"
@@ -24,4 +24,5 @@ GateLabelTemplate = NodePath("GateLabel")
 
 [node name="GateLabel" type="Label" parent="."]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Test"

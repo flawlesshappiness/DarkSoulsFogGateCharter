@@ -1,0 +1,43 @@
+1,To Oscar,Asylum Start,Traversable
+1,To hallway with initial weapons,Asylum Middle,Traversable
+2,From Asylum Demon balcony,Asylum Demon Dropdown,Boss
+2,To Asylum Demon balcony,Asylum Middle,Boss
+,Asylum Demon Dropdown,Asylum Start,Shortcut
+,Asylum Middle,Asylum Door Shortcut,Area
+,Asylum Door Shortcut,Asylum Start,Shortcut
+3,Kill Asylum Demon,Asylum Start,BossKilled
+3,In Stray Demon arena,Kill Asylum Demon,Boss
+,In Stray Demon arena,Stray Demon Dropdown,Boss
+,Stray Demon Dropdown,Asylum Start,Shortcut
+,Warp to Firelink crow's nest,Kill Asylum Demon,Warp
+,Crow transport from Firelink to Asylum,Firelink Shrine,Warp
+,Between Firelink Shrine and Upper Burg,Firelink Shrine,PVP
+,In front of Firelink Shrine dual elevator,Firelink Shrine,PVP
+5,Between Firelink Shrine and Catacombs,Firelink Shrine,PVP
+,Between the Firelink Shrine elevator and New Londo Ruins,Firelink Shrine,PVP
+,Between female Undead Merchant and Lower Burg,Female Undead Merchant Door,PVP
+,Female Undead Merchant Door,Firelink Shrine,Shortcut
+,Lordvessel Obtained,Firelink Shrine,ItemObtained
+,Firelink Altar,Lordvessel Obtained,Area
+4,To Gwyn,Firelink Altar,Boss
+4,From Gwyn,None,Boss
+5,Between Firelink Shrine and Catacombs,Catacombs Levered Door,PVP
+,Catacombs Levered Door,Upper Catacombs,Shortcut
+6,From Patches flipped bridge,Upper Catacombs,Traversable
+6,To Patches flipped bridge,Lower Catacombs,Traversable
+,Upper Catacombs,Shortcut to Lower Catacombs,Area
+,Shortcut to Lower Catacombs,Lower Catacombs,Shortcut
+7,To Pinwheel,Lower Catacombs,Boss
+7,Inside Pinwheel,Pinwheel Dropdown,Boss
+,Pinwheel Dropdown,Pinwheel,Shortcut
+9,To Tomb of the Giants,Pinwheel,PVP
+,Pinwheel,Dropdown to Lower Catacombs,Shortcut
+8,Getting into coffin to Nito,Lower Catacombs,Warp
+8,Getting back in coffin at Nito,None,Warp
+9,Between TotG and Catacombs,Before the Halberd Black Knight in TotG,PVP
+10,Before the Halberd Black Knight in TotG,Between TotG and Catacombs,Traversable
+10,After the Halberd Black Knight in TotG,ToTG Golden Fog,Traversable
+12,Before ToTG Golden Fog,After the Halberd Black Knight in TotG,Golden
+12,After ToTG Golden Fog,To Nito,Golden
+11,To Nito,After ToTG Golden Fog,Boss
+11,Inside Nito,None,Boss
