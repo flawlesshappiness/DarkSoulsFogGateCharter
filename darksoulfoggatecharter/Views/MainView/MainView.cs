@@ -86,6 +86,7 @@ public partial class MainView : Control
         var gates = Controller.Gates.Values;
         foreach (var gate in gates)
         {
+            if (gate.Name == node.NodeName) continue;
             if (!Controller.IsSearchable(gate.Name)) continue;
 
             var name = gate.Name;

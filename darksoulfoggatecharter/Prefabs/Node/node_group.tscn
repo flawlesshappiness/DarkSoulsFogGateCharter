@@ -111,6 +111,7 @@ text = "Before the Halberd Black Knight in TotG"
 font_size = 80
 outline_size = 0
 autowrap_mode = 3
+width = 1000.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
