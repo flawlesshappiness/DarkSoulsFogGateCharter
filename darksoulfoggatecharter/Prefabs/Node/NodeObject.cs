@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class NodeObject : Area3D
 {
@@ -9,10 +10,17 @@ public partial class NodeObject : Area3D
     [Export]
     public Label3D Label;
 
+    public virtual string NodeName => string.Empty;
+
+    public List<NodeObject> ConnectedNodes = new();
+
+    public bool IsFullyConnected => ConnectedNodes.Count >= 2;
+
     public static NodeObject Handled;
 
     public event Action OnRightClick;
 
+    protected bool IsHandled => Handled == this;
     protected bool HasMouse { get; private set; }
     protected bool Dragging { get; private set; }
 
@@ -22,7 +30,7 @@ public partial class NodeObject : Area3D
     {
         base._UnhandledInput(e);
 
-        var can_input = HasMouse || Handled == this;
+        var can_input = HasMouse || IsHandled;
         if (!can_input) return;
         if (e is InputEventMouseButton button)
         {
@@ -67,7 +75,7 @@ public partial class NodeObject : Area3D
         Dragging = pressed;
     }
 
-    private void MousePressedChanged(bool pressed)
+    protected virtual void MousePressedChanged(bool pressed)
     {
         if (pressed)
         {
@@ -79,5 +87,16 @@ public partial class NodeObject : Area3D
             Handled = null;
             GlobalPosition = GlobalPosition.Set(y: 0);
         }
+    }
+
+    public void AddConnection(NodeObject node)
+    {
+        if (IsConnectedTo(node)) return;
+        ConnectedNodes.Add(node);
+    }
+
+    public bool IsConnectedTo(NodeObject node)
+    {
+        return ConnectedNodes.Contains(node);
     }
 }

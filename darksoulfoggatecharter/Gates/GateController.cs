@@ -9,27 +9,30 @@ public partial class GateController : Node
     [Export(PropertyHint.File)]
     public string GatesPath;
 
-    public List<GateNode> Gates { get; private set; } = new();
-    public List<AreaNode> Areas { get; private set; } = new();
-    public List<GateConnection> Connections { get; private set; } = new();
+    public MainScene Scene => MainScene.Instance;
+    public Dictionary<string, GateNode> Gates { get; private set; } = new();
+    public Dictionary<string, GateGroup> Groups { get; private set; } = new();
 
     public override void _Ready()
     {
         base._Ready();
         Instance = this;
         ParseGatesFile();
-        CallDeferred("Initialize");
     }
 
-    public void Initialize()
+    public void ClearData()
     {
-
+        foreach (var gate in Gates.Values)
+        {
+            gate.Data = new();
+        }
     }
 
     private void ParseGatesFile()
     {
         var file = FileAccess.GetFileAsString(GatesPath);
         var lines = file.Split("\n");
+        var groups = new Dictionary<string, GateGroup>();
 
         foreach (var line in lines)
         {
@@ -37,44 +40,98 @@ public partial class GateController : Node
 
             var data = line.Split(',');
             var id = data[0];
-            var gate = data[1];
-            var area = data[2];
-            var type = data[3];
+            var name = data[1];
+            var type = data[2];
+            var connection = data[3];
 
-            var node = new GateNode
+            var gate = new GateNode
             {
                 Id = id,
-                Name = gate,
-                Area = area,
+                Name = name,
+                Connection = connection,
                 Type = type,
             };
 
-            AddGate(node);
-        }
-    }
+            Gates.Add(name, gate);
 
-    private void AddGate(GateNode node)
-    {
-        Gates.Add(node);
-
-        var area = GetOrCreateArea(node.Area);
-        area.Gates.Add(node);
-    }
-
-    public AreaNode GetOrCreateArea(string name)
-    {
-        var area = Areas.FirstOrDefault(x => x.Name == name);
-
-        if (area == null)
-        {
-            area = new AreaNode
+            // Create possible groups
+            if (!groups.ContainsKey(connection))
             {
-                Name = name,
-            };
-
-            Areas.Add(area);
+                groups.Add(connection, new GateGroup { Name = connection });
+            }
+            groups[connection].Gates.Add(name, gate);
         }
 
-        return area;
+        // Add valid groups
+        foreach (var group in groups.Values.Where(x => x.Gates.Count > 1))
+        {
+            Groups.Add(group.Name, group);
+        }
+    }
+
+    public GateNode GetGate(string name) =>
+        Gates.TryGetValue(name, out var gate) ? gate : null;
+
+    public GateGroup GetGroup(string name) =>
+        Groups.TryGetValue(name, out var group) ? group : null;
+
+    public bool IsGroup(string name) =>
+        Groups.ContainsKey(name);
+
+    public bool IsGateInGroup(string name) =>
+        Groups.Values.Any(x => x.Gates.ContainsKey(name));
+
+    public bool ShouldAutoGenerate(string name)
+    {
+        if (IsGroup(name))
+        {
+            return true;
+        }
+        else
+        {
+            var gate = GetGate(name);
+            if (gate == null) return false;
+
+            var item = gate.Type == GateType.ItemObtained;
+            var door = gate.Type == GateType.DoorShortcut;
+            var boss_killed = gate.Type == GateType.BossKilled;
+            var always = item || door || boss_killed;
+            return always;
+        }
+    }
+
+    public bool IsOneWay(string name)
+    {
+        if (IsGroup(name))
+        {
+            return false;
+        }
+        else
+        {
+            var gate = GetGate(name);
+            if (gate == null) return false;
+
+            return gate.Type == GateType.OnewayShortcut;
+        }
+    }
+
+    public bool IsSearchable(string name)
+    {
+        if (IsGroup(name))
+        {
+            return false;
+        }
+        else
+        {
+            var missing_connections = !Scene.IsNodeFullyConnected(name);
+            var gate = GetGate(name);
+            var no_id = string.IsNullOrEmpty(gate.Id);
+            var item = gate.Type == GateType.ItemObtained;
+            var door = gate.Type == GateType.DoorShortcut;
+            var oneway = gate.Type == GateType.OnewayShortcut;
+            var boss_killed = gate.Type == GateType.BossKilled;
+            var never = !(no_id || item || door || oneway || boss_killed);
+            return never && missing_connections;
+        }
     }
 }

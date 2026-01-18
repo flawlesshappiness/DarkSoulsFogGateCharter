@@ -1,13 +1,12 @@
 using Godot;
 
-public partial class GateNodeObject : NodeObject
+public partial class GroupNodeObject : NodeObject
 {
     [Export]
     public AnimationPlayer Animation;
 
-    public override string NodeName => Gate.Name;
-
-    public GateNode Gate { get; private set; }
+    public GateGroup Group { get; private set; }
+    public override string NodeName => Group.Name;
 
     public override void _Ready()
     {
@@ -15,23 +14,21 @@ public partial class GateNodeObject : NodeObject
         Animation.Play("show");
     }
 
-    public void SetGate(GateNode gate)
+    public void SetGroup(GateGroup group)
     {
-        Gate = gate;
-        Label.Text = gate.Name;
+        Group = group;
+        Label.Text = group.Name;
     }
 
     public override void _MouseEnter()
     {
         base._MouseEnter();
-        if (IsHandled) return;
         Animation.Play("grow");
     }
 
     public override void _MouseExit()
     {
         base._MouseExit();
-        if (IsHandled) return;
         Animation.Play("shrink");
     }
 
@@ -47,16 +44,5 @@ public partial class GateNodeObject : NodeObject
         {
             Animation.Play("grow");
         }
-    }
-
-    public GateData ToData()
-    {
-        return new GateData
-        {
-            Name = Gate.Name,
-            X = GlobalPosition.X,
-            Y = GlobalPosition.Y,
-            Z = GlobalPosition.Z,
-        };
     }
 }

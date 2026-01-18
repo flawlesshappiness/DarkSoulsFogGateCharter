@@ -1,0 +1,20 @@
+program parses all gates from gates.txt
+
+program finds all connections mentioned by more than 1 gate and creates those as groups
+
+user selects first gate to start from
+if a group has the first gate, program shows the group
+if not, program finds any other gate that mentions this gate, and shows that.
+
+user right clicks gate, and selects "Traverse"
+
+program shows a list of gates with missing connections
+
+user selects gate
+
+program shows selected gate, and connects previous gate to it.
+if selected gate mentions a single gate as connection, program shows that gate
+if selected gate is mentioned by a group, program shows group and all gates connected to group.
+if any gate is type ItemObtained, BossKilled, DoorShortcut then program recursively shows their connection.
+if any gate is One-wayShortcut, and is mentioned by group, then that gate is NOT shown.
+if any gate is One-wayShortcut, and is mentioned by a single gate, then that gate IS shown.

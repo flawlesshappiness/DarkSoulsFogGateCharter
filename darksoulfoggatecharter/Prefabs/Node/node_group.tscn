@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://bsgr68wtbwfw5"]
+
+[ext_resource type="Script" uid="uid://unovronsqh8s" path="res://Prefabs/Node/GroupNodeObject.cs" id="1_thb3b"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mnocw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_thb3b"]
+albedo_color = Color(0.227451, 0.352941, 0.25098, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_thb3b"]
+material = SubResource("StandardMaterial3D_thb3b")
+top_radius = 1.7
+bottom_radius = 1.7
+height = 0.01
+
+[sub_resource type="Animation" id="Animation_uv02d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_q56xd"]
+resource_name = "grow"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_mnocw"]
+resource_name = "show"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.25),
+"transitions": PackedFloat32Array(0.5, -2, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
+}
+
+[sub_resource type="Animation" id="Animation_pdni1"]
+resource_name = "shrink"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uv02d"]
+_data = {
+&"RESET": SubResource("Animation_uv02d"),
+&"grow": SubResource("Animation_q56xd"),
+&"show": SubResource("Animation_mnocw"),
+&"shrink": SubResource("Animation_pdni1")
+}
+
+[node name="NodeGroup" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Label")]
+script = ExtResource("1_thb3b")
+Animation = NodePath("AnimationPlayer")
+Mesh = NodePath("Anim/MeshInstance3D")
+Label = NodePath("Anim/Label3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_mnocw")
+
+[node name="Anim" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Anim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("CylinderMesh_thb3b")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="Anim"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.501, 0)
+pixel_size = 0.002
+modulate = Color(0.854902, 0.843137, 0.803922, 1)
+text = "Before the Halberd Black Knight in TotG"
+font_size = 80
+outline_size = 0
+autowrap_mode = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_uv02d")
+}
+playback_default_blend_time = 0.1

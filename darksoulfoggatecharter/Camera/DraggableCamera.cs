@@ -20,9 +20,10 @@ public partial class DraggableCamera : Camera3D
     {
         base._UnhandledInput(e);
 
+        if (MainView.Instance?.HasActiveUI() ?? false) return;
         if (e is InputEventMouseButton button)
         {
-            if (button.ButtonIndex == MouseButton.Left)
+            if (button.ButtonIndex == MouseButton.Middle)
             {
                 MousePressed(button.Pressed);
                 GetViewport().SetInputAsHandled();
@@ -30,10 +31,12 @@ public partial class DraggableCamera : Camera3D
             else if (button.ButtonIndex == MouseButton.WheelUp)
             {
                 AdjustSize(-0.5f);
+                GetViewport().SetInputAsHandled();
             }
             else if (button.ButtonIndex == MouseButton.WheelDown)
             {
                 AdjustSize(0.5f);
+                GetViewport().SetInputAsHandled();
             }
         }
         else if (e is InputEventMouseMotion motion && Dragging)

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1fs53l6frgdu"]
+
+[ext_resource type="Script" uid="uid://vy5pa0j0s876" path="res://Prefabs/UI/MousePrompt/MousePrompt.cs" id="1_8nfww"]
+[ext_resource type="Texture2D" uid="uid://daojw6copbsqp" path="res://Assets/Icons/mouse_left.png" id="1_818pu"]
+
+[node name="MousePrompt" type="MarginContainer" node_paths=PackedStringArray("Label", "Icon")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 134.0
+grow_vertical = 0
+script = ExtResource("1_8nfww")
+Label = NodePath("HBoxContainer/Label")
+Icon = NodePath("HBoxContainer/TextureRect")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+texture = ExtResource("1_818pu")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Create area"

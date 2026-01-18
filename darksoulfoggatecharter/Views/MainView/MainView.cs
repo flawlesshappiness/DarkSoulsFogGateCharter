@@ -1,58 +1,132 @@
 using Godot;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public partial class MainView : Control
 {
+    public static MainView Instance { get; private set; }
+
     [Export]
     public ScrollPopupMenu PopupMenu;
 
-    public static MainView Instance { get; private set; }
+    [Export]
+    public SearchListControl SearchList;
 
-    public List<Gate> Gates { get; private set; } = new();
-    public List<string> Areas { get; private set; } = new();
-    public List<AreaGraphNode> Nodes { get; private set; } = new();
+    [Export]
+    public MousePrompt MousePrompt;
 
-    public class Gate
-    {
-        public string Area { get; set; }
-        public string Description { get; set; }
-    }
+    private GateController Controller => GateController.Instance;
+    private MainScene Scene => MainScene.Instance;
+
+    private bool has_mouse_prompt;
+    private event Action OnMousePrompt;
 
     public override void _Ready()
     {
         base._Ready();
         Instance = this;
-        CallDeferred(nameof(Initialize));
+        SearchList.Hide();
+        EndMousePrompt();
     }
 
-    private void Initialize()
+    public override void _Process(double delta)
     {
+        base._Process(delta);
+        MousePrompt.Position = GetViewport().GetMousePosition() + new Vector2(0, -40);
+    }
+
+    public override void _UnhandledInput(InputEvent e)
+    {
+        base._UnhandledInput(e);
+
+        if (e is InputEventMouseButton button)
+        {
+            if (!has_mouse_prompt) return;
+            if (button.ButtonIndex == MouseButton.Left)
+            {
+                OnMousePrompt?.Invoke();
+                EndMousePrompt();
+                GetViewport().SetInputAsHandled();
+            }
+            else if (button.ButtonIndex == MouseButton.Right)
+            {
+                EndMousePrompt();
+                GetViewport().SetInputAsHandled();
+            }
+        }
     }
 
     public void RightClickGateNode(GateNodeObject node)
     {
         PopupMenu.ClearItems();
-
-        var gates = GateController.Instance.Gates;
-        foreach (var gate in gates)
-        {
-            if (string.IsNullOrEmpty(gate.Id)) continue;
-            if (MainScene.Instance.IsGateCreated(gate)) continue;
-
-            var gate_to_create = gate;
-            PopupMenu.AddActionItem(gate_to_create.Name, () => MainScene.Instance.CreateGateConnection(node, gate_to_create));
-        }
-
+        PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
         PopupMenu.Show();
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
+        PopupMenu.Popup();
     }
 
-    public void RightClickAreaNode(AreaNodeObject node)
+
+    public void RightClickGroupNode(GroupNodeObject node)
     {
         PopupMenu.ClearItems();
-        PopupMenu.AddActionItem("Delete", () => MainScene.Instance.DeleteArea(node.Area));
-        PopupMenu.Show();
+        PopupMenu.AddActionItem("Delete", () => { /* TODO */ });
         PopupMenu.Size = new Vector2I(100, 0);
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
+        PopupMenu.Popup();
+    }
+
+    private void OpenGateSearch(GateNodeObject node)
+    {
+        SearchList.Clear();
+        SearchList.Title = "Select gate";
+
+        var prev_node = node.ConnectedNodes.FirstOrDefault();
+        var next_position = Scene.GetNextNodePosition(prev_node, node);
+
+        var gates = Controller.Gates.Values;
+        foreach (var gate in gates)
+        {
+            if (!Controller.IsSearchable(gate.Name)) continue;
+
+            var name = gate.Name;
+            SearchList.AddItem(name, () => Scene.CreateNode(name, next_position, node));
+        }
+
+        SearchList.Show();
+    }
+
+    public void OpenStartSearch()
+    {
+        SearchList.Clear();
+        SearchList.Title = "Select start";
+
+        foreach (var gate in Controller.Gates.Values)
+        {
+            if (!Controller.IsSearchable(gate.Name)) continue;
+
+            var to_create = gate;
+            SearchList.AddItem(gate.Name, () => Scene.CreateNodeAtCenter(to_create.Name));
+        }
+
+        SearchList.Show();
+    }
+
+    public bool HasActiveUI()
+    {
+        return SearchList.IsVisibleInTree();
+    }
+
+    private void StartMousePrompt(string text, Action action)
+    {
+        MousePrompt.Show();
+        MousePrompt.Label.Text = text;
+        has_mouse_prompt = true;
+        OnMousePrompt = action;
+    }
+
+    private void EndMousePrompt()
+    {
+        has_mouse_prompt = false;
+        MousePrompt.Hide();
     }
 }

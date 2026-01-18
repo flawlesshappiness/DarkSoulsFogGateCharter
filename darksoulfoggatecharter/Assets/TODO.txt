@@ -1,0 +1,2 @@
+auto generate links for specific gate types
+checkbox for auto generating links from certain gate types (if off)

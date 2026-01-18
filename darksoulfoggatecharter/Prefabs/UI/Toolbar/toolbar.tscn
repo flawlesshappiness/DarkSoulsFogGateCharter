@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqw0lkmli5wsu"]
+
+[ext_resource type="Script" uid="uid://c0fa2ebh4g8pl" path="res://Prefabs/UI/Toolbar/Toolbar.cs" id="1_pkhvg"]
+[ext_resource type="Texture2D" uid="uid://l4taen6w7jel" path="res://Assets/Icons/icon_files.png" id="1_wgobe"]
+[ext_resource type="Texture2D" uid="uid://b4j1phyo1wovd" path="res://Assets/Icons/icon_open_folder.png" id="2_yn43l"]
+[ext_resource type="Texture2D" uid="uid://couhbjt26qc0u" path="res://Assets/Icons/icon_save.png" id="3_fhjrk"]
+
+[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "OpenFileDialog", "SaveFileDialog")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_pkhvg")
+NewButton = NodePath("VBoxContainer/HBoxContainer/NewButton")
+OpenButton = NodePath("VBoxContainer/HBoxContainer/OpenButton")
+SaveButton = NodePath("VBoxContainer/HBoxContainer/SaveButton")
+OpenFileDialog = NodePath("OpenFileDialog")
+SaveFileDialog = NodePath("SaveFileDialog")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("1_wgobe")
+expand_icon = true
+
+[node name="OpenButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("2_yn43l")
+expand_icon = true
+
+[node name="SaveButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("3_fhjrk")
+expand_icon = true
+
+[node name="OpenFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.data")
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+initial_position = 2
+access = 2
+filters = PackedStringArray("*.data")

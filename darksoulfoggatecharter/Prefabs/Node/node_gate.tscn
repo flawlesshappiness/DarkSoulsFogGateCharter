@@ -1,10 +1,32 @@
-[gd_scene load_steps=8 format=3 uid="uid://c7378janorkoj"]
+[gd_scene load_steps=10 format=3 uid="uid://c7378janorkoj"]
 
 [ext_resource type="Script" uid="uid://bfx1ef8t76xlv" path="res://Prefabs/Node/GateNodeObject.cs" id="1_d6nvu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d6nvu"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_jidx6"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6nvu"]
+albedo_color = Color(0.345098, 0.505882, 0.341176, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sakr1"]
+material = SubResource("StandardMaterial3D_d6nvu")
+top_radius = 0.7
+bottom_radius = 0.7
+height = 0.01
+
+[sub_resource type="Animation" id="Animation_luwc0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.9, 0.9, 0.9)]
+}
 
 [sub_resource type="Animation" id="Animation_d6nvu"]
 resource_name = "grow"
@@ -20,11 +42,13 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(0.5, 0.5),
 "update": 0,
-"values": [Vector3(0.75, 0.75, 0.75), Vector3(1, 1, 1)]
+"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_luwc0"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_t0cd5"]
+resource_name = "show"
+length = 0.25
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -32,10 +56,10 @@ tracks/0/path = NodePath("Anim:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.15, 0.25),
+"transitions": PackedFloat32Array(0.5, -2, 1),
 "update": 0,
-"values": [Vector3(0.75, 0.75, 0.75)]
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
 }
 
 [sub_resource type="Animation" id="Animation_jxqiy"]
@@ -52,37 +76,40 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(0.5, 0.5),
 "update": 0,
-"values": [Vector3(1, 1, 1), Vector3(0.75, 0.75, 0.75)]
+"values": [Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t0cd5"]
 _data = {
 &"RESET": SubResource("Animation_luwc0"),
 &"grow": SubResource("Animation_d6nvu"),
+&"show": SubResource("Animation_t0cd5"),
 &"shrink": SubResource("Animation_jxqiy")
 }
 
 [node name="NodeCube" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Label")]
 script = ExtResource("1_d6nvu")
 Animation = NodePath("AnimationPlayer")
-Mesh = NodePath("Anim/MeshInstance3D")
+Mesh = NodePath("")
 Label = NodePath("Anim/Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_d6nvu")
 
 [node name="Anim" type="Node3D" parent="."]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Anim"]
-mesh = SubResource("BoxMesh_jidx6")
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Anim"]
+mesh = SubResource("CylinderMesh_sakr1")
 skeleton = NodePath("../..")
 
 [node name="Label3D" type="Label3D" parent="Anim"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.501, 0)
-modulate = Color(0, 0, 0, 1)
-text = "TEST"
+modulate = Color(0.854902, 0.843137, 0.803922, 1)
+text = "Before the Halberd Black Knight in TotG"
 outline_size = 0
+autowrap_mode = 3
+width = 200.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
