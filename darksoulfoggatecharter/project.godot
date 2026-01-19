@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="DarkSoulFogGateCharter"
-run/main_scene="uid://clyuuo5hd2vmu"
+run/main_scene="uid://ban3pyrmkclow"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+MouseVisibility="*res://Modules/Input/MouseVisibility.cs"
 
 [dotnet]
 

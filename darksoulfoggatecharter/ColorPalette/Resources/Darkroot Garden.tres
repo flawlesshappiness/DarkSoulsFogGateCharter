@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://dxes8d7grgyf1"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_a2qwq"]
+
+[resource]
+script = ExtResource("1_a2qwq")
+Name = "Darkroot Garden"
+Colors = Array[Color]([Color(0.203922, 0.305882, 0.254902, 1), Color(0.227451, 0.352941, 0.25098, 1), Color(0.345098, 0.505882, 0.341176, 1), Color(0.639216, 0.694118, 0.541176, 1), Color(0.854902, 0.843137, 0.803922, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

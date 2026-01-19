@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://cyi5rjip5fds1"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_kk5oo"]
+
+[resource]
+script = ExtResource("1_kk5oo")
+Name = "Kiln of the First Flame"
+Colors = Array[Color]([Color(0.2, 0.2, 0.2, 1), Color(0.3, 0.3, 0.3, 1), Color(0.4, 0.4, 0.4, 1), Color(0.5, 0.5, 0.5, 1), Color(0.94902, 0.94902, 0.94902, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

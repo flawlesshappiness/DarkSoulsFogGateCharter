@@ -1,8 +1,7 @@
 using Godot;
 using System;
-using System.Linq;
 
-public partial class MainView : Control
+public partial class MainView : View
 {
     public static MainView Instance { get; private set; }
 
@@ -11,6 +10,9 @@ public partial class MainView : Control
 
     [Export]
     public SearchListControl SearchList;
+
+    [Export]
+    public SessionSettingsControl SessionSettings;
 
     [Export]
     public MousePrompt MousePrompt;
@@ -26,7 +28,12 @@ public partial class MainView : Control
         base._Ready();
         Instance = this;
         SearchList.Hide();
+        SessionSettings.Hide();
         EndMousePrompt();
+
+        SessionSettings.ConfirmButton.Pressed += SessionSettingsConfirm_Pressed;
+
+        MouseVisibility.Show(nameof(MainView));
     }
 
     public override void _Process(double delta)
@@ -56,10 +63,31 @@ public partial class MainView : Control
         }
     }
 
+    protected override void OnShow()
+    {
+        base.OnShow();
+        MouseVisibility.Show(nameof(MainView));
+    }
+
+    protected override void OnHide()
+    {
+        base.OnHide();
+        MouseVisibility.Hide(nameof(MainView));
+    }
+
     public void RightClickGateNode(GateNodeObject node)
     {
         PopupMenu.ClearItems();
         PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
+        PopupMenu.Show();
+        PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
+        PopupMenu.Popup();
+    }
+
+    public void RightClickObjectiveNode(GateNodeObject node)
+    {
+        PopupMenu.ClearItems();
+        PopupMenu.AddActionItem("Complete", () => Scene.CompleteObjective(node.Gate.Name));
         PopupMenu.Show();
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
         PopupMenu.Popup();
@@ -80,9 +108,7 @@ public partial class MainView : Control
         SearchList.Clear();
         SearchList.Title = "Select gate";
 
-        var prev_node = node.ConnectedNodes.FirstOrDefault();
-        var next_position = Scene.GetNextNodePosition(prev_node, node);
-
+        var next_position = Scene.GetNextNodePosition(node);
         var gates = Controller.Gates.Values;
         foreach (var gate in gates)
         {
@@ -90,26 +116,46 @@ public partial class MainView : Control
             if (!Controller.IsSearchable(gate.Name)) continue;
 
             var name = gate.Name;
-            SearchList.AddItem(name, () => Scene.CreateNode(name, next_position, node));
+            SearchList.AddItem(name, () => Scene.StartCreateNode(name, next_position, node));
         }
 
         SearchList.Show();
     }
 
-    public void OpenStartSearch()
+    public void OpenStartSettings()
+    {
+        SessionSettings.Show();
+    }
+
+    private void SessionSettingsConfirm_Pressed()
+    {
+        SessionSettings.Hide();
+        OpenStartSearch();
+    }
+
+    private void OpenStartSearch()
     {
         SearchList.Clear();
         SearchList.Title = "Select start";
 
         foreach (var gate in Controller.Gates.Values)
         {
-            if (!Controller.IsSearchable(gate.Name)) continue;
+            var name = gate.Name;
+            if (!Controller.IsSearchable(name, from_new: true)) continue;
 
-            var to_create = gate;
-            SearchList.AddItem(gate.Name, () => Scene.CreateNodeAtCenter(to_create.Name));
+            SearchList.AddItem(name, () => CreateStart(name));
         }
 
         SearchList.Show();
+    }
+
+    private void CreateStart(string name)
+    {
+        var data = SessionSettings.CreateData();
+        Scene.Load(data);
+        Scene.CreateNodeAtCenter(name);
+
+        UndoController.Instance.ConfirmUndoAction();
     }
 
     public bool HasActiveUI()

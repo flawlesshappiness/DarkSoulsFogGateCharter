@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ColorPaletteCollection" load_steps=2 format=3 uid="uid://ciul4blgpxlnn"]
+
+[ext_resource type="Script" uid="uid://bo1cq7rh6ne52" path="res://ColorPalette/ColorPaletteCollection.cs" id="1_1uj24"]
+
+[resource]
+script = ExtResource("1_1uj24")
+metadata/_custom_type_script = "uid://bo1cq7rh6ne52"

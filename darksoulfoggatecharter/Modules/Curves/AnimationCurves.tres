@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="AnimationCurves" load_steps=2 format=3 uid="uid://b7u60gts2x4y3"]
+
+[ext_resource type="Script" uid="uid://dn0b45pwtebmx" path="res://Modules/Curves/AnimationCurves.cs" id="1_uow8a"]
+
+[resource]
+script = ExtResource("1_uow8a")

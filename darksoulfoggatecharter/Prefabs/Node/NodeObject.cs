@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class NodeObject : Area3D
 {
@@ -12,7 +13,7 @@ public partial class NodeObject : Area3D
 
     public virtual string NodeName => string.Empty;
 
-    public List<NodeObject> ConnectedNodes = new();
+    public Dictionary<string, NodeObject> ConnectedNodes = new();
 
     public bool IsFullyConnected => ConnectedNodes.Count >= 2;
 
@@ -25,6 +26,13 @@ public partial class NodeObject : Area3D
     protected bool Dragging { get; private set; }
 
     private Vector3 drag_offset;
+    private StandardMaterial3D material;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        InitializeMesh();
+    }
 
     public override void _UnhandledInput(InputEvent e)
     {
@@ -89,14 +97,33 @@ public partial class NodeObject : Area3D
         }
     }
 
-    public void AddConnection(NodeObject node)
+    public void AddConnection(string id, NodeObject node)
     {
         if (IsConnectedTo(node)) return;
-        ConnectedNodes.Add(node);
+        ConnectedNodes.Add(id, node);
+    }
+
+    public void RemoveConnection(string id)
+    {
+        var node = ConnectedNodes.TryGetValue(id, out var result) ? result : null;
+        if (node == null) return;
+
+        ConnectedNodes.Remove(id);
     }
 
     public bool IsConnectedTo(NodeObject node)
     {
-        return ConnectedNodes.Contains(node);
+        return ConnectedNodes.Values.Contains(node);
+    }
+
+    private void InitializeMesh()
+    {
+        material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
+        Mesh.SetSurfaceOverrideMaterial(0, material);
+    }
+
+    protected void SetColor(Color color)
+    {
+        material.AlbedoColor = color;
     }
 }

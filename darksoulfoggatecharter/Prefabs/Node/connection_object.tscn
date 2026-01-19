@@ -7,7 +7,7 @@ albedo_color = Color(0.639216, 0.694118, 0.541176, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nv0pr"]
 material = SubResource("StandardMaterial3D_g1xko")
-size = Vector3(0.02, 0, 1)
+size = Vector3(0.05, 0, 1)
 
 [sub_resource type="Animation" id="Animation_nv0pr"]
 length = 0.001

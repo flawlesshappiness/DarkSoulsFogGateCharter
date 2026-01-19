@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GateInfo" load_steps=2 format=3 uid="uid://81tnmtbwg5pa"]
+
+[ext_resource type="Script" uid="uid://clmqvgphwhios" path="res://Gate/GateInfo.cs" id="1_h12i2"]
+
+[resource]
+script = ExtResource("1_h12i2")
+GatesPath = "res://Assets/gates.txt"
+metadata/_custom_type_script = "uid://clmqvgphwhios"

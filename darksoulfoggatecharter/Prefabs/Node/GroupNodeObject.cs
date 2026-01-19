@@ -18,6 +18,7 @@ public partial class GroupNodeObject : NodeObject
     {
         Group = group;
         Label.Text = group.Name;
+        LoadColorPalette();
     }
 
     public override void _MouseEnter()
@@ -44,5 +45,12 @@ public partial class GroupNodeObject : NodeObject
         {
             Animation.Play("grow");
         }
+    }
+
+    private void LoadColorPalette()
+    {
+        var info = ColorPaletteController.Instance.GetInfo(Group.Area);
+        SetColor(info.GetColor(1));
+        Label.Modulate = info.GetColor(4);
     }
 }

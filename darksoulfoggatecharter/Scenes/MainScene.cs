@@ -2,12 +2,9 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class MainScene : Node3D
+public partial class MainScene : Scene
 {
     public static MainScene Instance { get; private set; }
-
-    [Export]
-    public PackedScene MainViewPrefab;
 
     [Export]
     public Node3D NodeParent;
@@ -27,7 +24,7 @@ public partial class MainScene : Node3D
     private MainView View => MainView.Instance;
     private DraggableCamera Camera => DraggableCamera.Instance;
 
-    private List<ConnectionObject> connections = new();
+    private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
 
     public override void _Ready()
@@ -40,19 +37,12 @@ public partial class MainScene : Node3D
         GroupNodeTemplate.Hide();
         ConnectionObjectTemplate.Hide();
 
-        InitializeMainView();
         CallDeferred(nameof(CreateStart));
-    }
-
-    private void InitializeMainView()
-    {
-        var view = MainViewPrefab.Instantiate<MainView>();
-        GetTree().Root.CallDeferred("add_child", view);
     }
 
     public void Clear()
     {
-        foreach (var connection in connections)
+        foreach (var connection in connections.Values)
         {
             connection.QueueFree();
         }
@@ -64,12 +54,12 @@ public partial class MainScene : Node3D
         }
         nodes.Clear();
 
-        Controller.ClearData();
+        UndoController.Instance.Clear();
     }
 
     private void CreateStart()
     {
-        View.OpenStartSearch();
+        View.Show();
     }
 
     // GATE //
@@ -81,6 +71,8 @@ public partial class MainScene : Node3D
         node.SetGate(gate);
         nodes.Add(gate.Name, node);
 
+        UndoController.Instance.AddCreateNodeAction(gate.Name);
+
         node.OnRightClick += () => GateRightClick(node);
 
         return node;
@@ -89,7 +81,15 @@ public partial class MainScene : Node3D
     private void GateRightClick(GateNodeObject node)
     {
         if (node.IsFullyConnected) return;
-        MainView.Instance.RightClickGateNode(node);
+
+        if (node.Gate.Type == GateType.Objective)
+        {
+            View.RightClickObjectiveNode(node);
+        }
+        else
+        {
+            View.RightClickGateNode(node);
+        }
     }
 
     // GROUP //
@@ -100,6 +100,8 @@ public partial class MainScene : Node3D
         node.Show();
         node.SetGroup(group);
         nodes.Add(group.Name, node);
+
+        UndoController.Instance.AddCreateNodeAction(group.Name);
 
         //node.OnRightClick += () => AreaRightClick(node);
 
@@ -113,21 +115,37 @@ public partial class MainScene : Node3D
         if (B == null) return null;
         if (A.IsConnectedTo(B)) return null;
 
-        A.AddConnection(B);
-        B.AddConnection(A);
+        var id = $"{A.NodeName},{B.NodeName}";
 
-        var node = CreateConnectionObject();
+        A.AddConnection(id, B);
+        B.AddConnection(id, A);
+
+        var node = CreateConnectionObject(id);
         node.SetConnectedObjects(A, B);
         return node;
     }
 
-    private ConnectionObject CreateConnectionObject()
+    private ConnectionObject CreateConnectionObject(string id)
     {
         var node = ConnectionObjectTemplate.Duplicate() as ConnectionObject;
         NodeParent.AddChild(node);
         node.Show();
-        connections.Add(node);
+        connections.Add(id, node);
+
+        UndoController.Instance.AddCreateConnectionAction(id);
+
         return node;
+    }
+
+    public void RemoveConnectionObject(string id)
+    {
+        var connection = connections.TryGetValue(id, out var result) ? result : null;
+        if (connection == null) return;
+
+        connection.ObjectA.RemoveConnection(id);
+        connection.ObjectB.RemoveConnection(id);
+        connection.QueueFree();
+        connections.Remove(id);
     }
 
     // NODES //
@@ -146,6 +164,9 @@ public partial class MainScene : Node3D
             for (int i = 0; i < count; i++)
             {
                 var node_to_create = nodes_to_create[i];
+                var should_show = Controller.ShowInGroup(node_to_create.Name);
+                if (!should_show) continue;
+
                 var next_is_group = Controller.IsGroup(node_to_create.Name);
                 var mul = next_is_group ? 2 : 1;
                 var next_position = start_position + GetCirclePosition(i, count, dir) * DEFAULT_NODE_DISTANCE * mul;
@@ -156,15 +177,69 @@ public partial class MainScene : Node3D
         {
             var gate = Controller.GetGate(name);
             var node = GetNode(name);
-            var next = gate.Connection;
-            var should_generate = Controller.ShouldAutoGenerate(next);
-            var is_one_way = Controller.IsOneWay(next);
 
-            if (should_generate || is_one_way)
+            CreateNode(gate.Location, position, node);
+
+            if (Controller.IsDisabled(name))
             {
+                if (!string.IsNullOrEmpty(gate.Id))
+                {
+                    var exit = Controller.GetGateExit(name);
+                    GD.Print($"{gate.Type} Disabled: {name} > {exit.Name}");
+                    CreateNode(exit.Name, position, node);
+                }
+
+                var dir = node.GlobalPosition.DirectionTo(position);
+                var connections = Controller.GetGatesByLocation(name).ToList();
+                var count = connections.Count();
+                for (int i = 0; i < count; i++)
+                {
+                    var connection = connections[i];
+                    var arc_position = node.GlobalPosition + GetArcPosition(dir, 90, i, count) * DEFAULT_NODE_DISTANCE;
+                    GD.Print($"Objective: {name} > {connection.Name}");
+                    CreateNode(connection.Name, arc_position, node);
+                }
+                foreach (var connection in connections)
+                {
+                    GD.Print($"{gate.Type} Disabled: {name} > {connection.Name}");
+                    CreateNode(connection.Name, position, node);
+                }
+            }
+            else if (Controller.IsShortcut(name))
+            {
+                var exit = Controller.GetGateExit(name);
+                var next = exit.Location;
+                GD.Print($"Shortcut: {name} > {next}");
                 CreateNode(next, position, node);
             }
         }
+    }
+
+    public void CompleteObjective(string name)
+    {
+        var gate = Controller.GetGate(name);
+        var node = GetNode(name);
+        var dir = GetNextNodeDirection(node);
+
+        var connections = Controller.GetGatesByLocation(name).ToList();
+        var count = connections.Count();
+        for (int i = 0; i < count; i++)
+        {
+            var connection = connections[i];
+            var position = node.GlobalPosition + GetArcPosition(dir, 90, i, count) * DEFAULT_NODE_DISTANCE;
+            GD.Print($"Objective: {name} > {connection.Name}");
+            CreateNode(connection.Name, position, node);
+        }
+
+        UndoController.Instance.ConfirmUndoAction();
+    }
+
+    public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
+    {
+        var result = CreateNode(name, position, node_prev);
+        UndoController.Instance.ConfirmUndoAction();
+
+        return result;
     }
 
     public NodeObject CreateNode(string name, Vector3 position, NodeObject node_prev = null)
@@ -180,6 +255,7 @@ public partial class MainScene : Node3D
             }
             else
             {
+                GD.Print($"Create group: {name}");
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
                 ConnectNodes(node_prev, node);
@@ -192,7 +268,11 @@ public partial class MainScene : Node3D
         else
         {
             var gate = Controller.GetGate(name);
-            if (HasNode(name))
+            if (gate == null)
+            {
+                return null;
+            }
+            else if (HasNode(name))
             {
                 var node = GetNode(name);
                 ConnectNodes(node_prev, node);
@@ -200,11 +280,12 @@ public partial class MainScene : Node3D
             }
             else
             {
+                GD.Print($"Create node: {name}");
                 var node = CreateGateNode(gate);
                 node.GlobalPosition = position;
                 ConnectNodes(node_prev, node);
 
-                var next_position = GetNextNodePosition(node_prev, node);
+                var next_position = GetNextNodePosition(node, node_prev);
                 TryCreateNext(name, next_position);
 
                 return node;
@@ -214,6 +295,15 @@ public partial class MainScene : Node3D
 
     public NodeObject CreateNodeAtCenter(string name, NodeObject node_prev = null) =>
         CreateNode(name, Camera.ViewportWorldPosition, node_prev);
+
+    public void RemoveNode(string name)
+    {
+        var node = GetNode(name);
+        if (node == null) return;
+
+        node.QueueFree();
+        nodes.Remove(name);
+    }
 
     public bool HasNode(string name) =>
         nodes.ContainsKey(name);
@@ -228,9 +318,16 @@ public partial class MainScene : Node3D
         return node.IsFullyConnected;
     }
 
-    public Vector3 GetNextNodePosition(NodeObject previous, NodeObject current)
+    private Vector3 GetNextNodeDirection(NodeObject current, NodeObject previous = null)
     {
+        previous ??= current.ConnectedNodes.Values.FirstOrDefault();
         var dir = previous == null ? Vector3.Right : previous.GlobalPosition.DirectionTo(current.GlobalPosition);
+        return dir;
+    }
+
+    public Vector3 GetNextNodePosition(NodeObject current, NodeObject previous = null)
+    {
+        var dir = GetNextNodeDirection(current, previous);
         return current.GlobalPosition + dir * DEFAULT_NODE_DISTANCE;
     }
 
@@ -243,10 +340,25 @@ public partial class MainScene : Node3D
         return direction.Rotated(Vector3.Up, Mathf.DegToRad(deg));
     }
 
-    // DATA //
-    public SaveData GenerateSaveData()
+    private Vector3 GetArcPosition(Vector3 dir, float arc, int index, int count)
     {
-        var save_data = new SaveData();
+        count = Mathf.Max(count - 1, 1);
+        index = Mathf.Clamp(index, 0, count);
+        arc = Mathf.Max(arc, 1);
+
+        var deg = -((float)index / count) * arc;
+        var deg_start = arc * 0.5f;
+        var start = dir.Rotated(Vector3.Up, Mathf.DegToRad(deg_start));
+
+        return start.Rotated(Vector3.Up, Mathf.DegToRad(deg));
+    }
+
+    // DATA //
+    public SessionData GenerateSaveData()
+    {
+        var save_data = new SessionData();
+        save_data.Update();
+        save_data.DisabledTypes = Controller.DisabledTypes.ToList();
 
         foreach (var gate in Controller.Gates.Values)
         {
@@ -254,40 +366,47 @@ public partial class MainScene : Node3D
 
             var node = GetNode(gate.Name);
             var p = node.GlobalPosition;
-            gate.Data.X = p.X;
-            gate.Data.Y = p.Y;
-            gate.Data.Z = p.Z;
-            gate.Data.Name = gate.Name;
-            gate.Data.Connections = node.ConnectedNodes.Select(x => x.NodeName).ToList();
-            save_data.Gates.Add(gate.Data);
+            var connections = node.ConnectedNodes.Values.Select(x => x.NodeName).ToList();
+            var data = new GateData
+            {
+                Name = gate.Name,
+                X = p.X,
+                Y = p.Y,
+                Z = p.Z,
+                Connections = connections
+            };
+
+            save_data.Gates.Add(data);
         }
 
         foreach (var group in Controller.Groups.Values)
         {
             if (!HasNode(group.Name)) continue;
 
-            var data = new GroupData();
             var node = GetNode(group.Name);
             var p = node.GlobalPosition;
-            data.X = p.X;
-            data.Y = p.Y;
-            data.Z = p.Z;
-            data.Name = group.Name;
+            var data = new GroupData
+            {
+                Name = group.Name,
+                X = p.X,
+                Y = p.Y,
+                Z = p.Z,
+            };
+
             save_data.Groups.Add(data);
         }
 
         return save_data;
     }
 
-    public void Load(SaveData save_data)
+    public void Load(SessionData save_data)
     {
         Clear();
+        Controller.LoadSettings(save_data);
 
         foreach (var data in save_data.Gates)
         {
             var gate = Controller.GetGate(data.Name);
-            gate.Data = data;
-
             var position = new Vector3(data.X, data.Y, data.Z);
             var node = CreateNode(data.Name, position);
             node.GlobalPosition = position;

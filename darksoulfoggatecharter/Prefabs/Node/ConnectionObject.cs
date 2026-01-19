@@ -14,12 +14,12 @@ public partial class ConnectionObject : Node3D
     public string NameB { get; private set; }
 
     private BoxMesh box_mesh;
+    private StandardMaterial3D material;
 
     public override void _Ready()
     {
         base._Ready();
-        box_mesh = Mesh.Mesh.Duplicate() as BoxMesh;
-        Mesh.Mesh = box_mesh;
+        InitializeMesh();
 
         Animation.Play("show");
     }
@@ -51,5 +51,39 @@ public partial class ConnectionObject : Node3D
         ObjectB = B;
         NameA = A.NodeName;
         NameB = B.NodeName;
+
+        LoadColorPalette();
+    }
+
+    private void InitializeMesh()
+    {
+        box_mesh = Mesh.Mesh.Duplicate() as BoxMesh;
+        Mesh.Mesh = box_mesh;
+        material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
+        Mesh.SetSurfaceOverrideMaterial(0, material);
+    }
+
+    private void SetColor(Color color)
+    {
+        material.AlbedoColor = color;
+    }
+
+    private void LoadColorPalette()
+    {
+        var area = GetArea();
+        var info = ColorPaletteController.Instance.GetInfo(area);
+        SetColor(info.GetColor(3));
+    }
+
+    private string GetArea()
+    {
+        if (GateController.Instance.IsGroup(NameA))
+        {
+            return GateController.Instance.GetGroup(NameA).Area;
+        }
+        else
+        {
+            return GateController.Instance.GetGate(NameA).Area;
+        }
     }
 }

@@ -1,42 +1,49 @@
-1,To Oscar,Traversable,Asylum Start
-1,To hallway with initial weapons,Traversable,Asylum Middle
-2,From Asylum Demon balcony,Boss,Asylum Demon Balcony Dropdown
-2,To Asylum Demon balcony,Boss,Asylum Middle
-,Asylum Demon Balcony Dropdown,One-wayShortcut,Asylum Start
-,Asylum Middle,Area,Asylum Door Shortcut
-,Asylum Door Shortcut,DoorShortcut,Asylum Start
-3,Kill Asylum Demon,BossKilled,Asylum Start
-3,In Stray Demon arena,Boss,Kill Asylum Demon
-,Stray Demon Dropdown,One-wayShortcut,Asylum Start
-,Warp to Firelink crow's nest,Warp,Kill Asylum Demon
-,Crow transport from Firelink to Asylum,Warp,Firelink Shrine
-,Between Firelink Shrine and Upper Burg,PVP,Firelink Shrine
-,In front of Firelink Shrine dual elevator,PVP,Firelink Shrine
-5,To Catacombs from Firelink Shrine,PVP,Firelink Shrine
-,To New Londo Ruins from Firelink Shrine elevator ,PVP,Firelink Shrine
-,Between female Undead Merchant and Lower Burg,PVP,Female Undead Merchant Door
-,Female Undead Merchant Door,DoorShortcut,Firelink Shrine
-,Lordvessel Obtained,ItemObtained,Firelink Shrine
-,Firelink Altar,Area,Lordvessel Obtained
-4,To Gwyn,Boss,Firelink Altar
-4,From Gwyn,Boss,None
-5,To Firelink Shrine from Catacombs,PVP,Catacombs Levered Door
-,Catacombs Levered Door,One-wayShortcut,Upper Catacombs
-6,From Patches flipped bridge,Traversable,Upper Catacombs
-6,To Patches flipped bridge,Traversable,Lower Catacombs
-,Upper Catacombs,Area,Shortcut to Lower Catacombs
-,Shortcut to Lower Catacombs,One-wayShortcut,Lower Catacombs
-7,To Pinwheel,Boss,Lower Catacombs
-7,Inside Pinwheel,Boss,Pinwheel Dropdown
-,Pinwheel Dropdown,One-wayShortcut,Pinwheel
-9,To Tomb of the Giants,PVP,Pinwheel
-,Pinwheel,One-wayShortcut,Dropdown to Lower Catacombs
-8,Getting into coffin to Nito,Warp,Lower Catacombs
-8,Getting back in coffin at Nito,Warp,None
-9,Between TotG and Catacombs,PVP,Before the Halberd Black Knight in TotG
-10,Before the Halberd Black Knight in TotG,Traversable,Between TotG and Catacombs
-10,After the Halberd Black Knight in TotG,Traversable,ToTG Golden Fog
-12,Before ToTG Golden Fog,Golden,After the Halberd Black Knight in TotG
-12,After ToTG Golden Fog,Golden,To Nito
-11,To Nito,Boss,After ToTG Golden Fog
-11,Inside Nito,Boss,None
+1,To Oscar,Traversable,Asylum Start,Asylum
+1,To hallway with initial weapons,Traversable,Asylum Middle,Asylum
+2,From Asylum Demon balcony,Boss,Asylum Demon Balcony Dropdown,Asylum
+2,To Asylum Demon balcony,Boss,Asylum Middle,Asylum
+15,Asylum Demon Balcony Dropdown,OnewayShortcut,From Asylum Demon balcony,Asylum
+15,Asylum Demon Balcony Dropdown Exit,ShortcutExit,Asylum Start,Asylum
+20,Asylum Door Shortcut,DoorShortcut,Asylum Middle,Asylum
+20,Asylum Door Shortcut Exit,ShortcutExit,Asylum Start,Asylum
+,Kill Asylum Demon,Objective,Asylum Start,Asylum
+3,Inside Stray Demon arena,Boss,Kill Asylum Demon,Asylum
+3,Fog to Stray Demon arena,Boss,From Stray Demon arena to Asylum Start Dropdown,Asylum
+13,From Stray Demon arena to Asylum Start Dropdown,OnewayShortcut,Fog to Stray Demon arena,Asylum
+13,From Stray Demon arena to Asylum Start Dropdown EXIT,ShortcutExit,Asylum Start,Asylum
+21,Warp to Firelink crow's nest,Warp,Kill Asylum Demon,Asylum
+21,Crow transport from Firelink to Asylum,Warp,Firelink Shrine,Firelink Shrine
+,Between Firelink Shrine and Upper Burg,PVP,Firelink Shrine,Firelink Shrine
+,In front of Firelink Shrine dual elevator,PVP,Firelink Shrine,Firelink Shrine
+5,To Catacombs from Firelink Shrine,PVP,Firelink Shrine,Firelink Shrine
+,To New Londo Ruins from Firelink Shrine elevator ,PVP,Firelink Shrine,Firelink Shrine
+,Between female Undead Merchant and Lower Burg,PVP,Female Undead Merchant Door,Firelink Shrine
+16,Female Undead Merchant Door,DoorShortcut,Between female Undead Merchant and Lower Burg,Firelink Shrine
+16,Female Undead Merchant Door Exit,ShortcutExit,Firelink Shrine,Firelink Shrine
+,Lordvessel Obtained,Objective,Firelink Shrine,Firelink Shrine
+,Firelink Altar,Area,Lordvessel Obtained,Kiln of the First Flame
+4,To Gwyn,Boss,Firelink Altar,Kiln of the First Flame
+4,Inside Gwyn,Boss,,Kiln of the First Flame
+5,To Firelink Shrine from Catacombs,PVP,Catacombs Levered Door,Catacombs
+14,Catacombs Levered Door,DoorShortcut,To Firelink Shrine from Catacombs,Catacombs
+14,Catacombs Levered Door Exit,ShortcutExit,Upper Catacombs,Catacombs
+6,From Patches flipped bridge,Traversable,Upper Catacombs,Catacombs
+6,To Patches flipped bridge,Traversable,Lower Catacombs,Catacombs
+17,Shortcut to Lower Catacombs,OnewayShortcut,Upper Catacombs,Catacombs
+17,Shortcut to Lower Catacombs Exit,ShortcutExit,Lower Catacombs,Catacombs
+7,To Pinwheel,Boss,Lower Catacombs,Catacombs
+7,Inside Pinwheel,Boss,Pinwheel Dropdown,Catacombs
+18,Pinwheel Dropdown,OnewayShortcut,Inside Pinwheel,Catacombs
+18,Pinwheel Dropdown Exit,ShortcutExit,Pinwheel,Catacombs
+9,To Tomb of the Giants,PVP,Pinwheel,Catacombs
+19,Dropdown to Lower Catacombs,OnewayShortcut,Pinwheel,Catacombs
+19,Dropdown to Lower Catacombs Exit,ShortcutExit,Lower Catacombs,Catacombs
+8,Getting into coffin to Nito,Warp,Lower Catacombs,Catacombs
+8,Getting back in coffin at Nito,Warp,,Catacombs
+9,Between TotG and Catacombs,PVP,Before the Halberd Black Knight in TotG,Tomb of the Giants
+10,Before the Halberd Black Knight in TotG,Traversable,Between TotG and Catacombs,Tomb of the Giants
+10,After the Halberd Black Knight in TotG,Traversable,ToTG Golden Fog,Tomb of the Giants
+12,Before ToTG Golden Fog,Golden,After the Halberd Black Knight in TotG,Tomb of the Giants
+12,After ToTG Golden Fog,Golden,To Nito,Tomb of the Giants
+11,To Nito,Boss,After ToTG Golden Fog,Tomb of the Giants
+11,Inside Nito,Boss,,Tomb of the Giants

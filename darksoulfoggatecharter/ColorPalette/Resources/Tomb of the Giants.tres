@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://bavoirq2thsvb"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_84oy3"]
+
+[resource]
+script = ExtResource("1_84oy3")
+Name = "Tomb of the Giants"
+Colors = Array[Color]([Color(0.141176, 0.12549, 0.223529, 1), Color(0.164706, 0.168627, 0.278431, 1), Color(0.282353, 0.270588, 0.392157, 1), Color(0.356863, 0.321569, 0.443137, 1), Color(0.7821, 0.7505, 0.79, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

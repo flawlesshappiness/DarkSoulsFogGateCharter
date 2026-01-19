@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ban3pyrmkclow"]
+
+[ext_resource type="Script" uid="uid://b473o4cy587ox" path="res://Boot/Boot.cs" id="1_tgreo"]
+
+[node name="Boot" type="Node3D"]
+script = ExtResource("1_tgreo")

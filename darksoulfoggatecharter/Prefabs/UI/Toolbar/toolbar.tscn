@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqw0lkmli5wsu"]
+[gd_scene load_steps=6 format=3 uid="uid://dqw0lkmli5wsu"]
 
 [ext_resource type="Script" uid="uid://c0fa2ebh4g8pl" path="res://Prefabs/UI/Toolbar/Toolbar.cs" id="1_pkhvg"]
 [ext_resource type="Texture2D" uid="uid://l4taen6w7jel" path="res://Assets/Icons/icon_files.png" id="1_wgobe"]
 [ext_resource type="Texture2D" uid="uid://b4j1phyo1wovd" path="res://Assets/Icons/icon_open_folder.png" id="2_yn43l"]
 [ext_resource type="Texture2D" uid="uid://couhbjt26qc0u" path="res://Assets/Icons/icon_save.png" id="3_fhjrk"]
+[ext_resource type="Texture2D" uid="uid://k5dtqdlq2ol0" path="res://Assets/Icons/icon_undo.png" id="5_fhjrk"]
 
-[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "OpenFileDialog", "SaveFileDialog")]
+[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "UndoButton", "OpenFileDialog", "SaveFileDialog")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,6 +20,7 @@ script = ExtResource("1_pkhvg")
 NewButton = NodePath("VBoxContainer/HBoxContainer/NewButton")
 OpenButton = NodePath("VBoxContainer/HBoxContainer/OpenButton")
 SaveButton = NodePath("VBoxContainer/HBoxContainer/SaveButton")
+UndoButton = NodePath("VBoxContainer/HBoxContainer/UndoButton")
 OpenFileDialog = NodePath("OpenFileDialog")
 SaveFileDialog = NodePath("SaveFileDialog")
 
@@ -44,6 +46,16 @@ expand_icon = true
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("3_fhjrk")
+expand_icon = true
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="UndoButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("5_fhjrk")
 expand_icon = true
 
 [node name="OpenFileDialog" type="FileDialog" parent="."]

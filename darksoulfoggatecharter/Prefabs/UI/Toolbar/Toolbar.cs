@@ -14,6 +14,9 @@ public partial class Toolbar : MarginContainer
     public Button SaveButton;
 
     [Export]
+    public Button UndoButton;
+
+    [Export]
     public FileDialog OpenFileDialog;
 
     [Export]
@@ -25,6 +28,7 @@ public partial class Toolbar : MarginContainer
         NewButton.Pressed += New_Pressed;
         OpenButton.Pressed += Open_Pressed;
         SaveButton.Pressed += Save_Pressed;
+        UndoButton.Pressed += Undo_Pressed;
 
         OpenFileDialog.FileSelected += OpenFile_Selected;
         SaveFileDialog.FileSelected += SafeFile_Selected;
@@ -32,8 +36,7 @@ public partial class Toolbar : MarginContainer
 
     private void New_Pressed()
     {
-        MainScene.Instance.Clear();
-        MainView.Instance.OpenStartSearch();
+        MainView.Instance.OpenStartSettings();
     }
 
     private void Open_Pressed()
@@ -46,6 +49,11 @@ public partial class Toolbar : MarginContainer
         SaveFileDialog.Popup();
     }
 
+    private void Undo_Pressed()
+    {
+        UndoController.Instance.Undo();
+    }
+
     private void OpenFile_Selected(string path)
     {
         if (!FileAccess.FileExists(path)) return;
@@ -55,7 +63,7 @@ public partial class Toolbar : MarginContainer
 
         try
         {
-            var data = JsonSerializer.Deserialize<SaveData>(json);
+            var data = JsonSerializer.Deserialize<SessionData>(json);
             MainScene.Instance.Load(data);
         }
         catch (Exception e)

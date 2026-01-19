@@ -19,6 +19,7 @@ public partial class GateNodeObject : NodeObject
     {
         Gate = gate;
         Label.Text = gate.Name;
+        LoadColorPalette();
     }
 
     public override void _MouseEnter()
@@ -58,5 +59,12 @@ public partial class GateNodeObject : NodeObject
             Y = GlobalPosition.Y,
             Z = GlobalPosition.Z,
         };
+    }
+
+    private void LoadColorPalette()
+    {
+        var info = ColorPaletteController.Instance.GetInfo(Gate.Area);
+        SetColor(info.GetColor(2));
+        Label.Modulate = info.GetColor(4);
     }
 }

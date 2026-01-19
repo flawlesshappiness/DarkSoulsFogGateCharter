@@ -90,7 +90,7 @@ _data = {
 [node name="NodeCube" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Label")]
 script = ExtResource("1_d6nvu")
 Animation = NodePath("AnimationPlayer")
-Mesh = NodePath("")
+Mesh = NodePath("Anim/MeshInstance3D2")
 Label = NodePath("Anim/Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
