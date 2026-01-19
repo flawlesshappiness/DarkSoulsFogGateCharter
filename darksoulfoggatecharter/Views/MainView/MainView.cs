@@ -93,16 +93,6 @@ public partial class MainView : View
         PopupMenu.Popup();
     }
 
-
-    public void RightClickGroupNode(GroupNodeObject node)
-    {
-        PopupMenu.ClearItems();
-        PopupMenu.AddActionItem("Delete", () => { /* TODO */ });
-        PopupMenu.Size = new Vector2I(100, 0);
-        PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
-        PopupMenu.Popup();
-    }
-
     private void OpenGateSearch(GateNodeObject node)
     {
         SearchList.Clear();
@@ -156,6 +146,7 @@ public partial class MainView : View
         Scene.CreateNodeAtCenter(name);
 
         UndoController.Instance.ConfirmUndoAction();
+        UndoController.Instance.Clear();
     }
 
     public bool HasActiveUI()

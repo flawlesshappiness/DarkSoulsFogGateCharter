@@ -92,6 +92,23 @@ public partial class MainScene : Scene
         }
     }
 
+    private bool IsConnectedToGroup(NodeObject node)
+    {
+        if (Controller.IsGroup(node.Name))
+        {
+            return false;
+        }
+        else
+        {
+            foreach (var connected in node.ConnectedNodes.Values)
+            {
+                if (Controller.IsGroup(connected.Name)) return true;
+            }
+
+            return false;
+        }
+    }
+
     // GROUP //
     private GroupNodeObject CreateGroupNode(GateGroup group)
     {
@@ -102,8 +119,6 @@ public partial class MainScene : Scene
         nodes.Add(group.Name, node);
 
         UndoController.Instance.AddCreateNodeAction(group.Name);
-
-        //node.OnRightClick += () => AreaRightClick(node);
 
         return node;
     }
@@ -157,19 +172,23 @@ public partial class MainScene : Scene
             var node = GetNode(name);
             var dir = node.GlobalPosition.DirectionTo(position);
             var existing_node = group.Gates.Values.FirstOrDefault(x => nodes.ContainsKey(x.Name));
-            var nodes_to_create = group.Gates.Values.OrderBy(x => x != existing_node).ToList();
+            var nodes_to_create = group.Gates.Values
+                .Where(x => Controller.ShowInGroup(x.Name))
+                .Append(existing_node) // Not sure this is the best way to do it
+                .Distinct()
+                .OrderBy(x => x != existing_node).ToList();
 
             var start_position = node.GlobalPosition;
             var count = nodes_to_create.Count;
+            var j = IsConnectedToGroup(node) ? 1 : 0;
             for (int i = 0; i < count; i++)
             {
                 var node_to_create = nodes_to_create[i];
-                var should_show = Controller.ShowInGroup(node_to_create.Name);
-                if (!should_show) continue;
+                if (node_to_create == null) continue; // This could be an issue
 
                 var next_is_group = Controller.IsGroup(node_to_create.Name);
                 var mul = next_is_group ? 2 : 1;
-                var next_position = start_position + GetCirclePosition(i, count, dir) * DEFAULT_NODE_DISTANCE * mul;
+                var next_position = start_position + GetCirclePosition(i + j, count + j, dir) * DEFAULT_NODE_DISTANCE * mul;
                 CreateNode(node_to_create.Name, next_position, node);
             }
         }

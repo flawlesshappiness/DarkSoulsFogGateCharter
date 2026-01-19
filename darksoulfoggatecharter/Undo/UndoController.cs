@@ -61,8 +61,6 @@ public partial class UndoController : SingletonController
         if (current_group == null) return;
         undo_actions.Push(current_group);
         current_group = null;
-
-        Debug.Log("Confirm Undo Action");
     }
 
     private void AddUndoAction(UndoAction action)
@@ -73,7 +71,6 @@ public partial class UndoController : SingletonController
 
     public void AddCreateNodeAction(string name)
     {
-        Debug.Log($"Add node undo action: {name}");
         AddUndoAction(new CreateNodeAction
         {
             Name = name
@@ -82,7 +79,6 @@ public partial class UndoController : SingletonController
 
     public void AddCreateConnectionAction(string name)
     {
-        Debug.Log($"Add connection undo action: {name}");
         AddUndoAction(new CreateConnectionAction
         {
             Name = name
