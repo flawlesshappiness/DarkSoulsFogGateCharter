@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bsgr68wtbwfw5"]
+[gd_scene load_steps=13 format=3 uid="uid://bsgr68wtbwfw5"]
 
 [ext_resource type="Script" uid="uid://unovronsqh8s" path="res://Prefabs/Node/GroupNodeObject.cs" id="1_thb3b"]
+[ext_resource type="Shader" uid="uid://e4c5m0y10qex" path="res://Shaders/ColorNodes.gdshader" id="2_8kayj"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mnocw"]
 
@@ -12,6 +13,19 @@ material = SubResource("StandardMaterial3D_thb3b")
 top_radius = 1.7
 bottom_radius = 1.7
 height = 0.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gv0sh"]
+render_priority = 0
+shader = ExtResource("2_8kayj")
+shader_parameter/position = Vector2(0.5, 0.5)
+shader_parameter/circle_radius = 0.567
+shader_parameter/circle_feather = 0.0
+shader_parameter/color_background = Color(0, 0, 0, 1)
+shader_parameter/color_circle = Color(1, 1, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_5sl25"]
+material = SubResource("ShaderMaterial_gv0sh")
+size = Vector2(10, 10)
 
 [sub_resource type="Animation" id="Animation_uv02d"]
 length = 0.001
@@ -87,10 +101,11 @@ _data = {
 &"shrink": SubResource("Animation_pdni1")
 }
 
-[node name="NodeGroup" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Label")]
+[node name="NodeGroup" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Mesh_Glow", "Label")]
 script = ExtResource("1_thb3b")
 Animation = NodePath("AnimationPlayer")
 Mesh = NodePath("Anim/MeshInstance3D")
+Mesh_Glow = NodePath("Glow")
 Label = NodePath("Anim/Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -112,6 +127,11 @@ font_size = 80
 outline_size = 0
 autowrap_mode = 3
 width = 1000.0
+
+[node name="Glow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -10, 0)
+visible = false
+mesh = SubResource("QuadMesh_5sl25")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

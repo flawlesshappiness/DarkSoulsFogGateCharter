@@ -55,7 +55,7 @@ Animation = NodePath("AnimationPlayer")
 [node name="Anim" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Anim"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 mesh = SubResource("BoxMesh_nv0pr")
 skeleton = NodePath("../..")
 

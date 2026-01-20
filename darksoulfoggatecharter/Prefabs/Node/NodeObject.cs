@@ -9,6 +9,9 @@ public partial class NodeObject : Area3D
     public MeshInstance3D Mesh;
 
     [Export]
+    public MeshInstance3D Mesh_Glow;
+
+    [Export]
     public Label3D Label;
 
     public virtual string NodeName => string.Empty;
@@ -27,6 +30,7 @@ public partial class NodeObject : Area3D
 
     private Vector3 drag_offset;
     private StandardMaterial3D material;
+    private ShaderMaterial material_glow;
 
     public override void _Ready()
     {
@@ -120,10 +124,18 @@ public partial class NodeObject : Area3D
     {
         material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
         Mesh.SetSurfaceOverrideMaterial(0, material);
+
+        material_glow = Mesh_Glow.GetActiveMaterial(0).Duplicate() as ShaderMaterial;
+        Mesh_Glow.SetSurfaceOverrideMaterial(0, material_glow);
     }
 
     protected void SetColor(Color color)
     {
         material.AlbedoColor = color;
+    }
+
+    protected void SetGlow(Color color)
+    {
+        material_glow.SetShaderParameter("color_circle", color);
     }
 }

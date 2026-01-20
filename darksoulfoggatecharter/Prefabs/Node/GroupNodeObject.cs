@@ -52,5 +52,6 @@ public partial class GroupNodeObject : NodeObject
         var info = ColorPaletteController.Instance.GetInfo(Group.Area);
         SetColor(info.GetColor(1));
         Label.Modulate = info.GetColor(4);
+        SetGlow(info.GetColor(0));
     }
 }

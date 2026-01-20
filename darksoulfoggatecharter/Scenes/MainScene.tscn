@@ -13,7 +13,7 @@ background_color = Color(0.203922, 0.305882, 0.254902, 1)
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("NodeParent", "GateNodeTemplate", "GroupNodeTemplate", "ConnectionObjectTemplate")]
 script = ExtResource("1_hpc76")
 NodeParent = NodePath("Nodes")
-GateNodeTemplate = NodePath("Nodes/NodeCube")
+GateNodeTemplate = NodePath("Nodes/NodeGate")
 GroupNodeTemplate = NodePath("Nodes/NodeGroup")
 ConnectionObjectTemplate = NodePath("Nodes/ConnectionObject")
 
@@ -29,7 +29,7 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 
 [node name="Nodes" type="Node3D" parent="."]
 
-[node name="NodeCube" parent="Nodes" instance=ExtResource("5_qxria")]
+[node name="NodeGate" parent="Nodes" instance=ExtResource("5_qxria")]
 
 [node name="NodeGroup" parent="Nodes" instance=ExtResource("8_f140w")]
 
