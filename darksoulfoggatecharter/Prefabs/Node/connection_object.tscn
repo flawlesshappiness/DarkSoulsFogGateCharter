@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cql0nc6fu4met"]
+[gd_scene load_steps=8 format=3 uid="uid://cql0nc6fu4met"]
 
 [ext_resource type="Script" uid="uid://ccsp83faj7uvb" path="res://Prefabs/Node/ConnectionObject.cs" id="1_g1xko"]
 
@@ -41,9 +41,27 @@ tracks/0/keys = {
 "values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_h43cd"]
+resource_name = "hide"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h43cd"]
 _data = {
 &"RESET": SubResource("Animation_nv0pr"),
+&"hide": SubResource("Animation_h43cd"),
 &"show": SubResource("Animation_g1xko")
 }
 
@@ -53,9 +71,9 @@ Mesh = NodePath("Anim/MeshInstance3D")
 Animation = NodePath("AnimationPlayer")
 
 [node name="Anim" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Anim"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 mesh = SubResource("BoxMesh_nv0pr")
 skeleton = NodePath("../..")
 

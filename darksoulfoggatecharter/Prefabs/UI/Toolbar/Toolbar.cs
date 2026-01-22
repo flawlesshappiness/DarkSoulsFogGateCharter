@@ -73,7 +73,7 @@ public partial class Toolbar : MarginContainer
         try
         {
             var data = JsonSerializer.Deserialize<SessionData>(json);
-            MainScene.Instance.Load(data);
+            NodeController.Instance.Load(data);
         }
         catch (Exception e)
         {
@@ -89,7 +89,7 @@ public partial class Toolbar : MarginContainer
             path += ".data";
         }
 
-        var data = MainScene.Instance.GenerateSaveData();
+        var data = NodeController.Instance.GenerateSaveData();
         var json = JsonSerializer.Serialize(data);
         var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
         if (file != null)

@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections;
 
 public partial class GateNodeObject : NodeObject
 {
@@ -67,5 +68,15 @@ public partial class GateNodeObject : NodeObject
         SetColor(info.GetColor(2));
         Label.Modulate = info.GetColor(4);
         SetGlow(info.GetColor(0));
+    }
+
+    public override void DestroyNode()
+    {
+        this.StartCoroutine(Cr, "destroy");
+        IEnumerator Cr()
+        {
+            yield return Animation.PlayAndWaitForAnimation("hide");
+            QueueFree();
+        }
     }
 }

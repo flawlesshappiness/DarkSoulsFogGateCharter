@@ -6,7 +6,7 @@ public partial class GateController : SingletonController
 {
     public static GateController Instance { get; private set; }
 
-    public MainScene Scene => MainScene.Instance;
+    public NodeController Node => NodeController.Instance;
     public Dictionary<string, GateNode> Gates { get; private set; } = new();
     public Dictionary<string, GateGroup> Groups { get; private set; } = new();
     public List<string> DisabledTypes { get; private set; } = new();
@@ -175,7 +175,7 @@ public partial class GateController : SingletonController
         }
         else
         {
-            var missing_connections = from_new || !Scene.IsNodeFullyConnected(name);
+            var missing_connections = from_new || !Node.IsNodeFullyConnected(name);
             var disabled = from_new ? false : IsDisabled(name);
             var gate = GetGate(name);
             var no_id = string.IsNullOrEmpty(gate.Id);

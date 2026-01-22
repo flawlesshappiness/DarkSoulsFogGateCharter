@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="NodeInfo" load_steps=5 format=3 uid="uid://dhcxswg7m7tec"]
+
+[ext_resource type="Script" uid="uid://c8pswjs3rqjxq" path="res://Node/NodeInfo.cs" id="1_2ktdw"]
+[ext_resource type="PackedScene" uid="uid://c7378janorkoj" path="res://Prefabs/Node/node_gate.tscn" id="1_giqfv"]
+[ext_resource type="PackedScene" uid="uid://cql0nc6fu4met" path="res://Prefabs/Node/connection_object.tscn" id="1_yiitv"]
+[ext_resource type="PackedScene" uid="uid://bsgr68wtbwfw5" path="res://Prefabs/Node/node_group.tscn" id="2_yiitv"]
+
+[resource]
+script = ExtResource("1_2ktdw")
+GateNodePrefab = ExtResource("1_giqfv")
+GroupNodePrefab = ExtResource("2_yiitv")
+ConnectionPrefab = ExtResource("1_yiitv")
+metadata/_custom_type_script = "uid://c8pswjs3rqjxq"

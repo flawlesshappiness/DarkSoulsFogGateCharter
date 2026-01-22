@@ -19,6 +19,7 @@ public partial class MainView : View
 
     private GateController Controller => GateController.Instance;
     private MainScene Scene => MainScene.Instance;
+    private NodeController Node => NodeController.Instance;
 
     private bool has_mouse_prompt;
     private event Action OnMousePrompt;
@@ -87,7 +88,7 @@ public partial class MainView : View
     public void RightClickObjectiveNode(GateNodeObject node)
     {
         PopupMenu.ClearItems();
-        PopupMenu.AddActionItem("Complete", () => Scene.CompleteObjective(node.Gate.Name));
+        PopupMenu.AddActionItem("Complete", () => Node.CompleteObjective(node.Gate.Name));
         PopupMenu.Show();
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
         PopupMenu.Popup();
@@ -98,7 +99,7 @@ public partial class MainView : View
         SearchList.Clear();
         SearchList.Title = "Select gate";
 
-        var next_position = Scene.GetNextNodePosition(node);
+        var next_position = Node.GetNextNodePosition(node);
         var gates = Controller.Gates.Values;
         foreach (var gate in gates)
         {
@@ -106,7 +107,7 @@ public partial class MainView : View
             if (!Controller.IsSearchable(gate.Name)) continue;
 
             var name = gate.Name;
-            SearchList.AddItem(name, () => Scene.StartCreateNode(name, next_position, node));
+            SearchList.AddItem(name, () => Node.StartCreateNode(name, next_position, node));
         }
 
         SearchList.Show();
@@ -142,8 +143,8 @@ public partial class MainView : View
     private void CreateStart(string name)
     {
         var data = SessionSettings.CreateData();
-        Scene.Load(data);
-        Scene.CreateNodeAtCenter(name);
+        Node.Load(data);
+        Node.CreateNodeAtCenter(name);
 
         UndoController.Instance.Clear();
     }

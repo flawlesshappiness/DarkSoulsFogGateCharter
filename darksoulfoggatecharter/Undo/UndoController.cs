@@ -29,12 +29,12 @@ public partial class UndoController : SingletonController
 
         public override void Redo()
         {
-            MainScene.Instance.CreateNode(Name, Position);
+            NodeController.Instance.CreateNode(Name, Position);
         }
 
         public override void Undo()
         {
-            MainScene.Instance.RemoveNode(Name);
+            NodeController.Instance.RemoveNode(Name);
         }
     }
 
@@ -47,12 +47,12 @@ public partial class UndoController : SingletonController
 
         public override void Redo()
         {
-            MainScene.Instance.ConnectNodes(Name);
+            NodeController.Instance.ConnectNodes(Name);
         }
 
         public override void Undo()
         {
-            MainScene.Instance.RemoveConnectionObject(Name);
+            NodeController.Instance.RemoveConnectionObject(Name);
         }
     }
 
@@ -67,12 +67,12 @@ public partial class UndoController : SingletonController
 
         public override void Redo()
         {
-            MainScene.Instance.MoveNode(Name, To);
+            NodeController.Instance.MoveNode(Name, To);
         }
 
         public override void Undo()
         {
-            MainScene.Instance.MoveNode(Name, From);
+            NodeController.Instance.MoveNode(Name, From);
         }
     }
 

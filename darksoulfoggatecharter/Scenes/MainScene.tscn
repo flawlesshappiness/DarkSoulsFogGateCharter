@@ -1,21 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://clyuuo5hd2vmu"]
+[gd_scene load_steps=4 format=3 uid="uid://clyuuo5hd2vmu"]
 
 [ext_resource type="Script" uid="uid://ddhtn3by3njeq" path="res://Scenes/MainScene.cs" id="1_hpc76"]
 [ext_resource type="Script" uid="uid://bshctxoalddri" path="res://Camera/DraggableCamera.cs" id="4_y4jh7"]
-[ext_resource type="PackedScene" uid="uid://c7378janorkoj" path="res://Prefabs/Node/node_gate.tscn" id="5_qxria"]
-[ext_resource type="PackedScene" uid="uid://cql0nc6fu4met" path="res://Prefabs/Node/connection_object.tscn" id="7_q68mp"]
-[ext_resource type="PackedScene" uid="uid://bsgr68wtbwfw5" path="res://Prefabs/Node/node_group.tscn" id="8_f140w"]
 
 [sub_resource type="Environment" id="Environment_nhkr4"]
 background_mode = 1
 background_color = Color(0.203922, 0.305882, 0.254902, 1)
 
-[node name="MainScene" type="Node3D" node_paths=PackedStringArray("NodeParent", "GateNodeTemplate", "GroupNodeTemplate", "ConnectionObjectTemplate")]
+[node name="MainScene" type="Node3D" node_paths=PackedStringArray("NodeParent")]
 script = ExtResource("1_hpc76")
 NodeParent = NodePath("Nodes")
-GateNodeTemplate = NodePath("Nodes/NodeGate")
-GroupNodeTemplate = NodePath("Nodes/NodeGroup")
-ConnectionObjectTemplate = NodePath("Nodes/ConnectionObject")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
@@ -28,9 +22,3 @@ script = ExtResource("4_y4jh7")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 
 [node name="Nodes" type="Node3D" parent="."]
-
-[node name="NodeGate" parent="Nodes" instance=ExtResource("5_qxria")]
-
-[node name="NodeGroup" parent="Nodes" instance=ExtResource("8_f140w")]
-
-[node name="ConnectionObject" parent="Nodes" instance=ExtResource("7_q68mp")]

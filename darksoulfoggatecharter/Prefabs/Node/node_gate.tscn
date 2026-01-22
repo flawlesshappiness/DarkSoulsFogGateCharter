@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c7378janorkoj"]
+[gd_scene load_steps=14 format=3 uid="uid://c7378janorkoj"]
 
 [ext_resource type="Script" uid="uid://bfx1ef8t76xlv" path="res://Prefabs/Node/GateNodeObject.cs" id="1_d6nvu"]
 [ext_resource type="Shader" uid="uid://e4c5m0y10qex" path="res://Shaders/ColorNodes.gdshader" id="2_722xc"]
@@ -93,10 +93,28 @@ tracks/0/keys = {
 "values": [Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
 }
 
+[sub_resource type="Animation" id="Animation_722xc"]
+resource_name = "hide"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.25),
+"transitions": PackedFloat32Array(0.5, -2, 0.5),
+"update": 0,
+"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t0cd5"]
 _data = {
 &"RESET": SubResource("Animation_luwc0"),
 &"grow": SubResource("Animation_d6nvu"),
+&"hide": SubResource("Animation_722xc"),
 &"show": SubResource("Animation_t0cd5"),
 &"shrink": SubResource("Animation_jxqiy")
 }

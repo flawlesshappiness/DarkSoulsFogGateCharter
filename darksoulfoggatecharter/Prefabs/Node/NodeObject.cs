@@ -163,7 +163,7 @@ public partial class NodeObject : Area3D
         material_glow.SetShaderParameter("color_circle", color);
     }
 
-    public void DestroyNode()
+    public virtual void DestroyNode()
     {
         QueueFree();
     }

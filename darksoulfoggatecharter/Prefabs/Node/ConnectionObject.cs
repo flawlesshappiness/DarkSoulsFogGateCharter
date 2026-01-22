@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections;
 
 public partial class ConnectionObject : Node3D
 {
@@ -84,6 +85,16 @@ public partial class ConnectionObject : Node3D
         else
         {
             return GateController.Instance.GetGate(NameA).Area;
+        }
+    }
+
+    public void DestroyConnection()
+    {
+        this.StartCoroutine(Cr, "destroy");
+        IEnumerator Cr()
+        {
+            yield return Animation.PlayAndWaitForAnimation("hide");
+            QueueFree();
         }
     }
 }

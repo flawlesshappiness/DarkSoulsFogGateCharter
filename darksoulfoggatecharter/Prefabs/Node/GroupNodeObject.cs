@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections;
 
 public partial class GroupNodeObject : NodeObject
 {
@@ -53,5 +54,15 @@ public partial class GroupNodeObject : NodeObject
         SetColor(info.GetColor(1));
         Label.Modulate = info.GetColor(4);
         SetGlow(info.GetColor(0));
+    }
+
+    public override void DestroyNode()
+    {
+        this.StartCoroutine(Cr, "destroy");
+        IEnumerator Cr()
+        {
+            yield return Animation.PlayAndWaitForAnimation("hide");
+            QueueFree();
+        }
     }
 }
