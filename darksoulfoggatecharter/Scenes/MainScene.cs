@@ -23,6 +23,7 @@ public partial class MainScene : Scene
     private GateController Controller => GateController.Instance;
     private MainView View => MainView.Instance;
     private DraggableCamera Camera => DraggableCamera.Instance;
+    private UndoController Undo => UndoController.Instance;
 
     private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
@@ -71,8 +72,7 @@ public partial class MainScene : Scene
         node.SetGate(gate);
         nodes.Add(gate.Name, node);
 
-        UndoController.Instance.AddCreateNodeAction(gate.Name);
-
+        node.OnDragEnded += () => Node_DragEnded(node);
         node.OnRightClick += () => GateRightClick(node);
 
         return node;
@@ -118,7 +118,7 @@ public partial class MainScene : Scene
         node.SetGroup(group);
         nodes.Add(group.Name, node);
 
-        UndoController.Instance.AddCreateNodeAction(group.Name);
+        node.OnDragEnded += () => Node_DragEnded(node);
 
         return node;
     }
@@ -128,9 +128,13 @@ public partial class MainScene : Scene
     {
         if (A == null) return null;
         if (B == null) return null;
-        if (A.IsConnectedTo(B)) return null;
 
-        var id = $"{A.NodeName},{B.NodeName}";
+        var ids = new List<string>() { A.NodeName, B.NodeName }.OrderBy(x => x).ToList();
+        var id = $"{ids[0]},{ids[1]}";
+        if (A.HasConnection(id)) return null;
+        if (B.HasConnection(id)) return null;
+
+        Debug.LogMethod($"{id}");
 
         A.AddConnection(id, B);
         B.AddConnection(id, A);
@@ -138,6 +142,16 @@ public partial class MainScene : Scene
         var node = CreateConnectionObject(id);
         node.SetConnectedObjects(A, B);
         return node;
+    }
+
+    public ConnectionObject ConnectNodes(string connection_id)
+    {
+        var split = connection_id.Split(',');
+        var name_a = split[0];
+        var name_b = split[1];
+        var a = GetNode(name_a);
+        var b = GetNode(name_b);
+        return ConnectNodes(a, b);
     }
 
     private ConnectionObject CreateConnectionObject(string id)
@@ -157,6 +171,7 @@ public partial class MainScene : Scene
         var connection = connections.TryGetValue(id, out var result) ? result : null;
         if (connection == null) return;
 
+        Debug.LogMethod(id);
         connection.ObjectA.RemoveConnection(id);
         connection.ObjectB.RemoveConnection(id);
         connection.QueueFree();
@@ -236,6 +251,8 @@ public partial class MainScene : Scene
 
     public void CompleteObjective(string name)
     {
+        Undo.StartUndoAction();
+
         var gate = Controller.GetGate(name);
         var node = GetNode(name);
         var dir = GetNextNodeDirection(node);
@@ -250,13 +267,14 @@ public partial class MainScene : Scene
             CreateNode(connection.Name, position, node);
         }
 
-        UndoController.Instance.ConfirmUndoAction();
+        Undo.EndUndoAction();
     }
 
     public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
     {
+        Undo.StartUndoAction();
         var result = CreateNode(name, position, node_prev);
-        UndoController.Instance.ConfirmUndoAction();
+        Undo.EndUndoAction();
 
         return result;
     }
@@ -277,6 +295,9 @@ public partial class MainScene : Scene
                 GD.Print($"Create group: {name}");
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
+
+                UndoController.Instance.AddCreateNodeAction(group.Name, position);
+
                 ConnectNodes(node_prev, node);
 
                 var next_position = node_prev?.GlobalPosition ?? Vector3.Right * DEFAULT_NODE_DISTANCE;
@@ -302,6 +323,9 @@ public partial class MainScene : Scene
                 GD.Print($"Create node: {name}");
                 var node = CreateGateNode(gate);
                 node.GlobalPosition = position;
+
+                UndoController.Instance.AddCreateNodeAction(gate.Name, position);
+
                 ConnectNodes(node_prev, node);
 
                 var next_position = GetNextNodePosition(node, node_prev);
@@ -317,11 +341,23 @@ public partial class MainScene : Scene
 
     public void RemoveNode(string name)
     {
+        Debug.LogMethod(name);
         var node = GetNode(name);
-        if (node == null) return;
-
-        node.QueueFree();
+        node?.DestroyNode();
         nodes.Remove(name);
+    }
+
+    public void MoveNode(string name, Vector3 position)
+    {
+        var node = GetNode(name);
+        node?.SetGlobalPosition(position);
+    }
+
+    public void Node_DragEnded(NodeObject node)
+    {
+        Undo.StartUndoAction();
+        Undo.AddMoveNodeAction(node.NodeName, node.DragStartPosition, node.DragEndPosition);
+        Undo.EndUndoAction();
     }
 
     public bool HasNode(string name) =>

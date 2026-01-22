@@ -145,7 +145,6 @@ public partial class MainView : View
         Scene.Load(data);
         Scene.CreateNodeAtCenter(name);
 
-        UndoController.Instance.ConfirmUndoAction();
         UndoController.Instance.Clear();
     }
 

@@ -17,6 +17,9 @@ public partial class Toolbar : MarginContainer
     public Button UndoButton;
 
     [Export]
+    public Button RedoButton;
+
+    [Export]
     public FileDialog OpenFileDialog;
 
     [Export]
@@ -29,6 +32,7 @@ public partial class Toolbar : MarginContainer
         OpenButton.Pressed += Open_Pressed;
         SaveButton.Pressed += Save_Pressed;
         UndoButton.Pressed += Undo_Pressed;
+        RedoButton.Pressed += Redo_Pressed;
 
         OpenFileDialog.FileSelected += OpenFile_Selected;
         SaveFileDialog.FileSelected += SafeFile_Selected;
@@ -52,6 +56,11 @@ public partial class Toolbar : MarginContainer
     private void Undo_Pressed()
     {
         UndoController.Instance.Undo();
+    }
+
+    private void Redo_Pressed()
+    {
+        UndoController.Instance.Redo();
     }
 
     private void OpenFile_Selected(string path)

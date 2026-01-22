@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public partial class NodeObject : Area3D
 {
@@ -19,13 +18,18 @@ public partial class NodeObject : Area3D
     public Dictionary<string, NodeObject> ConnectedNodes = new();
 
     public bool IsFullyConnected => ConnectedNodes.Count >= 2;
+    public Vector3 DragStartPosition { get; private set; }
+    public Vector3 DragEndPosition { get; private set; }
 
     public static NodeObject Handled;
 
     public event Action OnRightClick;
+    public event Action OnDragStarted;
+    public event Action OnDragEnded;
 
     protected bool IsHandled => Handled == this;
     protected bool HasMouse { get; private set; }
+    protected bool MouseDown { get; private set; }
     protected bool Dragging { get; private set; }
 
     private Vector3 drag_offset;
@@ -57,10 +61,9 @@ public partial class NodeObject : Area3D
                 GetViewport().SetInputAsHandled();
             }
         }
-        else if (e is InputEventMouseMotion motion && Dragging)
+        else if (e is InputEventMouseMotion motion && MouseDown)
         {
-            var position = DraggableCamera.Instance.MouseWorldPosition;
-            GlobalPosition = new Vector3(position.X, GlobalPosition.Y, position.Z);
+            Drag();
             GetViewport().SetInputAsHandled();
         }
     }
@@ -79,12 +82,12 @@ public partial class NodeObject : Area3D
 
     private void MousePressed(bool pressed)
     {
-        if (Dragging != pressed)
+        if (MouseDown != pressed)
         {
             MousePressedChanged(pressed);
         }
 
-        Dragging = pressed;
+        MouseDown = pressed;
     }
 
     protected virtual void MousePressedChanged(bool pressed)
@@ -98,12 +101,33 @@ public partial class NodeObject : Area3D
         {
             Handled = null;
             GlobalPosition = GlobalPosition.Set(y: 0);
+            DragEnd();
         }
+    }
+
+    protected void Drag()
+    {
+        if (!Dragging)
+        {
+            DragStartPosition = GlobalPosition.Set(y: 0);
+            OnDragStarted?.Invoke();
+        }
+
+        Dragging = true;
+        var position = DraggableCamera.Instance.MouseWorldPosition;
+        GlobalPosition = new Vector3(position.X, GlobalPosition.Y, position.Z);
+    }
+
+    protected void DragEnd()
+    {
+        Dragging = false;
+        DragEndPosition = GlobalPosition;
+        OnDragEnded?.Invoke();
     }
 
     public void AddConnection(string id, NodeObject node)
     {
-        if (IsConnectedTo(node)) return;
+        if (HasConnection(id)) return;
         ConnectedNodes.Add(id, node);
     }
 
@@ -115,9 +139,9 @@ public partial class NodeObject : Area3D
         ConnectedNodes.Remove(id);
     }
 
-    public bool IsConnectedTo(NodeObject node)
+    public bool HasConnection(string id)
     {
-        return ConnectedNodes.Values.Contains(node);
+        return ConnectedNodes.ContainsKey(id);
     }
 
     private void InitializeMesh()
@@ -137,5 +161,10 @@ public partial class NodeObject : Area3D
     protected void SetGlow(Color color)
     {
         material_glow.SetShaderParameter("color_circle", color);
+    }
+
+    public void DestroyNode()
+    {
+        QueueFree();
     }
 }

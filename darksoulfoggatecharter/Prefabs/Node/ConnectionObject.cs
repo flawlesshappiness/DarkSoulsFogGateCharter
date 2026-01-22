@@ -28,8 +28,8 @@ public partial class ConnectionObject : Node3D
     {
         base._Process(delta);
 
-        if (ObjectA == null) return;
-        if (ObjectB == null) return;
+        if (!IsInstanceValid(ObjectA)) return;
+        if (!IsInstanceValid(ObjectB)) return;
 
         var pos_A = ObjectA.Position.Set(y: 0);
         var pos_B = ObjectB.Position.Set(y: 0);
