@@ -23,7 +23,7 @@ public partial class NodeObject : Area3D
 
     public static NodeObject Handled;
 
-    public event Action OnRightClick;
+    public event Action OnClicked;
     public event Action OnDragStarted;
     public event Action OnDragEnded;
 
@@ -32,6 +32,7 @@ public partial class NodeObject : Area3D
     protected bool MouseDown { get; private set; }
     protected bool Dragging { get; private set; }
 
+    private bool has_dragged;
     private Vector3 drag_offset;
     private StandardMaterial3D material;
     private ShaderMaterial material_glow;
@@ -54,11 +55,11 @@ public partial class NodeObject : Area3D
             {
                 MousePressed(button.Pressed);
                 GetViewport().SetInputAsHandled();
-            }
-            else if (button.ButtonIndex == MouseButton.Right)
-            {
-                OnRightClick?.Invoke();
-                GetViewport().SetInputAsHandled();
+
+                if (!button.Pressed && !has_dragged)
+                {
+                    OnClicked?.Invoke();
+                }
             }
         }
         else if (e is InputEventMouseMotion motion && MouseDown)
@@ -95,6 +96,7 @@ public partial class NodeObject : Area3D
         if (pressed)
         {
             Handled = this;
+            has_dragged = false;
             GlobalPosition = GlobalPosition.Set(y: 1);
         }
         else
@@ -113,6 +115,7 @@ public partial class NodeObject : Area3D
             OnDragStarted?.Invoke();
         }
 
+        has_dragged = true;
         Dragging = true;
         var position = DraggableCamera.Instance.MouseWorldPosition;
         GlobalPosition = new Vector3(position.X, GlobalPosition.Y, position.Z);

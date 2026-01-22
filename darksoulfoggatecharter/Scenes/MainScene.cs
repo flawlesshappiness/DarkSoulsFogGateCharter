@@ -7,8 +7,6 @@ public partial class MainScene : Scene
     [Export]
     public Node3D NodeParent;
 
-    private MainView View => MainView.Instance;
-
     public override void _Ready()
     {
         base._Ready();
@@ -20,6 +18,6 @@ public partial class MainScene : Scene
 
     private void CreateStart()
     {
-        View.Show();
+        MainView.Instance.Show();
     }
 }

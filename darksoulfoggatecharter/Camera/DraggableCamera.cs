@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public partial class DraggableCamera : Camera3D
 {
@@ -9,6 +10,9 @@ public partial class DraggableCamera : Camera3D
     public Vector2 ViewportSize => GetViewport().GetVisibleRect().Size;
     public Vector3 ViewportWorldPosition => GlobalPosition.Set(y: 0);
     public float AspectRatio => CalculateAspectRatio();
+    private Vector3 IntendedMoveDirection { get; set; }
+
+    private const float MOVE_SPEED = 10.0f;
 
     public override void _Ready()
     {
@@ -23,7 +27,7 @@ public partial class DraggableCamera : Camera3D
         if (MainView.Instance?.HasActiveUI() ?? false) return;
         if (e is InputEventMouseButton button)
         {
-            if (button.ButtonIndex == MouseButton.Middle)
+            if (button.ButtonIndex == MouseButton.Middle || button.ButtonIndex == MouseButton.Right)
             {
                 MousePressed(button.Pressed);
                 GetViewport().SetInputAsHandled();
@@ -48,6 +52,23 @@ public partial class DraggableCamera : Camera3D
             GlobalPosition += dir;
             GetViewport().SetInputAsHandled();
         }
+        else if (e is InputEventKey key)
+        {
+            var dir = PlayerInput.GetMoveInput().Normalized();
+            IntendedMoveDirection = new Vector3(dir.X, 0, dir.Y);
+            GetViewport().SetInputAsHandled();
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+        var fdelta = Convert.ToSingle(delta);
+
+        if (IntendedMoveDirection.LengthSquared() > 0)
+        {
+            GlobalPosition += IntendedMoveDirection * MOVE_SPEED * fdelta;
+        }
     }
 
     private void MousePressed(bool pressed)
@@ -67,7 +88,6 @@ public partial class DraggableCamera : Camera3D
         }
         else
         {
-
         }
     }
 
@@ -84,6 +104,6 @@ public partial class DraggableCamera : Camera3D
 
     private void SetOrthographicSize(float value)
     {
-        Size = Mathf.Clamp(value, 2f, 15f);
+        Size = Mathf.Clamp(value, 2f, 30f);
     }
 }

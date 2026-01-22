@@ -44,7 +44,7 @@ public partial class NodeController : SingletonController
         nodes.Add(gate.Name, node);
 
         node.OnDragEnded += () => Node_DragEnded(node);
-        node.OnRightClick += () => GateRightClick(node);
+        node.OnClicked += () => GateRightClick(node);
 
         return node;
     }
