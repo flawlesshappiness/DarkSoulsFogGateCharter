@@ -1,7 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://c7378janorkoj"]
+[gd_scene load_steps=18 format=3 uid="uid://c7378janorkoj"]
 
 [ext_resource type="Script" uid="uid://bfx1ef8t76xlv" path="res://Prefabs/Node/GateNodeObject.cs" id="1_d6nvu"]
 [ext_resource type="Shader" uid="uid://e4c5m0y10qex" path="res://Shaders/ColorNodes.gdshader" id="2_722xc"]
+[ext_resource type="Texture2D" uid="uid://m7mapjprcuou" path="res://Assets/Icons/icon_objective.png" id="3_8atmy"]
+[ext_resource type="Texture2D" uid="uid://bdx0fxlrhinkl" path="res://Assets/Icons/icon_shortcut_oneway.png" id="4_m2fqg"]
+[ext_resource type="Texture2D" uid="uid://eqv6d5cdo42i" path="res://Assets/Icons/icon_shortcut.png" id="4_po7yq"]
+[ext_resource type="Texture2D" uid="uid://blofv7cjlmrgu" path="res://Assets/Icons/icon_lock.png" id="5_m2fqg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d6nvu"]
 
@@ -59,6 +63,23 @@ tracks/0/keys = {
 "values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_722xc"]
+resource_name = "hide"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.25),
+"transitions": PackedFloat32Array(0.5, -2, 0.5),
+"update": 0,
+"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
+}
+
 [sub_resource type="Animation" id="Animation_t0cd5"]
 resource_name = "show"
 length = 0.25
@@ -93,23 +114,6 @@ tracks/0/keys = {
 "values": [Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
 }
 
-[sub_resource type="Animation" id="Animation_722xc"]
-resource_name = "hide"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Anim:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.25),
-"transitions": PackedFloat32Array(0.5, -2, 0.5),
-"update": 0,
-"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t0cd5"]
 _data = {
 &"RESET": SubResource("Animation_luwc0"),
@@ -119,9 +123,13 @@ _data = {
 &"shrink": SubResource("Animation_jxqiy")
 }
 
-[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "Mesh", "Mesh_Glow", "Label")]
+[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "Mesh", "Mesh_Glow", "Label")]
 script = ExtResource("1_d6nvu")
 Animation = NodePath("AnimationPlayer")
+IconObjective = NodePath("Anim/icons/icon_objective")
+IconShortcut = NodePath("Anim/icons/icon_shortcut")
+IconShortcutOneway = NodePath("Anim/icons/icon_shortcut_oneway")
+IconLocked = NodePath("Anim/icons/icon_locked")
 Mesh = NodePath("Anim/MeshInstance3D2")
 Mesh_Glow = NodePath("Glow")
 Label = NodePath("Anim/Label3D")
@@ -143,6 +151,33 @@ text = "Before the Halberd Black Knight in TotG"
 outline_size = 0
 autowrap_mode = 3
 width = 200.0
+
+[node name="icons" type="Node3D" parent="Anim"]
+transform = Transform3D(1.11111, 0, 0, 0, 1.11111, 0, 0, 0, 1.11111, 0, 0.00882578, 0)
+
+[node name="icon_objective" type="Sprite3D" parent="Anim/icons"]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 0, 0, -0.0454876)
+visible = false
+modulate = Color(0.19633, 0.29, 0.1798, 1)
+texture = ExtResource("3_8atmy")
+
+[node name="icon_shortcut" type="Sprite3D" parent="Anim/icons"]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 0, 0, -0.0454876)
+visible = false
+modulate = Color(0.19633, 0.29, 0.1798, 1)
+texture = ExtResource("4_po7yq")
+
+[node name="icon_shortcut_oneway" type="Sprite3D" parent="Anim/icons"]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 0, 0, -0.0454876)
+visible = false
+modulate = Color(0.19633, 0.29, 0.1798, 1)
+texture = ExtResource("4_m2fqg")
+
+[node name="icon_locked" type="Sprite3D" parent="Anim/icons"]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 0, 0, -0.0454876)
+visible = false
+modulate = Color(0.19633, 0.29, 0.1798, 1)
+texture = ExtResource("5_m2fqg")
 
 [node name="Glow" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -10, 0)

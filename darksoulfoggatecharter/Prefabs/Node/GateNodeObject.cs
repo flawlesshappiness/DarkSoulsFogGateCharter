@@ -6,6 +6,18 @@ public partial class GateNodeObject : NodeObject
     [Export]
     public AnimationPlayer Animation;
 
+    [Export]
+    public Sprite3D IconObjective;
+
+    [Export]
+    public Sprite3D IconShortcut;
+
+    [Export]
+    public Sprite3D IconShortcutOneway;
+
+    [Export]
+    public Sprite3D IconLocked;
+
     public override string NodeName => Gate.Name;
 
     public GateNode Gate { get; private set; }
@@ -21,6 +33,7 @@ public partial class GateNodeObject : NodeObject
         Gate = gate;
         Label.Text = gate.Name;
         LoadColorPalette();
+        UpdateIcon(gate.Type);
     }
 
     public override void _MouseEnter()
@@ -68,6 +81,10 @@ public partial class GateNodeObject : NodeObject
         SetColor(info.GetColor(2));
         Label.Modulate = info.GetColor(4);
         SetGlow(info.GetColor(0));
+
+        IconObjective.Modulate = info.GetColor(1);
+        IconShortcut.Modulate = info.GetColor(1);
+        IconLocked.Modulate = info.GetColor(1);
     }
 
     public override void DestroyNode()
@@ -78,5 +95,44 @@ public partial class GateNodeObject : NodeObject
             yield return Animation.PlayAndWaitForAnimation("hide");
             QueueFree();
         }
+    }
+
+    private void ClearIcons()
+    {
+        IconObjective.Hide();
+        IconShortcut.Hide();
+        IconShortcutOneway.Hide();
+        IconLocked.Hide();
+    }
+
+    public void UpdateIcon(string type)
+    {
+        ClearIcons();
+
+        switch (type)
+        {
+            case GateType.Objective:
+                IconObjective.Show();
+                break;
+            case GateType.DoorShortcut:
+                IconShortcut.Show();
+                break;
+            case GateType.OnewayShortcut:
+                IconShortcutOneway.Show();
+                break;
+            case GateType.LockedDoor:
+                IconLocked.Show();
+                break;
+            default: break;
+        }
+
+        var icon = type switch
+        {
+            GateType.DoorShortcut => IconShortcut,
+            _ => null
+        };
+
+        if (icon == null) return;
+        icon.Show();
     }
 }
