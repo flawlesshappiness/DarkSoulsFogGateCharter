@@ -1,5 +1,7 @@
 using Godot;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class ConnectionObject : Node3D
 {
@@ -9,10 +11,17 @@ public partial class ConnectionObject : Node3D
     [Export]
     public AnimationPlayer Animation;
 
+    [Export]
+    public StandardMaterial3D MaterialFull;
+
+    [Export]
+    public StandardMaterial3D MaterialDotted;
+
     public NodeObject ObjectA { get; private set; }
     public NodeObject ObjectB { get; private set; }
     public string NameA { get; private set; }
     public string NameB { get; private set; }
+    public bool ConnectedToGroup { get; private set; }
 
     private BoxMesh box_mesh;
     private StandardMaterial3D material;
@@ -20,8 +29,6 @@ public partial class ConnectionObject : Node3D
     public override void _Ready()
     {
         base._Ready();
-        InitializeMesh();
-
         Animation.Play("show");
     }
 
@@ -44,6 +51,7 @@ public partial class ConnectionObject : Node3D
         GlobalRotation = new Vector3(0, angle, 0);
 
         box_mesh.Size = box_mesh.Size.Set(z: dist);
+        material.Uv1Scale = material.Uv1Scale.Set(y: dist * 30);
     }
 
     public void SetConnectedObjects(NodeObject A, NodeObject B)
@@ -52,7 +60,9 @@ public partial class ConnectionObject : Node3D
         ObjectB = B;
         NameA = A.NodeName;
         NameB = B.NodeName;
+        ConnectedToGroup = IsConnectedToGroup();
 
+        InitializeMesh();
         LoadColorPalette();
     }
 
@@ -60,7 +70,7 @@ public partial class ConnectionObject : Node3D
     {
         box_mesh = Mesh.Mesh.Duplicate() as BoxMesh;
         Mesh.Mesh = box_mesh;
-        material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
+        material = ConnectedToGroup ? MaterialFull.Duplicate() as StandardMaterial3D : MaterialDotted.Duplicate() as StandardMaterial3D;
         Mesh.SetSurfaceOverrideMaterial(0, material);
     }
 
@@ -73,7 +83,15 @@ public partial class ConnectionObject : Node3D
     {
         var area = GetArea();
         var info = ColorPaletteController.Instance.GetInfo(area);
-        SetColor(info.GetColor(3));
+
+        if (ConnectedToGroup)
+        {
+            SetColor(info.GetColor(1));
+        }
+        else
+        {
+            SetColor(info.GetColor(2));
+        }
     }
 
     private string GetArea()
@@ -86,6 +104,12 @@ public partial class ConnectionObject : Node3D
         {
             return GateController.Instance.GetGate(NameA).Area;
         }
+    }
+
+    private bool IsConnectedToGroup()
+    {
+        var names = new List<string> { NameA, NameB };
+        return names.Any(GateController.Instance.IsGroup);
     }
 
     public void DestroyConnection()

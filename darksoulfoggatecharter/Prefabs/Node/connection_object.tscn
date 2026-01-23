@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cql0nc6fu4met"]
+[gd_scene load_steps=9 format=3 uid="uid://cql0nc6fu4met"]
 
 [ext_resource type="Script" uid="uid://ccsp83faj7uvb" path="res://Prefabs/Node/ConnectionObject.cs" id="1_g1xko"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1xko"]
-albedo_color = Color(0.639216, 0.694118, 0.541176, 1)
+[ext_resource type="Material" uid="uid://pnuk0i0e6pmp" path="res://Materials/line_full.tres" id="2_nv0pr"]
+[ext_resource type="Material" uid="uid://diuofiomiyivr" path="res://Materials/line_dotted.tres" id="3_h43cd"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nv0pr"]
-material = SubResource("StandardMaterial3D_g1xko")
+material = ExtResource("3_h43cd")
 size = Vector3(0.05, 0, 1)
 
 [sub_resource type="Animation" id="Animation_nv0pr"]
@@ -22,23 +21,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_g1xko"]
-resource_name = "show"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Anim:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(0.5, 1),
-"update": 0,
-"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_h43cd"]
@@ -58,6 +40,23 @@ tracks/0/keys = {
 "values": [Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
 }
 
+[sub_resource type="Animation" id="Animation_g1xko"]
+resource_name = "show"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h43cd"]
 _data = {
 &"RESET": SubResource("Animation_nv0pr"),
@@ -69,6 +68,8 @@ _data = {
 script = ExtResource("1_g1xko")
 Mesh = NodePath("Anim/MeshInstance3D")
 Animation = NodePath("AnimationPlayer")
+MaterialFull = ExtResource("2_nv0pr")
+MaterialDotted = ExtResource("3_h43cd")
 
 [node name="Anim" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
