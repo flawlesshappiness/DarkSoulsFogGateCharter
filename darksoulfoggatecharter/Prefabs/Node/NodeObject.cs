@@ -209,8 +209,9 @@ public partial class NodeObject : Area3D
 
     public virtual void SetSelected(bool selected)
     {
-        Mesh_Select.Visible = selected;
+        if (Selected == selected) return;
         Selected = selected;
+        Mesh_Select.Visible = selected;
         UndoController.Instance.AddSelectNodeAction(NodeName, selected);
     }
 }

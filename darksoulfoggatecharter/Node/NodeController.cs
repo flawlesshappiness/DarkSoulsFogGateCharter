@@ -336,6 +336,9 @@ public partial class NodeController : SingletonController
     public NodeObject GetNode(string name) =>
         nodes[name];
 
+    public List<NodeObject> GetNodes() =>
+        nodes.Values.ToList();
+
     public bool IsNodeFullyConnected(string name)
     {
         if (!HasNode(name)) return false;

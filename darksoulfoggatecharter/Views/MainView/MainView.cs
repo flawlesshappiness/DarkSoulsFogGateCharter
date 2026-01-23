@@ -17,6 +17,9 @@ public partial class MainView : View
     [Export]
     public MousePrompt MousePrompt;
 
+    [Export]
+    public Control Selection;
+
     private GateController Controller => GateController.Instance;
     private MainScene Scene => MainScene.Instance;
     private NodeController Node => NodeController.Instance;
@@ -41,6 +44,22 @@ public partial class MainView : View
     {
         base._Process(delta);
         MousePrompt.Position = GetViewport().GetMousePosition() + new Vector2(0, -40);
+        Process_Selection();
+    }
+
+    private void Process_Selection()
+    {
+        Selection.Visible = SelectionController.Instance.Dragging;
+        var a = SelectionController.Instance.ViewportDragStart;
+        var b = DraggableCamera.Instance.MousePosition;
+        var lx = Mathf.Min(a.X, b.X);
+        var hx = Mathf.Max(a.X, b.X);
+        var ly = Mathf.Min(a.Y, b.Y);
+        var hy = Mathf.Max(a.Y, b.Y);
+        var position = new Vector2(lx, ly);
+        var size = new Vector2(hx - lx, hy - ly);
+        Selection.Position = position;
+        Selection.Size = size;
     }
 
     public override void _UnhandledInput(InputEvent e)

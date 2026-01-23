@@ -185,8 +185,12 @@ public partial class UndoController : SingletonController
 
     public void EndUndoAction()
     {
-        undo_actions.Push(current_group);
-        redo_actions.Clear();
+        if (current_group.Actions.Count > 0)
+        {
+            undo_actions.Push(current_group);
+            redo_actions.Clear();
+        }
+
         current_group = null;
     }
 

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b1fs53l6frgdu" path="res://Prefabs/UI/MousePrompt/mouse_prompt.tscn" id="5_jrpvu"]
 [ext_resource type="Script" uid="uid://cs4ht1xspdo6x" path="res://Views/MainView/ScrollPopupMenu.cs" id="5_k4w8c"]
 
-[node name="MainView" type="Control" node_paths=PackedStringArray("PopupMenu", "SearchList", "SessionSettings", "MousePrompt")]
+[node name="MainView" type="Control" node_paths=PackedStringArray("PopupMenu", "SearchList", "SessionSettings", "MousePrompt", "Selection")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +20,7 @@ PopupMenu = NodePath("ScrollPopupMenu")
 SearchList = NodePath("SearchListControl")
 SessionSettings = NodePath("SessionSettingsControl")
 MousePrompt = NodePath("MousePrompt")
+Selection = NodePath("Selection")
 
 [node name="Toolbar" parent="." instance=ExtResource("4_gb8h6")]
 layout_mode = 1
@@ -29,6 +30,7 @@ visible = false
 layout_mode = 1
 
 [node name="SessionSettingsControl" parent="." instance=ExtResource("4_jrpvu")]
+visible = false
 layout_mode = 1
 
 [node name="MousePrompt" parent="." instance=ExtResource("5_jrpvu")]
@@ -40,6 +42,23 @@ anchor_bottom = 0.0
 offset_top = 0.0
 offset_bottom = 40.0
 grow_vertical = 1
+
+[node name="Selection" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 480.0
+offset_top = 255.0
+offset_right = 520.0
+offset_bottom = 295.0
+
+[node name="ColorRect" type="ColorRect" parent="Selection"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.196078)
 
 [node name="ScrollPopupMenu" type="PopupMenu" parent="."]
 position = Vector2i(365, 0)
