@@ -87,6 +87,12 @@ public partial class GateNodeObject : NodeObject
         IconLocked.Modulate = info.GetColor(1);
     }
 
+    public override void AddConnection(string id, NodeObject node)
+    {
+        base.AddConnection(id, node);
+        Animation.Play("bounce");
+    }
+
     public override void DestroyNode()
     {
         this.StartCoroutine(Cr, "destroy");

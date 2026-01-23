@@ -59,6 +59,23 @@ tracks/0/keys = {
 "values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_8kayj"]
+resource_name = "hide"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Anim:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.25),
+"transitions": PackedFloat32Array(0.5, -2, 0.5),
+"update": 0,
+"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
+}
+
 [sub_resource type="Animation" id="Animation_mnocw"]
 resource_name = "show"
 length = 0.25
@@ -93,23 +110,6 @@ tracks/0/keys = {
 "values": [Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
 }
 
-[sub_resource type="Animation" id="Animation_8kayj"]
-resource_name = "hide"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Anim:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.25),
-"transitions": PackedFloat32Array(0.5, -2, 0.5),
-"update": 0,
-"values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uv02d"]
 _data = {
 &"RESET": SubResource("Animation_uv02d"),
@@ -130,9 +130,9 @@ Label = NodePath("Anim/Label3D")
 shape = SubResource("SphereShape3D_mnocw")
 
 [node name="Anim" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Anim"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("CylinderMesh_thb3b")
 skeleton = NodePath("../..")
 

@@ -39,8 +39,9 @@ public partial class ConnectionObject : Node3D
         if (!IsInstanceValid(ObjectA)) return;
         if (!IsInstanceValid(ObjectB)) return;
 
-        var pos_A = ObjectA.Position.Set(y: 0);
-        var pos_B = ObjectB.Position.Set(y: 0);
+        var y = ConnectedToGroup ? -3 : -1;
+        var pos_A = ObjectA.Position.Set(y: y);
+        var pos_B = ObjectB.Position.Set(y: y);
         var dir = pos_B - pos_A;
         var length = dir.Length();
         var dist = length;
@@ -92,6 +93,7 @@ public partial class ConnectionObject : Node3D
         {
             SetColor(info.GetColor(2));
         }
+
     }
 
     private string GetArea()

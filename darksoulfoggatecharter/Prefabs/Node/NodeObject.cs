@@ -43,6 +43,15 @@ public partial class NodeObject : Area3D
         InitializeMesh();
     }
 
+    private void InitializeMesh()
+    {
+        material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
+        Mesh.SetSurfaceOverrideMaterial(0, material);
+
+        material_glow = Mesh_Glow.GetActiveMaterial(0).Duplicate() as ShaderMaterial;
+        Mesh_Glow.SetSurfaceOverrideMaterial(0, material_glow);
+    }
+
     public override void _UnhandledInput(InputEvent e)
     {
         base._UnhandledInput(e);
@@ -123,12 +132,13 @@ public partial class NodeObject : Area3D
 
     protected void DragEnd()
     {
+        if (!Dragging) return;
         Dragging = false;
         DragEndPosition = GlobalPosition;
         OnDragEnded?.Invoke();
     }
 
-    public void AddConnection(string id, NodeObject node)
+    public virtual void AddConnection(string id, NodeObject node)
     {
         if (HasConnection(id)) return;
         ConnectedNodes.Add(id, node);
@@ -145,15 +155,6 @@ public partial class NodeObject : Area3D
     public bool HasConnection(string id)
     {
         return ConnectedNodes.ContainsKey(id);
-    }
-
-    private void InitializeMesh()
-    {
-        material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
-        Mesh.SetSurfaceOverrideMaterial(0, material);
-
-        material_glow = Mesh_Glow.GetActiveMaterial(0).Duplicate() as ShaderMaterial;
-        Mesh_Glow.SetSurfaceOverrideMaterial(0, material_glow);
     }
 
     protected void SetColor(Color color)
