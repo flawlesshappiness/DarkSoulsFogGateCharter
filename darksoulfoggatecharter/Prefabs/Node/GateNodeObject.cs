@@ -80,7 +80,6 @@ public partial class GateNodeObject : NodeObject
         var info = ColorPaletteController.Instance.GetInfo(Gate.Area);
         SetColor(info.GetColor(2));
         Label.Modulate = info.GetColor(4);
-        SetGlow(info.GetColor(0));
 
         IconObjective.Modulate = info.GetColor(1);
         IconShortcut.Modulate = info.GetColor(1);

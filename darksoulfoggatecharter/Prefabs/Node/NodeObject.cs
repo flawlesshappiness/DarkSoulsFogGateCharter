@@ -8,7 +8,7 @@ public partial class NodeObject : Area3D
     public MeshInstance3D Mesh;
 
     [Export]
-    public MeshInstance3D Mesh_Glow;
+    public MeshInstance3D Mesh_Select;
 
     [Export]
     public Label3D Label;
@@ -31,6 +31,7 @@ public partial class NodeObject : Area3D
     protected bool HasMouse { get; private set; }
     protected bool MouseDown { get; private set; }
     protected bool Dragging { get; private set; }
+    public bool Selected { get; private set; }
 
     private bool has_dragged;
     private Vector3 drag_offset;
@@ -47,9 +48,7 @@ public partial class NodeObject : Area3D
     {
         material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
         Mesh.SetSurfaceOverrideMaterial(0, material);
-
-        material_glow = Mesh_Glow.GetActiveMaterial(0).Duplicate() as ShaderMaterial;
-        Mesh_Glow.SetSurfaceOverrideMaterial(0, material_glow);
+        Mesh_Select.Hide();
     }
 
     public override void _UnhandledInput(InputEvent e)
@@ -62,18 +61,41 @@ public partial class NodeObject : Area3D
         {
             if (button.ButtonIndex == MouseButton.Left)
             {
-                MousePressed(button.Pressed);
-                GetViewport().SetInputAsHandled();
-
-                if (!button.Pressed && !has_dragged)
+                if (PlayerInput.Select.Held)
                 {
-                    OnClicked?.Invoke();
+                    if (button.Pressed)
+                    {
+                        UndoController.Instance.StartUndoAction();
+                        SelectionController.Instance.ToggleNode(this);
+                        UndoController.Instance.EndUndoAction();
+                        GetViewport().SetInputAsHandled();
+                    }
+                }
+                else
+                {
+                    MousePressed(button.Pressed);
+                    GetViewport().SetInputAsHandled();
+
+                    if (!button.Pressed && !has_dragged)
+                    {
+                        SelectionController.Instance.ClearSelection();
+                        OnClicked?.Invoke();
+                    }
                 }
             }
         }
         else if (e is InputEventMouseMotion motion && MouseDown)
         {
-            Drag();
+            if (Selected)
+            {
+                SelectionController.Instance.DragSelection();
+            }
+            else
+            {
+                SelectionController.Instance.ClearSelection();
+                Drag();
+            }
+
             GetViewport().SetInputAsHandled();
         }
     }
@@ -112,30 +134,48 @@ public partial class NodeObject : Area3D
         {
             Handled = null;
             GlobalPosition = GlobalPosition.Set(y: 0);
-            DragEnd();
+
+            if (Selected)
+            {
+                SelectionController.Instance.DragEndSelection();
+            }
+            else
+            {
+                DragEnd();
+            }
         }
     }
 
-    protected void Drag()
+    public void Drag()
     {
+        var mouse_position = DraggableCamera.Instance.MouseWorldPosition;
+
         if (!Dragging)
         {
             DragStartPosition = GlobalPosition.Set(y: 0);
-            OnDragStarted?.Invoke();
+            drag_offset = DragStartPosition - mouse_position;
+
+            if (!Selected)
+            {
+                OnDragStarted?.Invoke();
+            }
         }
 
         has_dragged = true;
         Dragging = true;
-        var position = DraggableCamera.Instance.MouseWorldPosition;
-        GlobalPosition = new Vector3(position.X, GlobalPosition.Y, position.Z);
+        GlobalPosition = new Vector3(mouse_position.X, GlobalPosition.Y, mouse_position.Z) + drag_offset;
     }
 
-    protected void DragEnd()
+    public void DragEnd()
     {
         if (!Dragging) return;
         Dragging = false;
         DragEndPosition = GlobalPosition;
-        OnDragEnded?.Invoke();
+
+        if (!Selected)
+        {
+            OnDragEnded?.Invoke();
+        }
     }
 
     public virtual void AddConnection(string id, NodeObject node)
@@ -162,13 +202,15 @@ public partial class NodeObject : Area3D
         material.AlbedoColor = color;
     }
 
-    protected void SetGlow(Color color)
-    {
-        material_glow.SetShaderParameter("color_circle", color);
-    }
-
     public virtual void DestroyNode()
     {
         QueueFree();
+    }
+
+    public virtual void SetSelected(bool selected)
+    {
+        Mesh_Select.Visible = selected;
+        Selected = selected;
+        UndoController.Instance.AddSelectNodeAction(NodeName, selected);
     }
 }

@@ -6,6 +6,7 @@ public partial class PlayerInput : Node
     public readonly static CustomInputAction Back = new CustomInputAction("move_down");
     public readonly static CustomInputAction Left = new CustomInputAction("move_left");
     public readonly static CustomInputAction Right = new CustomInputAction("move_right");
+    public readonly static CustomInputAction Select = new CustomInputAction("select");
 
     public static Vector2 GetMoveInput()
     {

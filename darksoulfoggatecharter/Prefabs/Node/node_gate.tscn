@@ -1,7 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://c7378janorkoj"]
+[gd_scene load_steps=18 format=3 uid="uid://c7378janorkoj"]
 
 [ext_resource type="Script" uid="uid://bfx1ef8t76xlv" path="res://Prefabs/Node/GateNodeObject.cs" id="1_d6nvu"]
-[ext_resource type="Shader" uid="uid://e4c5m0y10qex" path="res://Shaders/ColorNodes.gdshader" id="2_722xc"]
 [ext_resource type="Texture2D" uid="uid://m7mapjprcuou" path="res://Assets/Icons/icon_objective.png" id="3_8atmy"]
 [ext_resource type="Texture2D" uid="uid://bdx0fxlrhinkl" path="res://Assets/Icons/icon_shortcut_oneway.png" id="4_m2fqg"]
 [ext_resource type="Texture2D" uid="uid://eqv6d5cdo42i" path="res://Assets/Icons/icon_shortcut.png" id="4_po7yq"]
@@ -18,18 +17,13 @@ top_radius = 0.7
 bottom_radius = 0.7
 height = 0.01
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_722xc"]
-render_priority = 0
-shader = ExtResource("2_722xc")
-shader_parameter/position = Vector2(0.5, 0.5)
-shader_parameter/circle_radius = 0.125
-shader_parameter/circle_feather = 0.0
-shader_parameter/color_background = Color(0, 0, 0, 1)
-shader_parameter/color_circle = Color(1, 1, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_po7yq"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_3f4un"]
-material = SubResource("ShaderMaterial_722xc")
-size = Vector2(10, 10)
+[sub_resource type="CylinderMesh" id="CylinderMesh_ibiu8"]
+material = SubResource("StandardMaterial3D_po7yq")
+top_radius = 0.72
+bottom_radius = 0.72
+height = 0.01
 
 [sub_resource type="Animation" id="Animation_luwc0"]
 length = 0.001
@@ -141,7 +135,7 @@ _data = {
 &"shrink": SubResource("Animation_jxqiy")
 }
 
-[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "Mesh", "Mesh_Glow", "Label")]
+[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "Mesh", "Mesh_Select", "Label")]
 script = ExtResource("1_d6nvu")
 Animation = NodePath("AnimationPlayer")
 IconObjective = NodePath("Anim/icons/icon_objective")
@@ -149,7 +143,7 @@ IconShortcut = NodePath("Anim/icons/icon_shortcut")
 IconShortcutOneway = NodePath("Anim/icons/icon_shortcut_oneway")
 IconLocked = NodePath("Anim/icons/icon_locked")
 Mesh = NodePath("Anim/MeshInstance3D2")
-Mesh_Glow = NodePath("Glow")
+Mesh_Select = NodePath("Anim/Selected")
 Label = NodePath("Anim/Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -160,6 +154,11 @@ transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Anim"]
 mesh = SubResource("CylinderMesh_sakr1")
+skeleton = NodePath("../..")
+
+[node name="Selected" type="MeshInstance3D" parent="Anim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = SubResource("CylinderMesh_ibiu8")
 skeleton = NodePath("../..")
 
 [node name="Label3D" type="Label3D" parent="Anim"]
@@ -196,11 +195,6 @@ transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 
 visible = false
 modulate = Color(0.19633, 0.29, 0.1798, 1)
 texture = ExtResource("5_m2fqg")
-
-[node name="Glow" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -10, 0)
-visible = false
-mesh = SubResource("QuadMesh_3f4un")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

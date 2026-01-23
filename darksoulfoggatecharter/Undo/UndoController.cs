@@ -76,6 +76,25 @@ public partial class UndoController : SingletonController
         }
     }
 
+    private class SelectNodeAction : UndoAction
+    {
+        public string Name { get; set; }
+        public bool Selected { get; set; }
+
+        public override string UndoString => $"{(Selected ? "Deselect" : "Select")}: {Name}";
+        public override string RedoString => $"{(Selected ? "Select" : "Deselect")}: {Name}";
+
+        public override void Redo()
+        {
+            SelectionController.Instance.SelectNode(Name, Selected);
+        }
+
+        public override void Undo()
+        {
+            SelectionController.Instance.SelectNode(Name, !Selected);
+        }
+    }
+
     private class UndoActionGroup
     {
         public Stack<UndoAction> Actions { get; set; } = new();
@@ -201,6 +220,15 @@ public partial class UndoController : SingletonController
             Name = name,
             From = from,
             To = to
+        });
+    }
+
+    public void AddSelectNodeAction(string name, bool selected)
+    {
+        AddUndoAction(new SelectNodeAction
+        {
+            Name = name,
+            Selected = selected
         });
     }
 
