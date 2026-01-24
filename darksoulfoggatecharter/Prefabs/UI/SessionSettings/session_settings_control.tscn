@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bjjo1ifkwv0jq"]
+[gd_scene load_steps=3 format=3 uid="uid://bjjo1ifkwv0jq"]
 
 [ext_resource type="Script" uid="uid://dvvnt2nwtq4cl" path="res://Prefabs/UI/SessionSettings/SessionSettingsControl.cs" id="1_6v1kf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bm2si"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="SessionSettingsControl" type="MarginContainer" node_paths=PackedStringArray("TraversableCheck", "GoldenCheck", "PvpCheck", "BossCheck", "WarpCheck", "ObjectiveCheck", "ConfirmButton", "CancelButton")]
 anchors_preset = 15
@@ -36,6 +43,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bm2si")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2

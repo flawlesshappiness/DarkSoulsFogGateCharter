@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7dddu7746kk6"]
+
+[ext_resource type="Script" uid="uid://csqevlx76kvbb" path="res://Prefabs/UI/SearchList/SearchListItemButton.cs" id="1_wx767"]
+
+[node name="search_list_item_button" type="Button" node_paths=PackedStringArray("NameLabel", "AreaLabel")]
+custom_minimum_size = Vector2(200, 25)
+script = ExtResource("1_wx767")
+NameLabel = NodePath("MarginContainer/HBoxContainer2/NameLabel")
+AreaLabel = NodePath("MarginContainer/HBoxContainer/AreaLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="AreaLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Area"

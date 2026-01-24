@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://dufm7via0hne0"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_ysa5t"]
+
+[resource]
+script = ExtResource("1_ysa5t")
+Name = "Great Hollow/Ash Lake"
+Colors = Array[Color]([Color(0.00529999, 0.44255, 0.53, 1), Color(0.1652, 0.5192, 0.59, 1), Color(0.276, 0.621, 0.69, 1), Color(0.38, 0.696667, 0.76, 1), Color(0.666, 0.861, 0.9, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

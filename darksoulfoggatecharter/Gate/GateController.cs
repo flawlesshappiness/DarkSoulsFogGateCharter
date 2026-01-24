@@ -58,7 +58,7 @@ public partial class GateController : SingletonController
             {
                 if (!groups.ContainsKey(location))
                 {
-                    groups.Add(location, new GateGroup { Name = location, Area = area });
+                    groups.Add(location, new GateGroup { Name = location });
                 }
                 groups[location].Gates.Add(name, gate);
             }
@@ -68,6 +68,12 @@ public partial class GateController : SingletonController
         foreach (var group in groups.Values.Where(x => x.Gates.Count > 2))
         {
             Groups.Add(group.Name, group);
+            group.Area = group.Gates.Values
+                .Select(x => x.Area)
+                .GroupBy(i => i)
+                .OrderByDescending(grp => grp.Count())
+                .Select(grp => grp.Key)
+                .First();
         }
     }
 

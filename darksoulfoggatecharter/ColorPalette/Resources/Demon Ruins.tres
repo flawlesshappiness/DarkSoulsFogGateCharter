@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://cekrjcvb8eg5p"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_bxflp"]
+
+[resource]
+script = ExtResource("1_bxflp")
+Name = "Demon Ruins"
+Colors = Array[Color]([Color(0.2, 0.04, 0.04, 1), Color(0.45, 0.21, 0.09, 1), Color(0.6, 0.36, 0.24, 1), Color(0.77, 0.503067, 0.3696, 1), Color(1, 0.8, 0.4, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

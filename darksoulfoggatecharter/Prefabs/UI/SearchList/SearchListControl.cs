@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class SearchListControl : MarginContainer
 {
@@ -22,7 +23,15 @@ public partial class SearchListControl : MarginContainer
         set => TitleLabel.Text = value;
     }
 
-    private List<Button> items = new();
+    private class ButtonMap
+    {
+        public SearchListItemButton Button { get; set; }
+        public GateNode Gate { get; set; }
+    }
+
+    private event Action<GateNode> on_gate_selected;
+    private Dictionary<string, GateNode> valid_gates = new();
+    private Dictionary<string, ButtonMap> maps = new();
 
     public override void _Ready()
     {
@@ -31,26 +40,47 @@ public partial class SearchListControl : MarginContainer
         VisibilityChanged += _VisibilityChanged;
         SearchBar.TextChanged += SearchTextChanged;
         CancelButton.Pressed += Cancel_Pressed;
+
+        InitializeGates();
     }
 
     public void Clear()
     {
-        foreach (var item in items)
-        {
-            item.QueueFree();
-        }
-        items.Clear();
+        on_gate_selected = null;
+        valid_gates.Clear();
     }
 
-    public void AddItem(string text, Action action)
+    private void InitializeGates()
     {
-        var button = ItemButtonTemplate.Duplicate() as Button;
+        foreach (var gate in GateController.Instance.Gates.Values)
+        {
+            CreateButton(gate);
+        }
+    }
+
+    private SearchListItemButton CreateButton(GateNode gate)
+    {
+        var button = ItemButtonTemplate.Duplicate() as SearchListItemButton;
         ItemButtonTemplate.GetParent().AddChild(button);
         button.Show();
-        button.Text = text;
-        button.Pressed += Hide;
-        button.Pressed += action;
-        items.Add(button);
+        button.SetGate(gate);
+        button.Pressed += () => Button_Pressed(button, gate);
+        maps.Add(gate.Name, new ButtonMap
+        {
+            Button = button,
+            Gate = gate,
+        });
+        return button;
+    }
+
+    public void SetAction(Action<GateNode> action)
+    {
+        on_gate_selected = action;
+    }
+
+    public void SetGates(IEnumerable<GateNode> gates)
+    {
+        valid_gates = gates.ToDictionary(x => x.Name);
     }
 
     public new void GrabFocus()
@@ -62,6 +92,7 @@ public partial class SearchListControl : MarginContainer
     {
         if (IsVisibleInTree())
         {
+            SearchBar.Text = string.Empty;
             UpdateButtons();
             GrabFocus();
         }
@@ -79,11 +110,20 @@ public partial class SearchListControl : MarginContainer
     private void UpdateButtons()
     {
         var term = SearchBar.Text.ToLower();
-        foreach (var item in items)
+        foreach (var kvp in maps)
         {
-            var text = item.Text.ToLower();
-            item.Visible = text.Contains(term);
+            var is_text = kvp.Key.ToLower().Contains(term);
+            var is_area = kvp.Value.Gate.Area.ToLower().Contains(term);
+            var is_gate = valid_gates.ContainsKey(kvp.Key);
+            kvp.Value.Button.Visible = is_gate && (is_text || is_area);
         }
+    }
+
+    private void Button_Pressed(SearchListItemButton button, GateNode gate)
+    {
+        on_gate_selected?.Invoke(gate);
+        on_gate_selected = null;
+        Hide();
     }
 
     private void Cancel_Pressed()

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://co2utxle15n1a"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_f23he"]
+
+[resource]
+script = ExtResource("1_f23he")
+Name = "Painted World"
+Colors = Array[Color]([Color(0.136, 0.306, 0.34, 1), Color(0.258, 0.543, 0.6, 1), Color(0.392, 0.648667, 0.7, 1), Color(0.5135, 0.739308, 0.79, 1), Color(0.8265, 0.95, 0.939708, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

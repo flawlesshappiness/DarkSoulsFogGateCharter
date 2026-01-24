@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_a2qwq")
 Name = "Darkroot Garden"
-Colors = Array[Color]([Color(0.203922, 0.305882, 0.254902, 1), Color(0.227451, 0.352941, 0.25098, 1), Color(0.345098, 0.505882, 0.341176, 1), Color(0.639216, 0.694118, 0.541176, 1), Color(0.854902, 0.843137, 0.803922, 1)])
+Colors = Array[Color]([Color(0.08, 0.2, 0.14, 1), Color(0.14, 0.35, 0.245, 1), Color(0.204, 0.51, 0.357, 1), Color(0.276, 0.69, 0.483, 1), Color(0.595, 0.85, 0.7225, 1)])
 metadata/_custom_type_script = "uid://comdln8k3icsc"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://cdobop0xe7wp3"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_6ewmj"]
+
+[resource]
+script = ExtResource("1_6ewmj")
+Name = "Lost Izalith"
+Colors = Array[Color]([Color(0.2, 0.164, 0.164, 1), Color(0.45, 0.348, 0.297, 1), Color(0.6, 0.508, 0.462, 1), Color(0.67, 0.6164, 0.5896, 1), Color(1, 0.728, 0.52, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

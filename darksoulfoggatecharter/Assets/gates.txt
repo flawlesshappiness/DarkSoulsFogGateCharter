@@ -11,17 +11,17 @@
 3,Fog to Stray Demon arena,Boss,From Stray Demon arena to Asylum Start Dropdown,Asylum
 13,From Stray Demon arena to Asylum Start Dropdown,OnewayShortcut,Fog to Stray Demon arena,Asylum
 13,From Stray Demon arena to Asylum Start Dropdown EXIT,ShortcutExit,Asylum Start,Asylum
-21,Warp to Firelink crow's nest,Warp,Kill Asylum Demon,Asylum
-21,Crow transport from Firelink to Asylum,Warp,Firelink Shrine,Firelink Shrine
-,Between Firelink Shrine and Upper Burg,PVP,Firelink Shrine,Firelink Shrine
-,In front of Firelink Shrine dual elevator,PVP,Firelink Shrine,Firelink Shrine
+22,Warp to Firelink crow's nest,Warp,Kill Asylum Demon,Asylum
+22,Crow transport from Firelink to Asylum,Warp,Firelink Shrine,Firelink Shrine
+136,Between Firelink Shrine and Upper Undead Burg,PVP,Firelink Shrine,Firelink Shrine
+137,In front of Firelink Shrine dual elevator,PVP,Firelink Shrine,Firelink Shrine
 5,To Catacombs from Firelink Shrine,PVP,Firelink Shrine,Firelink Shrine
-,To New Londo Ruins from Firelink Shrine elevator ,PVP,Firelink Shrine,Firelink Shrine
-,Between female Undead Merchant and Lower Burg,PVP,Female Undead Merchant Door,Firelink Shrine
+138,To New Londo Ruins from Firelink Shrine elevator ,PVP,Firelink Shrine,Firelink Shrine
+139,Between female Undead Merchant and Lower Burg,PVP,Female Undead Merchant Door,Firelink Shrine
 16,Female Undead Merchant Door,DoorShortcut,Between female Undead Merchant and Lower Burg,Firelink Shrine
 16,Female Undead Merchant Door Exit,ShortcutExit,Firelink Shrine,Firelink Shrine
-,Lordvessel Obtained,Objective,Firelink Shrine,Firelink Shrine
-,Firelink Altar,Area,Lordvessel Obtained,Kiln of the First Flame
+21,Lordvessel Obtained,Objective,Firelink Shrine,Firelink Shrine
+21,Lordvessel Obtained Unlock,ObjectiveReward,Firelink Altar,Kiln of the First Flame
 4,To Gwyn,Boss,Firelink Altar,Kiln of the First Flame
 4,Inside Gwyn,Boss,,Kiln of the First Flame
 5,To Firelink Shrine from Catacombs,PVP,Catacombs Levered Door,Catacombs
@@ -42,8 +42,254 @@
 8,Getting back in coffin at Nito,Warp,,Catacombs
 9,Between TotG and Catacombs,PVP,Before the Halberd Black Knight in TotG,Tomb of the Giants
 10,Before the Halberd Black Knight in TotG,Traversable,Between TotG and Catacombs,Tomb of the Giants
-10,After the Halberd Black Knight in TotG,Traversable,ToTG Golden Fog,Tomb of the Giants
+10,After the Halberd Black Knight in TotG,Traversable,Before ToTG Golden Fog,Tomb of the Giants
 12,Before ToTG Golden Fog,Golden,After the Halberd Black Knight in TotG,Tomb of the Giants
 12,After ToTG Golden Fog,Golden,To Nito,Tomb of the Giants
 11,To Nito,Boss,After ToTG Golden Fog,Tomb of the Giants
 11,Inside Nito,Boss,,Tomb of the Giants
+139,To Female Undead Mechant,PVP,Lower Burg,Lower Undead Burg
+24,To Capra Demon,Boss,Lower Burg,Lower Undead Burg
+24,Inside Capra Demon,Boss,,Lower Undead Burg
+23,Door opened from Lower Burg,DoorShortcut,Lower Burg,Lower Undead Burg
+23,Door opened from Lower Burg Exit,ShortcutExit,Upper Undead Burg,Lower Undead Burg
+25,Skip to Lower Burg,OnewayShortcut,Undead Burg before Drake encounter,Upper Undead Burg
+25,Skip to Lower Burg Exit,ShortcutExit,Lower Burg,Upper Undead Burg
+136,To Firelink Shrine,PVP,Burg before Drake encounter,Upper Undead Burg
+27,To Drake encounter in Burg,Traversable,Burg before Drake encounter,Upper Undead Burg
+27,From Drake encounter in Burg,Traversable,Upper Undead Burg,Upper Undead Burg
+26,Dropdown from Upper Undead Burg,OnewayShortcut,Upper Undead Burg,Upper Undead Burg
+26,Dropdown from Upper Undead Burg Exit,ShortcutExit,Burg before Drake encounter,Upper Undead Burg
+84,To Lower Entrance of Burg Bonfire,MinorPvP,Upper Undead Burg,Upper Undead Burg
+84,From inside Lower Entrance of Burg Bonfire,MinorPvP,Burg Bonfire,Upper Undead Burg
+28,Kick Ladder,DoorShortcut,Inside Upper Entrance of Burg Bonfire,Upper Undead Burg
+28,Kick Ladder Exit,ShortcutExit,Burg Bonfire,Upper Undead Burg
+143,Inside Upper Entrance of Burg Bonfire,PVP,Kick Ladder,Upper Undead Burg
+29,Skip to Lower Burg 1,GlitchedLogic,Burg before Drake encounter,Upper Undead Burg
+29,Skip to Lower Burg 1 Exit,ShortcutExit,Lower Burg,Lower Undead Burg
+30,Skip to Lower Burg 2,GlitchedLogic,Upper Undead Burg,Upper Undead Burg
+30,Skip to Lower Burg 2 Exit,ShortcutExit,Lower Burg,Lower Undead Burg
+36,Glitched Logic Skip to Depths,GlitchedLogic,Burg before Drake encounter,Upper Undead Burg
+36,Glitched Logic Skip to Depths Exit,ShortcutExit,Depths,Upper Undead Burg
+31,Key to the Depths,Objective,Lower Burg,Lower Undead Burg
+31,Key to the Depths Reward,ObjectiveReward,Depths,Lower Undead Burg
+32,To Channeler in Depths,Traversable,Depths,Depths
+32,From Channeler in Depths,Traversable,Depths,Depths
+33,To Gaping Dragon,Boss,Depths,Depths
+33,From Inside Gaping Dragon,Boss,,Depths
+34,Dropdown from Channeler Balcony,GlitchedLogic,Depths,Depths
+34,Dropdown from Channeler Balcony Exit,ShortcutExit,From Inside Gaping Dragon,Depths
+35,Key to Blighttown,Objective,Depths,Depths
+35,Key to Blighttown Reward,ObjectiveReward,Upper Blighttown,Depths
+37,Fog to Lower Blighttown,Traversable,Upper Blighttown,Blighttown
+37,Fog to Upper Blighttown,Traversable,Lower Blighttown,Blighttown
+38,Dropdown to Lower Blighttown,Shortcut,Upper Blighttown,Blighttown
+38,Dropdown to Lower Blighttown Exit,ShortcutExit,Lower Blighttown,Blighttown
+39,To Great Hollow from Blighttown,PVP,Lower Blighttown,Blighttown
+140,To Quelaag,Boss,Lower Blighttown,Blighttown
+39,To Blighttown,PVP,Great Hollow,Great Hollow/Ash Lake
+40,To Ash Lake,Traversable,Great Hollow,Great Hollow/Ash Lake
+40,To Great Hollow from Ash Lake,Traversable,Ash Lake,Great Hollow/Ash Lake
+41,From Blighttown to Valley of Drakes,PVP,Blighttown,Blighttown
+41,From Valley of Drakes to Blighttown,PVP,Valley of Drakes,Valley of Drakes
+42,Locked Gate to New Londo,LockedDoor,Valley of Drakes,Valley of Drakes
+42,Locked Gate to Valley of Drakes,LockedDoor,New Londo before shortcut ladder,Valley of Drakes
+20,New Londo Flood gates,Objective,New Londo after shortcut ladder,New Londo
+20,New Londo Flood gates Exit,ShortcutExit,Valley of Drakes,New Londo
+20,New Londo Flood gates Exit 2,ShortcutExit,New Londo before shortcut ladder,New Londo
+21,Kickable Ladder Shortcut,DoorShortcut,New Londo after shortcut ladder,New Londo
+21,Kickable Ladder Shortcut Exit,ShortcutExit,New Londo before shortcut ladder,New Londo
+138,To Firelink Elevator,PVP,New Londo before shortcut ladder,New Londo
+44,To New Londo shortcut ladder,Traversable,New Londo before shortcut ladder,New Londo
+44,From New Londo shortcut ladder,Traversable,New Londo after shortcut ladder,New Londo
+45,Entrance to Very Large Ember building,Traversable,New Londo after shortcut ladder,New Londo
+45,From inside Very Large Ember building,Traversable,New Londo after shortcut ladder,New Londo
+46,To Four Kings,Boss,New Londo after shortcut ladder,New Londo
+46,Inside Four Kings,Boss,,New Londo
+141,From Valley of Drakes bonfire to Darkroot,PVP,Valley of Drakes,Valley of Drakes
+140,From Quelaag to Blighttown,Boss,Quelaag,Blighttown
+47,Quelaag,OptionalObjective,From Quelaag to Blighttown,Blighttown
+47,Quelaag 2,OptionalObjective,From Quelaag to Daughter of Chaos,Blighttown
+48,From Quelaag to Daughter of Chaos,Boss,Quelaag,Blighttown
+48,From Daughter of Chaos to Quelaag,Boss,Daughter of Chaos,Blighttown
+50,To Demon Ruins from Daughter of Chaos,PVP,Daughter of Chaos,Blighttown
+50,To Daughter of Chaos from Demon Ruins,PVP,Upper Demon Ruins,Demon Ruins
+51,To Ceaseless Discharge,Boss,Upper Demon Ruins,Demon Ruins
+51,From inside Ceaseless Discharge,Boss,Ceaseless Discharge,Demon Ruins
+,Ceaseless Discharge,OptionalObjective,From inside Ceaseless Discharge,Demon Ruins
+52,Lava Drained,Objective,Upper Demon Ruins,Demon Ruins
+52,Lava Drained Reward,ObjectiveReward,Fog before cliffside path where Kirk invades,Demon Ruins
+53,Fog before cliffside path where Kirk invades,MinorPVP,Lava Drained,Demon Ruins
+53,To lava drained by Ceaseless,MinorPVP,Middle Demon Ruins,Demon Ruins
+54,Outside Demon Ruins Golden Fog,Golden,Middle Demon Ruins,Demon Ruins
+54,Inside Demon Ruins Golden Fog,Golden,Before Demon Firesage,Demon Ruins
+55,To Demon Firesage from Chaos Bug Shortcut,Boss,Before Demon Firesage,Demon Ruins
+55,From inside Demon Firesage towards Chaos Bug Shortcut,Boss,Demon Firesage,Demon Ruins
+56,Chaos Bug Shortcut,Objective,Before Demon Firesage,Demon Ruins
+56,Chaos Bug Shortcut Reward,ObjectiveReward,Lost Izalith,Demon Ruins
+62,To Centipede Demon from Lost Izalith,Boss,Lost Izalith,Lost Izalith
+59,From inside Demon Firesage towards Centipede Demon,Boss,Demon Firesage,Demon Ruins
+59,From Bonfire before Centipede to Demon Firesage,Boss,Bonfire before Centipede Demon,Demon Ruins
+61,From Bonfire before Centipede to Centipede Demon,Boss,Bonfire before Centipede Demon,Demon Ruins
+61,Inside Centipede Demon towards Demon Ruins,Boss,Centipede Demon,Demon Ruins
+62,Inside Centipede Demon towards Lost Izalith,Boss,Centipede Demon,Demon Ruins
+63,Centipede Demon,OptionalObjective,,Demon Ruins
+57,To Bed of Chaos,Boss,Lost Izalith,Lost Izalith
+57,Inside Bed of Chaos,Boss,,Lost Izalith
+58,Drop down into Demon Firesage Arena,OnewayShortcut,Elevator above Demon Firesage,Demon Ruins
+58,Drop down into Demon Firesage Arena Exit,ShortcutExit,Demon Firesage,Demon Ruins
+60,From Elevator to Bonfire before Centipede Demon,MinorPVP,Elevator above Demon Firesage,Demon Ruins
+60,From Bonfire before Centipede to Elevator above Firesage,MinorPVP,Bonfire before Centipede Demon,Demon Ruins
+49,Elevator Shortcut,DoorShortcut,Elevator above Demon Firesage,Demon Ruins
+49,Elevator Shortcut Exit,ShortcutExit,Daughter of Chaos,Demon Ruins
+64,Havel's Tower,Area,Upper Undead Burg,Upper Undead Burg
+64,Havel's Tower [2],Area,Darkroot Garden,Darkroot Garden
+65,From Stone Knights to Darkroot Garden Bonfire,Traversable,Darkroot Garden,Darkroot Garden
+65,From Darkroot Garden Bonfire to Stone Knights,Traversable,Darkroot Garden,Darkroot Garden
+142,From Darkroot to Andre,PVP,Darkroot Garden,Darkroot Garden
+141,From Darkroot to Valley of Drakes bonfire,PVP,Darkroot Garden,Darkroot Garden
+66,Crest Door,DoorShortcut,Darkroot Garden,Darkroot Garden
+66,Crest Door Exit,ShortcutExit,Invader Forest,Darkroot Garden
+67,Darkroot Bridge from Hydra Ladder,MinorPVP,Darkroot Garden,Darkroot Garden
+67,Darkroot Bridge to Hydra,MinorPVP,Invader Forest,Darkroot Garden
+68,To Sif,Boss,Invader Forest,Darkroot Garden
+68,From Inside Sif,Boss,Sif,Darkroot Garden
+,Sif,OptionalObjective,,Darkroot Garden
+69,To Moonlight Butterfly,Boss,Darkroot Garden,Darkroot Garden
+69,In Moonlight Butterfly Arena towards Entrance,Boss,To Moonlight Butterfly Tower,Darkroot Garden
+70,To Moonlight Butterfly Tower,Boss,In Moonlight Butterfly Arena towards Entrance,Darkroot Garden
+70,Inside Moonlight Butterfly Tower,Boss,,Darkroot Garden
+71,Warp to DLC,Warp,Darkroot Garden,Darkroot Garden
+71,Arrival in DLC,WarpArrival,To Sanctuary Guardian,DLC
+72,To Sanctuary Guardian,Boss,,DLC
+72,From Sanctuary Guardian towards arrival in DLC,Boss,Sanctuary Guardian,DLC
+,Sanctuary Guardian,OptionalObjective,,DLC
+73,To Oolacile Sanctuary,Boss,Sanctuary Guardian,DLC
+73,From Oolacile Sanctuary to Sanctuary Guardian,Boss,To Royal Forest,DLC
+83,To Royal Forest,MinorPVP,From Oolacile Sanctuary to Sanctuary Guardian,DLC
+83,From Royal Forest to Oolacile Sanctuary,MinorPVP,Royal Forest,DLC
+74,To Kalameet,Boss,Royal Forest,DLC
+75,To Artorias,Boss,Royal Forest,DLC
+82,To Abyss Elevator,MinorPVP,Royal Forest,DLC
+74,Inside Kalameet,Boss,Kalameet,DLC
+,Kalameet,OptionalObjective,,DLC
+75,From Artorias to Royal Forest,Boss,Artorias,DLC
+,Artorias,OptionalObjective,,DLC
+76,From Artorias towards Township,Boss,Artorias,DLC
+76,From Artorias Arena Steps to Artorias,Boss,To Goughs Stairway from Artorias Arena Steps,DLC
+77,To Goughs Stairway from Artorias Arena Steps,MinorPVP,From Artorias Arena Steps to Artorias,DLC
+77,From Goughs Stairway to steps after Artorias,MinorPVP,From Goughs Stairway to Township,DLC
+78,From Goughs Stairway to Township,MinorPVP,From Goughs Stairway to steps after Artorias,DLC
+78,From Township to Goughs Stairway,MinorPVP,Oolacile Township,DLC
+79,To Manus,Boss,Oolacile Township,DLC
+79,Inside Manus,Boss,Manus,DLC
+,Manus,OptionalObjective,,DLC
+80,From Abyss to Abyss Elevator,MinorPVP,Oolacile Township,DLC
+80,From inside Abyss Elevator towards Manus,MinorPVP,Abyss Elevator,DLC
+81,Abyss Elevator,DoorShortcut,From inside Abyss Elevator towards Manus,DLC
+81,Abyss Elevator Exit,ShortcutExit,From inside Abyss Elevator to Royal Forest,DLC
+82,From inside Abyss Elevator to Royal Forest,MinorPVP,,DLC
+90,To Taurus Demon from Burg,Boss,Upper Undead Burg,Upper Undead Burg
+90,Inside Taurus Demon towards entrance,Boss,Taurus Demon,Upper Undead Burg
+,Taurus Demon,OptionalObjective,,Upper Undead Burg
+91,Inside Taurus Demon towards exit,Boss,Taurus Demon,Upper Undead Burg
+91,To Taurus Demon from exit,Boss,To Hellkite Bridge,Upper Undead Burg
+92,To Hellkite Bridge,MinorPVP,To Taurus Demon from exit,Upper Undead Burg
+92,To Corridor after Taurus Demon from Hellkite Bridge,MinorPVP,Undead Parish,Undead Parish
+143,To Upper Entrance of Burg Bonfire,PVP,Undead Parish,Undead Parish
+93,Locked Door from Lower Undead Burg,LockedDoor,To Lower Undead Burg,Lower Undead Burg
+93,Locked Door to Lower Undead Burg,LockedDoor,Undead Parish,Undead Parish
+94,To Bridge over Parish Boar,Traversable,Undead Parish,Undead Parish
+95,Boar Portcullis,LockedDoor,Undead Parish,Undead Parish
+95,Boar Portcullis from Undead Church,LockedDoor,Undead Church,Undead Parish
+94,From Bridge over Parish Boar,Traversable,Undead Church,Undead Parish
+96,To Gargoyles from Undead Church,Boss,Undead Church,Undead Parish
+96,Inside Gargoyles towards entrance,Boss,Gargoyles,Undead Parish
+,Gargoyles,OptionalObjective,,Undead Parish
+97,Inside Gargoyles towards exit,Boss,Gargoyles,Undead Parish
+97,To Gargoyles from Bell Tower,Boss,Parish Bell,Undead Parish
+,Parish Bell,OptionalObjective,,Undead Parish
+137,Dual Elevators,PVP,Undead Church,Undead Parish
+98,To Andre,PVP,Undead Church,Undead Parish
+98,To Undead Church from Andre,PVP,Andre,Undead Parish
+142,To Darkroot from Andre,PVP,Andre,Undead Parish
+99,To Sen's from Andre,MinorPVP,Andre,Undead Parish
+99,To Andre from Sen's,MinorPVP,Lower Sen's,Sen's Fortress
+100,From Outside Boulder Stairway near Siegmeyer,Traversable,Lower Sen's,Sen's Fortress
+100,To Outside Boulder Stairway near Siegmeyer,Traversable,Middle Sen's,Sen's Fortress
+101,Dropdown to Lower Sen's,OnewayShortcut,Middle Sen's,Sen's Fortress
+101,Dropdown to Lower Sen's Exit,ShortcutExit,Lower Sen's,Sen's Fortress
+102,Dropdown to Middle Sen's,OnewayShortcut,Upper Sen's,Sen's Fortress
+102,Dropdown to Middle Sen's Exit,ShortcutExit,Middle Sen's,Sen's Fortress
+103,From final swinging axes to roof,Traversable,Middle Sen's,Sen's Fortress
+103,From roof to final swinging axes,Traversable,Upper Sen's,Sen's Fortress
+104,Cage Elevator Shortcut,DoorShortcut,Upper Sen's,Sen's Fortress
+104,Cage Elevator Shortcut Exit,ShortcutExit,Lower Sen's,Sen's Fortress
+105,To Iron Golem,Boss,Upper Sen's,Sen's Fortress
+105,From inside Iron Golem towards exit,Boss,Iron Golem,Sen's Fortress
+,Iron Golem,OptionalObjective,,Sen's Fortress
+106,Warp to Anor Londo,Warp,Iron Golem,Sen's Fortress
+106,Warp to Sen's,Warp,Anor Londo Start,Anor Londo
+107,Golden Fog to Duke's,Golden,Anor Londo Start,Anor Londo
+107,Golden Fog from inside Duke's,Golden,Fog after first elevator,Duke's Archives
+108,Fog after first elevator,MinorPVP,Golden Fog from inside Duke's,Duke's Archives
+108,Fog to first elevator,MinorPVP,First hall in Duke's,Duke's Archives
+109,Fog after second elevator,MinorPVP,First hall in Duke's,Duke's Archives
+109,Fog to second Elevator,MinorPVP,To Seath,Duke's Archives
+110,To first Seath encounter,Boss,Fog to second Elevator,Duke's Archives
+110,Inside first Seath encounter,Boss,Warp to Prison,Duke's Archives
+111,Warp to Prison,OnewayWarp,Inside 1st Seath encounter,Duke's Archives
+111,Arrival in Duke's Prison,WarpArrival,Second hall in Duke's,Duke's Archives
+112,Shortcut between Archives Halls,DoorShortcut,Second hall in Duke's,Duke's Archives
+112,Shortcut between Archives Halls Exit,ShortcutExit,First hall in Duke's,Duke's Archives
+113,To field before Crystal Caves,Traversable,Second hall in Duke's,Duke's Archives
+113,From Crystal Caves to second hall in Archives,Traversable,To Seath in Crystal Caves,Duke's Archives
+114,To Seath in Crystal Caves,Boss,From Crystal Caves to second hall in Archives,Duke's Archives
+114,Inside Seath,Boss,Seath,Duke's Archives
+,Seath,OptionalObjective,,Duke's Archives
+115,Inside bottom of first elevator,MinorPVP,Anor Londo Start,Anor Londo
+115,Outside bottom of first elevator,MinorPVP,Anor Londo Bridge 1st Half,Anor Londo
+116,From Rafters to Elevator Contraption,Traversable,Anor Londo Bridge 1st Half,Anor Londo
+116,From Elevator Contraption to Rafters,Traversable,Anor Londo Bridge 2nd Half,Anor Londo
+117,Elevator Contraption Shortcut,DoorShortcut,Anor Londo Bridge 2nd Half,Anor Londo
+117,Elevator Contraption Shortcut Exit,ShortcutExit,Anor Londo Bridge 1st Half,Anor Londo
+,Kill Gwynevere/Darkmoon Seance Ring,OptionalObjective,Anor Londo Bridge 2nd Half,Anor Londo
+118,To Gwyndolin,Boss,Kill Gwynevere/Darkmoon Seance Ring,Anor Londo
+118,Inside Gwyndolin,Boss,Gwyndolin,Anor Londo
+,Gwyndolin,OptionalObjective,,Anor Londo
+,Peculiar Doll,OptionalObjective,Anor Londo Bridge 2nd Half,Anor Londo
+119,To Painted World,WarpEntrance,Peculiar Doll,Anor Londo
+119,Arrival in Painted World,WarpExit,Painted World,Painted World
+120,From Statue Tower to Courtyard,Traversable,Painted World,Painted World
+120,From Courtyard to Statue Tower,Traversable,Painted World,Painted World
+121,To Priscilla,Boss,Painted World,Painted World
+121,Inside Priscilla,Boss,Priscilla,Painted World
+,Priscilla,OptionalObjective,,Painted World
+122,Warp behind Priscilla,WarpEntrance,Priscilla,Painted World
+122,Arrival in Anor Londo from Painted World,WarpExit,Anor Londo Bridge 2nd Half,Anor Londo
+123,To Solaire Bonfire from Outside,Traversable,Anor Londo Bridge 2nd Half,Anor Londo
+123,To Silver Knight Archers,Traversable,Solaire Bonfire,Anor Londo
+124,To Main Cathedral from Solaire Bonfire,MinorPVP,Solaire Bonfire,Anor Londo
+124,To Solaire Bonfire from Main Cathedral,MinorPVP,Main Cathedral,Anor Londo
+125,To Giant Blacksmith,MinorPVP,Main Cathedral,Anor Londo
+125,To Main Cathedral from Giant Blacksmith,MinorPVP,Side gate to Giant Blacksmith,Anor Londo
+126,Side gate to Giant Blacksmith,DoorShortcut,To Main Cathedral from Giant Blacksmith,Anor Londo
+126,Side gate to Giant Blacksmith Exit,ShortcutExit,Anor Londo Bridge 2nd Half,Anor Londo
+127,Cathedral Gates,DoorShortcut,Main Cathedral,Anor Londo
+127,Cathedral Gates Exit,ShortcutExit,Anor Londo Bridge 2nd Half,Anor Londo
+128,Out the window,MinorPVP,Main Cathedral,Anor Londo
+128,Outside Main Cathedral Window,MinorPVP,Drop down from Main Cathedral Window,Anor Londo
+129,Drop down from Main Cathedral Window,OnewayShortcut,Outside Main Cathedral Window,Anor Londo
+129,Drop down from Main Cathedral Window Exit,ShortcutExit,Anor Londo Bridge 2nd Half,Anor Londo
+130,To O&S,Boss,Main Cathedral,Anor Londo
+130,To Main Cathedral from O&S,Boss,O&S,Anor Londo
+,O&S,Objective,,Anor Londo
+131,To Left Exit from O&S,Boss,O&S,Anor Londo
+132,To Right Exit from O&S,Boss,O&S,Anor Londo
+131,Inside Left Exit from O&S,Boss,O&S Killed [1],Anor Londo
+132,Inside Right Exit from O&S,Boss,O&S Killed [2],Anor Londo
+133,O&S Killed [1],Objective,,Anor Londo
+134,O&S Killed [2],Objective,,Anor Londo
+133,O&S Killed [1] Reward,ObjectiveReward,Gwynevere,Anor Londo
+134,O&S Killed [2] Reward,ObjectiveReward,Gwynevere,Anor Londo
+135,Drop Down from Gwynevere,OnewayShortcut,Gwynevere,Anor Londo
+135,Drop Down from Gwynevere Exit,ShortcutExit,O&S,Anor Londo

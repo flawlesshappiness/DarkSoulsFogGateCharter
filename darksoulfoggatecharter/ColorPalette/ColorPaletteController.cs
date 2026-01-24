@@ -8,7 +8,15 @@ public partial class ColorPaletteController : ResourceController<ColorPaletteCol
 
     public ColorPaletteInfo GetInfo(string name)
     {
-        return Collection.Resources.FirstOrDefault(x => x.Name == name);
+        var info = Collection.Resources.FirstOrDefault(x => x.Name == name);
+
+        if (info == null)
+        {
+            Debug.LogError($"Failed to get ColorPaletteInfo for {name}");
+            info = Collection.Resources.First();
+        }
+
+        return info;
     }
 
     public Color GetColor(string name, int index)

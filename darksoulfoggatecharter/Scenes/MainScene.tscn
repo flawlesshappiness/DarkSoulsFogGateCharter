@@ -5,7 +5,7 @@
 
 [sub_resource type="Environment" id="Environment_nhkr4"]
 background_mode = 1
-background_color = Color(0.203922, 0.305882, 0.254902, 1)
+background_color = Color(0.172, 0.2, 0.186, 1)
 
 [node name="MainScene" type="Node3D" node_paths=PackedStringArray("NodeParent")]
 script = ExtResource("1_hpc76")

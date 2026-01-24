@@ -17,11 +17,13 @@ public partial class UndoController : SingletonController
         public virtual string RedoString => GetType().ToString();
         public abstract void Undo();
         public abstract void Redo();
+        protected NodeController Node => NodeController.Instance;
     }
 
     private class CreateNodeAction : UndoAction
     {
         public string Name { get; set; }
+        public string NamePrevious { get; set; }
         public Vector3 Position { get; set; }
 
         public override string UndoString => $"Remove: {Name}";
@@ -29,12 +31,13 @@ public partial class UndoController : SingletonController
 
         public override void Redo()
         {
-            NodeController.Instance.CreateNode(Name, Position);
+            var node_previous = Node.HasNode(NamePrevious) ? Node.GetNode(NamePrevious) : null;
+            Node.CreateNode(Name, Position, node_previous);
         }
 
         public override void Undo()
         {
-            NodeController.Instance.RemoveNode(Name);
+            Node.RemoveNode(Name);
         }
     }
 
@@ -47,12 +50,12 @@ public partial class UndoController : SingletonController
 
         public override void Redo()
         {
-            NodeController.Instance.ConnectNodes(Name);
+            Node.ConnectNodes(Name);
         }
 
         public override void Undo()
         {
-            NodeController.Instance.RemoveConnectionObject(Name);
+            Node.RemoveConnectionObject(Name);
         }
     }
 
@@ -67,12 +70,12 @@ public partial class UndoController : SingletonController
 
         public override void Redo()
         {
-            NodeController.Instance.MoveNode(Name, To);
+            Node.MoveNode(Name, To);
         }
 
         public override void Undo()
         {
-            NodeController.Instance.MoveNode(Name, From);
+            Node.MoveNode(Name, From);
         }
     }
 
@@ -185,6 +188,7 @@ public partial class UndoController : SingletonController
 
     public void EndUndoAction()
     {
+        if (current_group == null) return;
         if (current_group.Actions.Count > 0)
         {
             undo_actions.Push(current_group);
@@ -200,11 +204,13 @@ public partial class UndoController : SingletonController
         current_group.Actions.Push(action);
     }
 
-    public void AddCreateNodeAction(string name, Vector3 position)
+    public void AddCreateNodeAction(string name, Vector3 position, NodeObject node_previous = null)
     {
+        var name_previous = node_previous?.NodeName ?? null;
         AddUndoAction(new CreateNodeAction
         {
             Name = name,
+            NamePrevious = name_previous,
             Position = position
         });
     }

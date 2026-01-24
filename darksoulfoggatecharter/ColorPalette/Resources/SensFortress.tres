@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://cgis3p3p7cank"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_yca77"]
+
+[resource]
+script = ExtResource("1_yca77")
+Name = "Sen's Fortress"
+Colors = Array[Color]([Color(0.2, 0.18, 0.08, 1), Color(0.25, 0.225, 0.1, 1), Color(0.3, 0.27, 0.12, 1), Color(0.4, 0.36, 0.16, 1), Color(0.95, 0.9025, 0.665, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

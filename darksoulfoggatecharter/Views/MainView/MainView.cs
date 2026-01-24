@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class MainView : View
 {
@@ -95,7 +96,7 @@ public partial class MainView : View
         MouseVisibility.Hide(nameof(MainView));
     }
 
-    public void RightClickGateNode(GateNodeObject node)
+    public void GateNode_Clicked(GateNodeObject node)
     {
         PopupMenu.ClearItems();
         PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
@@ -104,7 +105,7 @@ public partial class MainView : View
         PopupMenu.Popup();
     }
 
-    public void RightClickObjectiveNode(GateNodeObject node)
+    public void Objective_Clicked(GateNodeObject node)
     {
         PopupMenu.ClearItems();
         PopupMenu.AddActionItem("Complete", () => Node.CompleteObjective(node.Gate.Name));
@@ -115,20 +116,27 @@ public partial class MainView : View
 
     private void OpenGateSearch(GateNodeObject node)
     {
+        var next_position = Node.GetNextNodePosition(node);
+        var gates = Controller.Gates.Values
+            .Where(x => x.Name != node.NodeName && Controller.IsSearchable(x.Name))
+            .OrderBy(x => x.Area);
+
         SearchList.Clear();
         SearchList.Title = "Select gate";
+        SearchList.SetGates(gates);
+        SearchList.SetAction(gate => Node.StartCreateNode(gate.Name, next_position, node));
+        SearchList.Show();
+    }
 
-        var next_position = Node.GetNextNodePosition(node);
-        var gates = Controller.Gates.Values;
-        foreach (var gate in gates)
-        {
-            if (gate.Name == node.NodeName) continue;
-            if (!Controller.IsSearchable(gate.Name)) continue;
+    public void OpenGateList()
+    {
+        var gates = Controller.Gates.Values
+            .Where(x => Controller.IsSearchable(x.Name))
+            .OrderBy(x => x.Area);
 
-            var name = gate.Name;
-            SearchList.AddItem(name, () => Node.StartCreateNode(name, next_position, node));
-        }
-
+        SearchList.Clear();
+        SearchList.Title = "All gates";
+        SearchList.SetGates(gates);
         SearchList.Show();
     }
 
@@ -145,17 +153,14 @@ public partial class MainView : View
 
     private void OpenStartSearch()
     {
+        var gates = Controller.Gates.Values
+            .Where(x => Controller.IsSearchable(x.Name, from_new: true))
+            .OrderBy(x => x.Area);
+
         SearchList.Clear();
         SearchList.Title = "Select start";
-
-        foreach (var gate in Controller.Gates.Values)
-        {
-            var name = gate.Name;
-            if (!Controller.IsSearchable(name, from_new: true)) continue;
-
-            SearchList.AddItem(name, () => CreateStart(name));
-        }
-
+        SearchList.SetGates(gates);
+        SearchList.SetAction(gate => CreateStart(gate.Name));
         SearchList.Show();
     }
 

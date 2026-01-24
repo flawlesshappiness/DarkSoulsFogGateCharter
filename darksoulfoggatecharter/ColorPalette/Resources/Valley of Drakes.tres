@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://d2alnvvdloupu"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_xfdal"]
+
+[resource]
+script = ExtResource("1_xfdal")
+Name = "Valley of Drakes"
+Colors = Array[Color]([Color(0.14, 0.2, 0.17, 1), Color(0.245, 0.35, 0.2975, 1), Color(0.357, 0.51, 0.4335, 1), Color(0.483, 0.69, 0.5865, 1), Color(0.595, 0.85, 0.7225, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

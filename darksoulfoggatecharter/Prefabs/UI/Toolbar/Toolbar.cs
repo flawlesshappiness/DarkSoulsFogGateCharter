@@ -14,6 +14,9 @@ public partial class Toolbar : MarginContainer
     public Button SaveButton;
 
     [Export]
+    public Button NodesButton;
+
+    [Export]
     public Button UndoButton;
 
     [Export]
@@ -31,6 +34,7 @@ public partial class Toolbar : MarginContainer
         NewButton.Pressed += New_Pressed;
         OpenButton.Pressed += Open_Pressed;
         SaveButton.Pressed += Save_Pressed;
+        NodesButton.Pressed += Nodes_Pressed;
         UndoButton.Pressed += Undo_Pressed;
         RedoButton.Pressed += Redo_Pressed;
 
@@ -51,6 +55,11 @@ public partial class Toolbar : MarginContainer
     private void Save_Pressed()
     {
         SaveFileDialog.Popup();
+    }
+
+    private void Nodes_Pressed()
+    {
+        MainView.Instance.OpenGateList();
     }
 
     private void Undo_Pressed()

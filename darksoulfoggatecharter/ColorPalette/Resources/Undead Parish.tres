@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://dpbxohbuom07r"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_egc6p"]
+
+[resource]
+script = ExtResource("1_egc6p")
+Name = "Undead Parish"
+Colors = Array[Color]([Color(0.2, 0.2, 0.17, 1), Color(0.25, 0.25, 0.2125, 1), Color(0.3, 0.3, 0.255, 1), Color(0.4, 0.4, 0.34, 1), Color(0.95, 0.95, 0.8075, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

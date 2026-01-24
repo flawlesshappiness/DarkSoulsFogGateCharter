@@ -71,6 +71,10 @@ public partial class NodeObject : Area3D
                         GetViewport().SetInputAsHandled();
                     }
                 }
+                else if (SelectionController.Instance.Dragging)
+                {
+                    // Do nothing
+                }
                 else
                 {
                     MousePressed(button.Pressed);

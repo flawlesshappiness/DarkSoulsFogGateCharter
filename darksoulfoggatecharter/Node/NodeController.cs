@@ -44,23 +44,16 @@ public partial class NodeController : SingletonController
         nodes.Add(gate.Name, node);
 
         node.OnDragEnded += () => Node_DragEnded(node);
-        node.OnClicked += () => GateRightClick(node);
+        node.OnClicked += () => Gate_Clicked(node);
 
         return node;
     }
 
-    private void GateRightClick(GateNodeObject node)
+    private void Gate_Clicked(GateNodeObject node)
     {
         if (node.IsFullyConnected) return;
 
-        if (node.Gate.Type == GateType.Objective)
-        {
-            View.RightClickObjectiveNode(node);
-        }
-        else
-        {
-            View.RightClickGateNode(node);
-        }
+        View.GateNode_Clicked(node);
     }
 
     private bool IsConnectedToGroup(NodeObject node)
@@ -216,6 +209,10 @@ public partial class NodeController : SingletonController
                 GD.Print($"Shortcut: {name} > {next}");
                 CreateNode(next, position, node);
             }
+            else if (gate.Type == GateType.Objective)
+            {
+                CompleteObjective(name);
+            }
         }
     }
 
@@ -266,7 +263,7 @@ public partial class NodeController : SingletonController
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
 
-                UndoController.Instance.AddCreateNodeAction(group.Name, position);
+                UndoController.Instance.AddCreateNodeAction(group.Name, position, node_prev);
 
                 ConnectNodes(node_prev, node);
 
@@ -288,13 +285,18 @@ public partial class NodeController : SingletonController
                 ConnectNodes(node_prev, node);
                 return node;
             }
+            if (gate.Type == GateType.LockedDoor && HasNode(Controller.GetGateExit(name).Name))
+            {
+                var other = Controller.GetGateExit(name).Name;
+                return CreateNode(other, position, node_prev);
+            }
             else
             {
                 GD.Print($"Create node: {name}");
                 var node = CreateGateNode(gate);
                 node.GlobalPosition = position;
 
-                UndoController.Instance.AddCreateNodeAction(gate.Name, position);
+                UndoController.Instance.AddCreateNodeAction(gate.Name, position, node_prev);
 
                 ConnectNodes(node_prev, node);
 

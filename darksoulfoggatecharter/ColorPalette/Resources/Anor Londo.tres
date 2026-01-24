@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://cvtqmi3d6f6x7"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_37qyo"]
+
+[resource]
+script = ExtResource("1_37qyo")
+Name = "Anor Londo"
+Colors = Array[Color]([Color(0.36, 0.228, 0, 1), Color(0.54, 0.37368, 0.0864, 1), Color(0.63, 0.48678, 0.2394, 1), Color(0.74, 0.623327, 0.4218, 1), Color(0.95, 0.9025, 0.665, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"
