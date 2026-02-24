@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,34 +34,42 @@ public partial class GateController : SingletonController
 
         foreach (var line in lines)
         {
-            if (string.IsNullOrEmpty(line)) continue;
-
-            var data = line.Split(',');
-            var id = data[0];
-            var name = data[1];
-            var type = data[2];
-            var location = data[3];
-            var area = data[4];
-
-            var gate = new GateNode
+            try
             {
-                Id = id,
-                Name = name,
-                Location = location,
-                Type = type,
-                Area = area,
-            };
+                if (string.IsNullOrEmpty(line)) continue;
 
-            Gates.Add(name, gate);
+                var data = line.Split(',');
+                var id = data[0];
+                var name = data[1];
+                var type = data[2];
+                var location = data[3];
+                var area = data[4];
 
-            // Create possible groups
-            if (!string.IsNullOrEmpty(location))
-            {
-                if (!groups.ContainsKey(location))
+                var gate = new GateNode
                 {
-                    groups.Add(location, new GateGroup { Name = location });
+                    Id = id,
+                    Name = name,
+                    Location = location,
+                    Type = type,
+                    Area = area,
+                };
+
+                Gates.Add(name, gate);
+
+                // Create possible groups
+                if (!string.IsNullOrEmpty(location))
+                {
+                    if (!groups.ContainsKey(location))
+                    {
+                        groups.Add(location, new GateGroup { Name = location });
+                    }
+                    groups[location].Gates.Add(name, gate);
                 }
-                groups[location].Gates.Add(name, gate);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                Debug.LogError(line);
             }
         }
 
