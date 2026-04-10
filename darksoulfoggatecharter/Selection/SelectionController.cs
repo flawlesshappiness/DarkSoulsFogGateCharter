@@ -98,7 +98,7 @@ public partial class SelectionController : SingletonController
         var inside = all_nodes.Where(x => Inside(x.GlobalPosition)).ToList();
         var except = current_selection.Except(inside).ToList();
 
-        UndoController.Instance.StartUndoAction();
+        UndoController.Instance.StartUndoAction("Selection area");
 
         inside.ForEach(x => SelectNode(x, true));
 
@@ -128,7 +128,7 @@ public partial class SelectionController : SingletonController
 
     public void DragEndSelection()
     {
-        UndoController.Instance.StartUndoAction();
+        UndoController.Instance.StartUndoAction("Selection dragged");
         foreach (var node in selected_nodes)
         {
             node.DragEnd();

@@ -83,6 +83,7 @@ public partial class GateNodeObject : NodeObject
 
         IconObjective.Modulate = info.GetColor(1);
         IconShortcut.Modulate = info.GetColor(1);
+        IconShortcutOneway.Modulate = info.GetColor(1);
         IconLocked.Modulate = info.GetColor(1);
     }
 

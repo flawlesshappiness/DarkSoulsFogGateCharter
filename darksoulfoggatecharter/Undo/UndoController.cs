@@ -179,11 +179,21 @@ public partial class UndoController : SingletonController
         undo_actions.Clear();
         redo_actions.Clear();
         current_group = null;
+        Debug.Log("UNDO: Clear");
     }
 
-    public void StartUndoAction()
+    public void StartUndoAction(string debug_string = null)
     {
         current_group = new UndoActionGroup();
+
+        if (string.IsNullOrEmpty(debug_string))
+        {
+            Debug.Log("UNDO: Start");
+        }
+        else
+        {
+            Debug.Log($"UNDO: Start ({debug_string})");
+        }
     }
 
     public void EndUndoAction()
@@ -196,12 +206,16 @@ public partial class UndoController : SingletonController
         }
 
         current_group = null;
+
+        Debug.Log("UNDO: End");
     }
 
     private void AddUndoAction(UndoAction action)
     {
         current_group ??= new UndoActionGroup();
         current_group.Actions.Push(action);
+
+        Debug.Log($"UNDO: {action.RedoString}");
     }
 
     public void AddCreateNodeAction(string name, Vector3 position, NodeObject node_previous = null)

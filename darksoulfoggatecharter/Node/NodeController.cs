@@ -6,7 +6,7 @@ public partial class NodeController : SingletonController
 {
     public override string Directory => "Node";
     public static NodeController Instance => Singleton.Get<NodeController>();
-    private GateController Controller => GateController.Instance;
+    private GateController Gate => GateController.Instance;
     private MainView View => MainView.Instance;
     private DraggableCamera Camera => DraggableCamera.Instance;
     private UndoController Undo => UndoController.Instance;
@@ -51,14 +51,12 @@ public partial class NodeController : SingletonController
 
     private void Gate_Clicked(GateNodeObject node)
     {
-        if (node.IsFullyConnected) return;
-
         View.GateNode_Clicked(node);
     }
 
     private bool IsConnectedToGroup(NodeObject node)
     {
-        if (Controller.IsGroup(node.Name))
+        if (Gate.IsGroup(node.Name))
         {
             return false;
         }
@@ -66,7 +64,7 @@ public partial class NodeController : SingletonController
         {
             foreach (var connected in node.ConnectedNodes.Values)
             {
-                if (Controller.IsGroup(connected.Name)) return true;
+                if (Gate.IsGroup(connected.Name)) return true;
             }
 
             return false;
@@ -98,7 +96,7 @@ public partial class NodeController : SingletonController
         if (A.HasConnection(id)) return null;
         if (B.HasConnection(id)) return null;
 
-        Debug.LogMethod($"{id}");
+        //Debug.LogMethod($"{id}");
 
         A.AddConnection(id, B);
         B.AddConnection(id, A);
@@ -134,7 +132,7 @@ public partial class NodeController : SingletonController
         var connection = connections.TryGetValue(id, out var result) ? result : null;
         if (connection == null) return;
 
-        Debug.LogMethod(id);
+        //Debug.LogMethod(id);
         connection.ObjectA.RemoveConnection(id);
         connection.ObjectB.RemoveConnection(id);
         connection.DestroyConnection();
@@ -144,14 +142,14 @@ public partial class NodeController : SingletonController
     // NODES //
     private void TryCreateNext(string name, Vector3 position)
     {
-        if (Controller.IsGroup(name))
+        if (Gate.IsGroup(name))
         {
-            var group = Controller.GetGroup(name);
+            var group = Gate.GetGroup(name);
             var node = GetNode(name);
             var dir = node.GlobalPosition.DirectionTo(position);
             var existing_node = group.Gates.Values.FirstOrDefault(x => nodes.ContainsKey(x.Name));
             var nodes_to_create = group.Gates.Values
-                .Where(x => Controller.ShowInGroup(x.Name))
+                .Where(x => Gate.ShowInGroup(x.Name))
                 .Append(existing_node) // Not sure this is the best way to do it
                 .Distinct()
                 .OrderBy(x => x != existing_node).ToList();
@@ -164,7 +162,7 @@ public partial class NodeController : SingletonController
                 var node_to_create = nodes_to_create[i];
                 if (node_to_create == null) continue; // This could be an issue
 
-                var next_is_group = Controller.IsGroup(node_to_create.Name);
+                var next_is_group = Gate.IsGroup(node_to_create.Name);
                 var mul = next_is_group ? 2 : 1;
                 var next_position = start_position + GetCirclePosition(i + j, count + j, dir) * DEFAULT_NODE_DISTANCE * mul;
                 CreateNode(node_to_create.Name, next_position, node);
@@ -172,41 +170,41 @@ public partial class NodeController : SingletonController
         }
         else
         {
-            var gate = Controller.GetGate(name);
+            var gate = Gate.GetGate(name);
             var node = GetNode(name);
 
             CreateNode(gate.Location, position, node);
 
-            if (Controller.IsDisabled(name))
+            if (Gate.IsDisabled(name))
             {
                 if (!string.IsNullOrEmpty(gate.Id))
                 {
-                    var exit = Controller.GetGateExit(name);
-                    GD.Print($"{gate.Type} Disabled: {name} > {exit.Name}");
+                    var exit = Gate.GetGateExit(name);
+                    //GD.Print($"{gate.Type} Disabled: {name} > {exit.Name}");
                     CreateNode(exit.Name, position, node);
                 }
 
                 var dir = node.GlobalPosition.DirectionTo(position);
-                var connections = Controller.GetGatesByLocation(name).ToList();
+                var connections = Gate.GetGatesByLocation(name).ToList();
                 var count = connections.Count();
                 for (int i = 0; i < count; i++)
                 {
                     var connection = connections[i];
                     var arc_position = node.GlobalPosition + GetArcPosition(dir, 90, i, count) * DEFAULT_NODE_DISTANCE;
-                    GD.Print($"Objective: {name} > {connection.Name}");
+                    //GD.Print($"Objective: {name} > {connection.Name}");
                     CreateNode(connection.Name, arc_position, node);
                 }
                 foreach (var connection in connections)
                 {
-                    GD.Print($"{gate.Type} Disabled: {name} > {connection.Name}");
+                    //GD.Print($"{gate.Type} Disabled: {name} > {connection.Name}");
                     CreateNode(connection.Name, position, node);
                 }
             }
-            else if (Controller.IsShortcut(name))
+            else if (Gate.IsShortcut(name))
             {
-                var exit = Controller.GetGateExit(name);
+                var exit = Gate.GetGateExit(name);
                 var next = exit.Location;
-                GD.Print($"Shortcut: {name} > {next}");
+                //GD.Print($"Shortcut: {name} > {next}");
                 CreateNode(next, position, node);
             }
             else if (gate.Type == GateType.Objective)
@@ -218,28 +216,28 @@ public partial class NodeController : SingletonController
 
     public void CompleteObjective(string name)
     {
-        Undo.StartUndoAction();
+        //Undo.StartUndoAction("Objective completed");
 
-        var gate = Controller.GetGate(name);
+        var gate = Gate.GetGate(name);
         var node = GetNode(name);
         var dir = GetNextNodeDirection(node);
 
-        var connections = Controller.GetGatesByLocation(name).ToList();
+        var connections = Gate.GetGatesByLocation(name).ToList();
         var count = connections.Count();
         for (int i = 0; i < count; i++)
         {
             var connection = connections[i];
             var position = node.GlobalPosition + GetArcPosition(dir, 90, i, count) * DEFAULT_NODE_DISTANCE;
-            GD.Print($"Objective: {name} > {connection.Name}");
+            //GD.Print($"Objective: {name} > {connection.Name}");
             CreateNode(connection.Name, position, node);
         }
 
-        Undo.EndUndoAction();
+        //Undo.EndUndoAction();
     }
 
     public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
     {
-        Undo.StartUndoAction();
+        Undo.StartUndoAction($"Create node {name}");
         var result = CreateNode(name, position, node_prev);
         Undo.EndUndoAction();
 
@@ -248,9 +246,9 @@ public partial class NodeController : SingletonController
 
     public NodeObject CreateNode(string name, Vector3 position, NodeObject node_prev = null)
     {
-        if (Controller.IsGroup(name))
+        if (Gate.IsGroup(name))
         {
-            var group = Controller.GetGroup(name);
+            var group = Gate.GetGroup(name);
             if (HasNode(name))
             {
                 var node = GetNode(name);
@@ -259,7 +257,7 @@ public partial class NodeController : SingletonController
             }
             else
             {
-                GD.Print($"Create group: {name}");
+                //GD.Print($"Create group: {name}");
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
 
@@ -274,7 +272,7 @@ public partial class NodeController : SingletonController
         }
         else
         {
-            var gate = Controller.GetGate(name);
+            var gate = Gate.GetGate(name);
             if (gate == null)
             {
                 return null;
@@ -285,14 +283,14 @@ public partial class NodeController : SingletonController
                 ConnectNodes(node_prev, node);
                 return node;
             }
-            if (gate.Type == GateType.LockedDoor && HasNode(Controller.GetGateExit(name).Name))
+            if (gate.Type == GateType.LockedDoor && HasNode(Gate.GetGateExit(name).Name))
             {
-                var other = Controller.GetGateExit(name).Name;
+                var other = Gate.GetGateExit(name).Name;
                 return CreateNode(other, position, node_prev);
             }
             else
             {
-                GD.Print($"Create node: {name}");
+                //GD.Print($"Create node: {name}");
                 var node = CreateGateNode(gate);
                 node.GlobalPosition = position;
 
@@ -313,7 +311,7 @@ public partial class NodeController : SingletonController
 
     public void RemoveNode(string name)
     {
-        Debug.LogMethod(name);
+        //Debug.LogMethod(name);
         var node = GetNode(name);
         node?.DestroyNode();
         nodes.Remove(name);
@@ -327,7 +325,7 @@ public partial class NodeController : SingletonController
 
     public void Node_DragEnded(NodeObject node)
     {
-        Undo.StartUndoAction();
+        Undo.StartUndoAction($"Dragged node {node.NodeName}");
         Undo.AddMoveNodeAction(node.NodeName, node.DragStartPosition, node.DragEndPosition);
         Undo.EndUndoAction();
     }
@@ -388,9 +386,9 @@ public partial class NodeController : SingletonController
     {
         var save_data = new SessionData();
         save_data.Update();
-        save_data.DisabledTypes = Controller.DisabledTypes.ToList();
+        save_data.DisabledTypes = Gate.DisabledTypes.ToList();
 
-        foreach (var gate in Controller.Gates.Values)
+        foreach (var gate in Gate.Gates.Values)
         {
             if (!HasNode(gate.Name)) continue;
 
@@ -409,7 +407,7 @@ public partial class NodeController : SingletonController
             save_data.Gates.Add(data);
         }
 
-        foreach (var group in Controller.Groups.Values)
+        foreach (var group in Gate.Groups.Values)
         {
             if (!HasNode(group.Name)) continue;
 
@@ -432,11 +430,11 @@ public partial class NodeController : SingletonController
     public void Load(SessionData save_data)
     {
         Clear();
-        Controller.LoadSettings(save_data);
+        Gate.LoadSettings(save_data);
 
         foreach (var data in save_data.Gates)
         {
-            var gate = Controller.GetGate(data.Name);
+            var gate = Gate.GetGate(data.Name);
             var position = new Vector3(data.X, data.Y, data.Z);
             var node = CreateNode(data.Name, position);
             node.GlobalPosition = position;

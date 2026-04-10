@@ -21,7 +21,7 @@ public partial class MainView : View
     [Export]
     public Control Selection;
 
-    private GateController Controller => GateController.Instance;
+    private GateController Gate => GateController.Instance;
     private MainScene Scene => MainScene.Instance;
     private NodeController Node => NodeController.Instance;
 
@@ -98,17 +98,18 @@ public partial class MainView : View
 
     public void GateNode_Clicked(GateNodeObject node)
     {
-        PopupMenu.ClearItems();
-        PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
-        PopupMenu.Show();
-        PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
-        PopupMenu.Popup();
-    }
+        bool show = false;
 
-    public void Objective_Clicked(GateNodeObject node)
-    {
         PopupMenu.ClearItems();
-        PopupMenu.AddActionItem("Complete", () => Node.CompleteObjective(node.Gate.Name));
+
+        if (GateController.Instance.CanTraverse(node.Gate.Name))
+        {
+            PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
+            show = true;
+        }
+
+        if (!show) return;
+
         PopupMenu.Show();
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
         PopupMenu.Popup();
@@ -117,8 +118,8 @@ public partial class MainView : View
     private void OpenGateSearch(GateNodeObject node)
     {
         var next_position = Node.GetNextNodePosition(node);
-        var gates = Controller.Gates.Values
-            .Where(x => x.Name != node.NodeName && Controller.IsSearchable(x.Name))
+        var gates = Gate.Gates.Values
+            .Where(x => x.Name != node.NodeName && Gate.IsSearchable(x.Name))
             .OrderBy(x => x.Area);
 
         SearchList.Clear();
@@ -130,8 +131,8 @@ public partial class MainView : View
 
     public void OpenGateList()
     {
-        var gates = Controller.Gates.Values
-            .Where(x => Controller.IsSearchable(x.Name))
+        var gates = Gate.Gates.Values
+            .Where(x => Gate.IsSearchable(x.Name))
             .OrderBy(x => x.Area);
 
         SearchList.Clear();
@@ -148,13 +149,14 @@ public partial class MainView : View
     private void SessionSettingsConfirm_Pressed()
     {
         SessionSettings.Hide();
+        Node.Load(SessionSettings.CreateData());
         OpenStartSearch();
     }
 
     private void OpenStartSearch()
     {
-        var gates = Controller.Gates.Values
-            .Where(x => Controller.IsSearchable(x.Name, from_new: true))
+        var gates = Gate.Gates.Values
+            .Where(x => Gate.IsSearchable(x.Name, from_new: true))
             .OrderBy(x => x.Area);
 
         SearchList.Clear();
@@ -166,10 +168,7 @@ public partial class MainView : View
 
     private void CreateStart(string name)
     {
-        var data = SessionSettings.CreateData();
-        Node.Load(data);
         Node.CreateNodeAtCenter(name);
-
         UndoController.Instance.Clear();
     }
 

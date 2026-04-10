@@ -65,7 +65,7 @@ public partial class NodeObject : Area3D
                 {
                     if (button.Pressed)
                     {
-                        UndoController.Instance.StartUndoAction();
+                        UndoController.Instance.StartUndoAction($"Node {NodeName} selected");
                         SelectionController.Instance.ToggleNode(this);
                         UndoController.Instance.EndUndoAction();
                         GetViewport().SetInputAsHandled();

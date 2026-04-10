@@ -138,6 +138,27 @@ public partial class GateController : SingletonController
         }
     }
 
+    public bool CanTraverse(string name)
+    {
+        var gate = GetGate(name);
+        if (gate == null) return false;
+
+        var fully_connected = NodeController.Instance.IsNodeFullyConnected(name);
+        var wrong_type_list = new List<string>
+        {
+            GateType.ShortcutExit,
+            GateType.DoorShortcut,
+            GateType.OnewayShortcut,
+            GateType.Objective,
+            GateType.LockedDoor,
+            GateType.Area,
+        };
+
+        var wrong_type = wrong_type_list.Contains(gate.Type);
+
+        return !(fully_connected || wrong_type);
+    }
+
     public bool IsShortcut(string name)
     {
         if (IsGroup(name))
@@ -191,16 +212,11 @@ public partial class GateController : SingletonController
         else
         {
             var missing_connections = from_new || !Node.IsNodeFullyConnected(name);
-            var disabled = from_new ? false : IsDisabled(name);
+            var disabled = IsDisabled(name);
             var gate = GetGate(name);
             var no_id = string.IsNullOrEmpty(gate.Id);
-            var objective = gate.Type == GateType.Objective;
-            var door = gate.Type == GateType.DoorShortcut;
-            var boss = gate.Type == GateType.Boss;
-            var shortcut_door = gate.Type == GateType.DoorShortcut;
-            var shortcut_oneway = gate.Type == GateType.OnewayShortcut;
-            var shortcut_exit = gate.Type == GateType.ShortcutExit;
-            var never = !(no_id || objective || door || shortcut_door || shortcut_oneway || shortcut_exit || boss || disabled);
+            var no_traverse = !CanTraverse(name);
+            var never = !(no_id || no_traverse || disabled);
             return never && missing_connections;
         }
     }
