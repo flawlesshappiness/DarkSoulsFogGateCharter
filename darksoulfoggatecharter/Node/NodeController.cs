@@ -150,7 +150,7 @@ public partial class NodeController : SingletonController
             var existing_node = group.Gates.Values.FirstOrDefault(x => nodes.ContainsKey(x.Name));
             var nodes_to_create = group.Gates.Values
                 .Where(x => Gate.ShowInGroup(x.Name))
-                .Append(existing_node) // Not sure this is the best way to do it
+                .Append(existing_node) // Not sure this is the best way to do it, but seems to work
                 .Distinct()
                 .OrderBy(x => x != existing_node).ToList();
 
@@ -218,6 +218,11 @@ public partial class NodeController : SingletonController
                 {
                     CreateNode(other, position, node);
                 }
+            }
+            else if (gate.Type == GateType.Area)
+            {
+                var other = Gate.GetGateExit(name).Name;
+                CreateNode(other, position, node);
             }
         }
     }
