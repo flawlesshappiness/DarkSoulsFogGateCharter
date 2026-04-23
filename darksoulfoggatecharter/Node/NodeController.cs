@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,6 +14,8 @@ public partial class NodeController : SingletonController
     public MainScene Scene => MainScene.Instance;
 
     public const float DEFAULT_NODE_DISTANCE = 1.5f;
+
+    public Action OnNodeChanges;
 
     private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
@@ -45,6 +48,8 @@ public partial class NodeController : SingletonController
 
         node.OnDragEnded += () => Node_DragEnded(node);
         node.OnClicked += () => Gate_Clicked(node);
+
+        OnNodeChanges?.Invoke();
 
         return node;
     }
@@ -82,6 +87,8 @@ public partial class NodeController : SingletonController
 
         node.OnDragEnded += () => Node_DragEnded(node);
 
+        OnNodeChanges?.Invoke();
+
         return node;
     }
 
@@ -103,6 +110,9 @@ public partial class NodeController : SingletonController
 
         var node = CreateConnectionObject(id);
         node.SetConnectedObjects(A, B);
+
+        OnNodeChanges?.Invoke();
+
         return node;
     }
 
@@ -137,6 +147,8 @@ public partial class NodeController : SingletonController
         connection.ObjectB.RemoveConnection(id);
         connection.DestroyConnection();
         connections.Remove(id);
+
+        OnNodeChanges?.Invoke();
     }
 
     // NODES //

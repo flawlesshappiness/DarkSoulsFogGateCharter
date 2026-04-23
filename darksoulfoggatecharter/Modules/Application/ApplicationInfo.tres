@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_8pp41")
-Version = "0.0.5"
+Version = "0.0.6"
 Release = false
 StartScene = "MainScene"

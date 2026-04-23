@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://k5dtqdlq2ol0" path="res://Assets/Icons/icon_undo.png" id="5_fhjrk"]
 [ext_resource type="Texture2D" uid="uid://nn8gmajvgswa" path="res://Assets/Icons/icon_redo.png" id="6_78tfo"]
 
-[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "NodesButton", "UndoButton", "RedoButton", "OpenFileDialog", "SaveFileDialog")]
+[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "NodesButton", "UndoButton", "RedoButton", "OpenFileDialog", "SaveFileDialog", "UnsavedChangesLabel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,56 +19,71 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_pkhvg")
-NewButton = NodePath("VBoxContainer/HBoxContainer/NewButton")
-OpenButton = NodePath("VBoxContainer/HBoxContainer/OpenButton")
-SaveButton = NodePath("VBoxContainer/HBoxContainer/SaveButton")
-NodesButton = NodePath("VBoxContainer/HBoxContainer/NodesButton")
-UndoButton = NodePath("VBoxContainer/HBoxContainer/UndoButton")
-RedoButton = NodePath("VBoxContainer/HBoxContainer/RedoButton")
+NewButton = NodePath("Buttons/VBoxContainer/HBoxContainer/NewButton")
+OpenButton = NodePath("Buttons/VBoxContainer/HBoxContainer/OpenButton")
+SaveButton = NodePath("Buttons/VBoxContainer/HBoxContainer/SaveButton")
+NodesButton = NodePath("Buttons/VBoxContainer/HBoxContainer/NodesButton")
+UndoButton = NodePath("Buttons/VBoxContainer/HBoxContainer/UndoButton")
+RedoButton = NodePath("Buttons/VBoxContainer/HBoxContainer/RedoButton")
 OpenFileDialog = NodePath("OpenFileDialog")
 SaveFileDialog = NodePath("SaveFileDialog")
+UnsavedChangesLabel = NodePath("Buttons/VBoxContainer/HBoxContainer/SaveButton/UnsavedChangesLabel")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Buttons" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Buttons/VBoxContainer"]
 layout_mode = 2
 
-[node name="NewButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="NewButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("1_wgobe")
 expand_icon = true
 
-[node name="OpenButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="OpenButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("2_yn43l")
 expand_icon = true
 
-[node name="SaveButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="SaveButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("3_fhjrk")
 expand_icon = true
 
-[node name="NodesButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="UnsavedChangesLabel" type="Label" parent="Buttons/VBoxContainer/HBoxContainer/SaveButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.833333, 0, 1)
+text = "*"
+
+[node name="NodesButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("5_5gakf")
 expand_icon = true
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 
-[node name="UndoButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="UndoButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("5_fhjrk")
 expand_icon = true
 
-[node name="RedoButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="RedoButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("6_78tfo")

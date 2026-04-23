@@ -28,6 +28,11 @@ public partial class Toolbar : MarginContainer
     [Export]
     public FileDialog SaveFileDialog;
 
+    [Export]
+    public Label UnsavedChangesLabel;
+
+    private string selected_save_path;
+
     public override void _Ready()
     {
         base._Ready();
@@ -40,6 +45,22 @@ public partial class Toolbar : MarginContainer
 
         OpenFileDialog.FileSelected += OpenFile_Selected;
         SaveFileDialog.FileSelected += SafeFile_Selected;
+
+        NodeController.Instance.OnNodeChanges += Node_Changes;
+    }
+
+    public override void _Input(InputEvent e)
+    {
+        base._Input(e);
+
+        if (e is InputEventKey key)
+        {
+            if (key.Keycode == Key.S && key.IsReleased() && PlayerInput.Select.Held)
+            {
+                QuickSave();
+                GetViewport().SetInputAsHandled();
+            }
+        }
     }
 
     private void New_Pressed()
@@ -83,6 +104,8 @@ public partial class Toolbar : MarginContainer
         {
             var data = JsonSerializer.Deserialize<SessionData>(json);
             NodeController.Instance.Load(data);
+
+            selected_save_path = path;
         }
         catch (Exception e)
         {
@@ -105,6 +128,27 @@ public partial class Toolbar : MarginContainer
         {
             file.StoreString(json);
             file.Close();
+
+            selected_save_path = path;
         }
+
+        UnsavedChangesLabel.Hide();
+    }
+
+    private void QuickSave()
+    {
+        if (string.IsNullOrEmpty(selected_save_path))
+        {
+            Save_Pressed();
+        }
+        else
+        {
+            SafeFile_Selected(selected_save_path);
+        }
+    }
+
+    private void Node_Changes()
+    {
+        UnsavedChangesLabel.Show();
     }
 }
