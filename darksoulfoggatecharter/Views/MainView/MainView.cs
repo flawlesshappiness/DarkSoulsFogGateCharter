@@ -107,6 +107,11 @@ public partial class MainView : View
             PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
             show = true;
         }
+        else if (node.Gate.Type == GateType.LockedDoor && !node.IsFullyConnected)
+        {
+            PopupMenu.AddActionItem("Unlock", () => NodeController.Instance.TraverseLockedDoor(node.Gate.Name));
+            show = true;
+        }
 
         if (!show) return;
 

@@ -209,12 +209,20 @@ public partial class NodeController : SingletonController
             }
             else if (gate.Type == GateType.Objective)
             {
-                CompleteObjective(name);
+                TraverseObjective(name);
+            }
+            else if (gate.Type == GateType.LockedDoor)
+            {
+                var other = Gate.GetGateExit(name).Name;
+                if (HasNode(other))
+                {
+                    CreateNode(other, position, node);
+                }
             }
         }
     }
 
-    public void CompleteObjective(string name)
+    public void TraverseObjective(string name)
     {
         //Undo.StartUndoAction("Objective completed");
 
@@ -233,6 +241,18 @@ public partial class NodeController : SingletonController
         }
 
         //Undo.EndUndoAction();
+    }
+
+    public void TraverseLockedDoor(string name)
+    {
+        var gate = Gate.GetGate(name);
+        if (gate.Type != GateType.LockedDoor) return;
+
+        var node = GetNode(name);
+        var pos = GetNextNodePosition(node);
+        var exit = GateController.Instance.GetGateExit(name);
+
+        CreateNode(exit.Name, pos, node);
     }
 
     public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
@@ -257,7 +277,7 @@ public partial class NodeController : SingletonController
             }
             else
             {
-                //GD.Print($"Create group: {name}");
+                GD.Print($"Create group: {name}");
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
 
@@ -282,11 +302,6 @@ public partial class NodeController : SingletonController
                 var node = GetNode(name);
                 ConnectNodes(node_prev, node);
                 return node;
-            }
-            if (gate.Type == GateType.LockedDoor && HasNode(Gate.GetGateExit(name).Name))
-            {
-                var other = Gate.GetGateExit(name).Name;
-                return CreateNode(other, position, node_prev);
             }
             else
             {

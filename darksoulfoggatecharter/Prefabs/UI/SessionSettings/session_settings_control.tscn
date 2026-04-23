@@ -108,8 +108,8 @@ button_pressed = true
 text = "Warp"
 
 [node name="ObjectiveCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
+visible = false
 layout_mode = 2
-button_pressed = true
 text = "Objective"
 
 [node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]

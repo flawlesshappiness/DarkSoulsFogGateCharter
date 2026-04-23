@@ -203,7 +203,7 @@
 92,To Hellkite Bridge,MinorPVP,To Taurus Demon from exit,Upper Undead Burg
 92,To Corridor after Taurus Demon from Hellkite Bridge,MinorPVP,Undead Parish,Undead Parish
 143,To Upper Entrance of Burg Bonfire,PVP,Undead Parish,Undead Parish
-93,Locked Door from Lower Undead Burg,LockedDoor,To Lower Undead Burg,Lower Undead Burg
+93,Locked Door from Lower Undead Burg,LockedDoor,Lower Burg,Lower Undead Burg
 93,Locked Door to Lower Undead Burg,LockedDoor,Undead Parish,Undead Parish
 94,To Bridge over Parish Boar,Traversable,Undead Parish,Undead Parish
 95,Boar Portcullis,LockedDoor,Undead Parish,Undead Parish
