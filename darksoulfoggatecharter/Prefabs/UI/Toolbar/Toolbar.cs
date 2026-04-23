@@ -47,6 +47,8 @@ public partial class Toolbar : MarginContainer
         SaveFileDialog.FileSelected += SafeFile_Selected;
 
         NodeController.Instance.OnNodeChanges += Node_Changes;
+
+        UnsavedChangesLabel.Hide();
     }
 
     public override void _Input(InputEvent e)
@@ -106,6 +108,7 @@ public partial class Toolbar : MarginContainer
             NodeController.Instance.Load(data);
 
             selected_save_path = path;
+            UnsavedChangesLabel.Hide();
         }
         catch (Exception e)
         {
