@@ -62,9 +62,9 @@
 26,Dropdown from Upper Burg,OnewayShortcut,Upper Burg,Upper Undead Burg
 26,Dropdown from Upper Burg Exit,ShortcutExit,Undead Burg before Drake encounter,Upper Undead Burg
 84,To Lower Entrance of Burg Bonfire,MinorPvP,Upper Burg,Upper Undead Burg
-84,From inside Lower Entrance of Burg Bonfire,MinorPvP,Burg Bonfire,Upper Undead Burg
+84,From inside Lower Entrance of Burg Bonfire,MinorPvP,,Upper Undead Burg
 28,Kick Ladder,DoorShortcut,Inside Upper Entrance of Burg Bonfire,Upper Undead Burg
-28,Kick Ladder Exit,ShortcutExit,Burg Bonfire,Upper Undead Burg
+28,Kick Ladder Exit,ShortcutExit,From inside Lower Entrance of Burg Bonfire,Upper Undead Burg
 143,Inside Upper Entrance of Burg Bonfire,PVP,Kick Ladder,Upper Undead Burg
 29,Skip to Lower Burg 1,GlitchedLogic,Undead Burg before Drake encounter,Upper Undead Burg
 29,Skip to Lower Burg 1 Exit,ShortcutExit,Lower Burg,Lower Undead Burg
