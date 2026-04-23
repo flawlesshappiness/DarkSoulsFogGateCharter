@@ -32,6 +32,7 @@ public partial class Toolbar : MarginContainer
     public Label UnsavedChangesLabel;
 
     private string selected_save_path;
+    private const string WindowTitle = "Dark Souls Fog Gate Charter";
 
     public override void _Ready()
     {
@@ -48,7 +49,7 @@ public partial class Toolbar : MarginContainer
 
         NodeController.Instance.OnNodeChanges += Node_Changes;
 
-        UnsavedChangesLabel.Hide();
+        SetUnsavedChanges(false);
     }
 
     public override void _Input(InputEvent e)
@@ -108,7 +109,7 @@ public partial class Toolbar : MarginContainer
             NodeController.Instance.Load(data);
 
             selected_save_path = path;
-            UnsavedChangesLabel.Hide();
+            SetUnsavedChanges(false);
         }
         catch (Exception e)
         {
@@ -135,7 +136,7 @@ public partial class Toolbar : MarginContainer
             selected_save_path = path;
         }
 
-        UnsavedChangesLabel.Hide();
+        SetUnsavedChanges(false);
     }
 
     private void QuickSave()
@@ -152,6 +153,13 @@ public partial class Toolbar : MarginContainer
 
     private void Node_Changes()
     {
-        UnsavedChangesLabel.Show();
+        SetUnsavedChanges(true);
+    }
+
+    private void SetUnsavedChanges(bool has_unsaved_changes)
+    {
+        var title = has_unsaved_changes ? $"{WindowTitle} *" : WindowTitle;
+        UnsavedChangesLabel.Visible = has_unsaved_changes;
+        DisplayServer.WindowSetTitle(title);
     }
 }
