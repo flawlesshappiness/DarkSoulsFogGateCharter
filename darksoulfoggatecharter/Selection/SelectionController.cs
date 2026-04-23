@@ -7,6 +7,7 @@ public partial class SelectionController : SingletonController
     public static SelectionController Instance => Singleton.Get<SelectionController>();
     public override string Directory => "Selection";
     public bool Dragging { get; private set; }
+    private bool MouseDown { get; set; }
     public Vector2 ViewportDragStart { get; private set; }
     public Vector3 DragStart { get; private set; }
     public Vector3 DragEnd { get; private set; }
@@ -19,20 +20,37 @@ public partial class SelectionController : SingletonController
 
         if (e is InputEventMouseButton button)
         {
+            MouseDown = button.Pressed;
+
             if (button.Pressed)
             {
                 ViewportDragStart = DraggableCamera.Instance.MousePosition;
                 DragStart = DraggableCamera.Instance.MouseWorldPosition;
-                Dragging = true;
             }
-            else
+            else if (Dragging)
             {
                 DragEnd = DraggableCamera.Instance.MouseWorldPosition;
                 Dragging = false;
-                SelectNodesInArea();
-            }
+                SelectNodesInArea(button.CtrlPressed);
 
-            GetViewport().SetInputAsHandled();
+                GetViewport().SetInputAsHandled();
+            }
+            else if (selected_nodes.Count > 0)
+            {
+                ClearSelection();
+            }
+            else
+            {
+                MainView.Instance.EmptySpace_Clicked(DraggableCamera.Instance.MouseWorldPosition);
+            }
+        }
+
+        if (e is InputEventMouseMotion motion)
+        {
+            if (MouseDown && !Dragging)
+            {
+                Dragging = true;
+            }
         }
     }
 
@@ -86,7 +104,7 @@ public partial class SelectionController : SingletonController
         }
     }
 
-    private void SelectNodesInArea()
+    private void SelectNodesInArea(bool ctrl_held)
     {
         var lx = Mathf.Min(DragStart.X, DragEnd.X);
         var hx = Mathf.Max(DragStart.X, DragEnd.X);
@@ -102,7 +120,7 @@ public partial class SelectionController : SingletonController
 
         inside.ForEach(x => SelectNode(x, true));
 
-        if (!PlayerInput.Select.Held)
+        if (!ctrl_held)
         {
             except.ForEach(x => SelectNode(x, false));
         }

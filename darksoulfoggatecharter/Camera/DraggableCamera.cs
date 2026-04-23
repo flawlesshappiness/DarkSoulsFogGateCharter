@@ -54,7 +54,7 @@ public partial class DraggableCamera : Camera3D
         }
         else if (e is InputEventKey key)
         {
-            if (PlayerInput.Select.Held) return;
+            if (key.CtrlPressed) return;
 
             var dir = PlayerInput.GetMoveInput().Normalized();
             IntendedMoveDirection = new Vector3(dir.X, 0, dir.Y);

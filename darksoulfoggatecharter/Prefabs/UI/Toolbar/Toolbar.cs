@@ -58,7 +58,7 @@ public partial class Toolbar : MarginContainer
 
         if (e is InputEventKey key)
         {
-            if (key.Keycode == Key.S && key.IsReleased() && PlayerInput.Select.Held)
+            if (key.Keycode == Key.S && key.IsReleased() && key.CtrlPressed)
             {
                 QuickSave();
                 GetViewport().SetInputAsHandled();

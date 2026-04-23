@@ -96,6 +96,17 @@ public partial class MainView : View
         MouseVisibility.Hide(nameof(MainView));
     }
 
+    public void EmptySpace_Clicked(Vector3 position)
+    {
+        if (SearchList.Visible) return;
+
+        PopupMenu.ClearItems();
+        PopupMenu.AddActionItem("Create", () => OpenGateSearch(position));
+        PopupMenu.Show();
+        PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
+        PopupMenu.Popup();
+    }
+
     public void GateNode_Clicked(GateNodeObject node)
     {
         bool show = false;
@@ -120,6 +131,25 @@ public partial class MainView : View
         PopupMenu.Popup();
     }
 
+    /// <summary>
+    /// Opens gate search without a connection to a previous node. Only uncreated nodes are listed.
+    /// </summary>
+    private void OpenGateSearch(Vector3 position)
+    {
+        var gates = Gate.Gates.Values
+            .Where(x => Gate.IsSearchable(x.Name) && !NodeController.Instance.HasNode(x.Name))
+            .OrderBy(x => x.Area);
+
+        SearchList.Clear();
+        SearchList.Title = "Select gate";
+        SearchList.SetGates(gates);
+        SearchList.SetAction(gate => Node.StartCreateNode(gate.Name, position, null));
+        SearchList.Show();
+    }
+
+    /// <summary>
+    /// Opens gate search with a connection to the previous node. All valid node connections are listed.
+    /// </summary>
     private void OpenGateSearch(GateNodeObject node)
     {
         var next_position = Node.GetNextNodePosition(node);

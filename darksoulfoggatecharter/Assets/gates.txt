@@ -87,7 +87,7 @@
 37,Fog to Upper Blighttown,Traversable,Lower Blighttown,Blighttown
 38,Dropdown to Lower Blighttown,Shortcut,Upper Blighttown,Blighttown
 38,Dropdown to Lower Blighttown Exit,ShortcutExit,Lower Blighttown,Blighttown
-39,To Blighttown from Great Hollow,PVP,To Ash Lake from Great Hollow,Blighttown
+39,To Great Hollow from Blighttown,PVP,Lower Blighttown,Blighttown
 140,To Quelaag,Boss,Lower Blighttown,Blighttown
 39,To Blighttown from Great Hollow,PVP,To Ash Lake from Great Hollow,Great Hollow/Ash Lake
 40,To Ash Lake from Great Hollow,Traversable,To Blighttown from Great Hollow,Great Hollow/Ash Lake

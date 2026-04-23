@@ -61,7 +61,7 @@ public partial class NodeObject : Area3D
         {
             if (button.ButtonIndex == MouseButton.Left)
             {
-                if (PlayerInput.Select.Held)
+                if (button.CtrlPressed)
                 {
                     if (button.Pressed)
                     {
