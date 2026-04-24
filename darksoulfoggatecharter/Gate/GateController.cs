@@ -112,6 +112,55 @@ public partial class GateController : SingletonController
         return exit;
     }
 
+    public string GetNextValidGate(string name, string previous = null)
+    {
+        if (IsGroup(name))
+        {
+            Debug.LogMethod($"{name}");
+            return name;
+        }
+        else
+        {
+            var gate = GetGate(name);
+            if (gate == null)
+            {
+                return null;
+            }
+            else if (IsDisabled(name))
+            {
+                if (gate.Type == GateType.Objective)
+                {
+                    Debug.LogMethod($"{name}");
+                    return gate.Name;
+                }
+                else if (IsExit(name))
+                {
+                    Debug.LogMethod($"{name}");
+                    return GetNextValidGate(gate.Location);
+                }
+                else
+                {
+                    var exit = GetGateExit(name);
+                    if (string.IsNullOrEmpty(previous) || exit.Name != previous)
+                    {
+                        Debug.LogMethod($"{name}");
+                        return GetNextValidGate(exit.Name, name);
+                    }
+                    else
+                    {
+                        Debug.LogMethod($"{previous} > {name} > {gate.Location}");
+                        return GetNextValidGate(gate.Location, name);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogMethod($"{name}");
+                return gate.Name;
+            }
+        }
+    }
+
     public bool ShouldAutoGenerate(string name)
     {
         if (IsGroup(name))
@@ -188,7 +237,7 @@ public partial class GateController : SingletonController
         }
     }
 
-    public bool ShowInGroup(string name)
+    public bool IsVisibleInGroup(string name)
     {
         if (IsGroup(name))
         {

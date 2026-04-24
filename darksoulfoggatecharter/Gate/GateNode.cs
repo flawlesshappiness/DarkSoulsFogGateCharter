@@ -5,4 +5,6 @@ public class GateNode
     public string Location { get; set; }
     public string Type { get; set; }
     public string Area { get; set; }
+
+    public bool HasId => !string.IsNullOrEmpty(Id);
 }

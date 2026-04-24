@@ -160,25 +160,32 @@ public partial class NodeController : SingletonController
             var group = Gate.GetGroup(name);
             var node = GetNode(name);
             var dir = node.GlobalPosition.DirectionTo(position);
-            var existing_node = group.Gates.Values.FirstOrDefault(x => nodes.ContainsKey(x.Name));
-            var nodes_to_create = group.Gates.Values
-                .Where(x => Gate.ShowInGroup(x.Name))
-                .Append(existing_node) // Not sure this is the best way to do it, but seems to work
+            var existing_node = group.Gates.Values.FirstOrDefault(x => HasNode(x.Name));
+            var gates_to_create = group.Gates.Values
+                .Select(x => Gate.GetNextValidGate(x.Name))
+                .Where(x => x != null)
+                .Where(x => Gate.IsVisibleInGroup(x))
                 .Distinct()
-                .OrderBy(x => x != existing_node).ToList();
+                .ToList();
+
+            if (existing_node != null)
+            {
+                gates_to_create = gates_to_create
+                    .Append(existing_node.Name)
+                    .OrderBy(x => x != existing_node.Name)
+                    .ToList();
+            }
 
             var start_position = node.GlobalPosition;
-            var count = nodes_to_create.Count;
+            var count = gates_to_create.Count;
             var j = IsConnectedToGroup(node) ? 1 : 0;
             for (int i = 0; i < count; i++)
             {
-                var node_to_create = nodes_to_create[i];
-                if (node_to_create == null) continue; // This could be an issue
-
-                var next_is_group = Gate.IsGroup(node_to_create.Name);
+                var gate = gates_to_create[i];
+                var next_is_group = Gate.IsGroup(gate);
                 var mul = next_is_group ? 2 : 1;
                 var next_position = start_position + GetCirclePosition(i + j, count + j, dir) * DEFAULT_NODE_DISTANCE * mul;
-                CreateNode(node_to_create.Name, next_position, node);
+                CreateNode(gate, next_position, node);
             }
         }
         else
@@ -190,7 +197,7 @@ public partial class NodeController : SingletonController
 
             if (Gate.IsDisabled(name))
             {
-                if (!string.IsNullOrEmpty(gate.Id))
+                if (gate.HasId)
                 {
                     var exit = Gate.GetGateExit(name);
                     //GD.Print($"{gate.Type} Disabled: {name} > {exit.Name}");
@@ -295,7 +302,7 @@ public partial class NodeController : SingletonController
             }
             else
             {
-                GD.Print($"Create group: {name}");
+                //GD.Print($"Create group: {name}");
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
 

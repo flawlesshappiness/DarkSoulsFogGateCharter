@@ -200,6 +200,6 @@ public partial class MainView : View
 
     public bool HasActiveUI()
     {
-        return SearchList.IsVisibleInTree() || has_popup_menu;
+        return SearchList.IsVisibleInTree();
     }
 }
