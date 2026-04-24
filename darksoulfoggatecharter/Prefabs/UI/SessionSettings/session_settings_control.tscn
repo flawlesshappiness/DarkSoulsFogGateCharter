@@ -21,7 +21,7 @@ GoldenCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContai
 PvpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/PvpCheck")
 MinorPvpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/MinorPvpCheck")
 BossCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/BossCheck")
-WarpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/WarpCheck")
+WarpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/WarpCheck")
 ObjectiveCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/ObjectiveCheck")
 ConfirmButton = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ConfirmButton")
 CancelButton = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/CancelButton")
@@ -90,7 +90,13 @@ button_pressed = true
 text = "Golden
 "
 
+[node name="WarpCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Warp"
+
 [node name="BossCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 button_pressed = true
 text = "Boss"
@@ -107,11 +113,6 @@ text = "PVP"
 layout_mode = 2
 button_pressed = true
 text = "Minor PVP"
-
-[node name="WarpCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-button_pressed = true
-text = "Warp"
 
 [node name="ObjectiveCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
 visible = false
