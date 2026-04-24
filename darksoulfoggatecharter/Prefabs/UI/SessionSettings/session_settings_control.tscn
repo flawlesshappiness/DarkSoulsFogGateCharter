@@ -20,7 +20,7 @@ TraversableCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginC
 GoldenCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/GoldenCheck")
 PvpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/PvpCheck")
 MinorPvpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/MinorPvpCheck")
-BossCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/BossCheck")
+BossCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/BossCheck")
 WarpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/WarpCheck")
 ObjectiveCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/ObjectiveCheck")
 ConfirmButton = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/ConfirmButton")
@@ -95,14 +95,13 @@ layout_mode = 2
 button_pressed = true
 text = "Warp"
 
-[node name="BossCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer"]
-visible = false
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer"]
+layout_mode = 2
+
+[node name="BossCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 button_pressed = true
 text = "Boss"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer"]
-layout_mode = 2
 
 [node name="PvpCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
