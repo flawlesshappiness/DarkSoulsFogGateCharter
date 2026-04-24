@@ -17,21 +17,20 @@ public partial class NodeObject : Area3D
 
     public Dictionary<string, NodeObject> ConnectedNodes = new();
 
+    public static NodeObject Handled { get; private set; }
+    public static NodeObject Hovered { get; private set; }
     public bool IsFullyConnected => ConnectedNodes.Count >= 2;
     public Vector3 DragStartPosition { get; private set; }
     public Vector3 DragEndPosition { get; private set; }
-
-    public static NodeObject Handled;
+    protected bool IsHandled => Handled == this;
+    protected bool IsHovered => Hovered == this;
+    protected bool IsPressed { get; private set; }
+    protected bool IsDragging { get; private set; }
+    public bool IsSelected { get; private set; }
 
     public event Action OnClicked;
     public event Action OnDragStarted;
     public event Action OnDragEnded;
-
-    protected bool IsHandled => Handled == this;
-    protected bool HasMouse { get; private set; }
-    protected bool MouseDown { get; private set; }
-    protected bool Dragging { get; private set; }
-    public bool Selected { get; private set; }
 
     private bool has_dragged;
     private Vector3 drag_offset;
@@ -51,82 +50,32 @@ public partial class NodeObject : Area3D
         Mesh_Select.Hide();
     }
 
-    public override void _UnhandledInput(InputEvent e)
-    {
-        base._UnhandledInput(e);
-
-        var can_input = HasMouse || IsHandled;
-        if (!can_input) return;
-        if (e is InputEventMouseButton button)
-        {
-            if (button.ButtonIndex == MouseButton.Left)
-            {
-                if (button.CtrlPressed)
-                {
-                    if (button.Pressed)
-                    {
-                        UndoController.Instance.StartUndoAction($"Node {NodeName} selected");
-                        SelectionController.Instance.ToggleNode(this);
-                        UndoController.Instance.EndUndoAction();
-                        GetViewport().SetInputAsHandled();
-                    }
-                }
-                else if (SelectionController.Instance.Dragging)
-                {
-                    // Do nothing
-                }
-                else
-                {
-                    MousePressed(button.Pressed);
-                    GetViewport().SetInputAsHandled();
-
-                    if (!button.Pressed && !has_dragged)
-                    {
-                        SelectionController.Instance.ClearSelection();
-                        OnClicked?.Invoke();
-                    }
-                }
-            }
-        }
-        else if (e is InputEventMouseMotion motion && MouseDown)
-        {
-            if (Selected)
-            {
-                SelectionController.Instance.DragSelection();
-            }
-            else
-            {
-                SelectionController.Instance.ClearSelection();
-                Drag();
-            }
-
-            GetViewport().SetInputAsHandled();
-        }
-    }
-
     public override void _MouseEnter()
     {
         base._MouseEnter();
-        HasMouse = true;
+        Hovered = this;
     }
 
     public override void _MouseExit()
     {
         base._MouseExit();
-        HasMouse = false;
+        if (Hovered == this)
+        {
+            Hovered = null;
+        }
     }
 
-    private void MousePressed(bool pressed)
+    public void MousePressed(bool pressed, bool ctrl)
     {
-        if (MouseDown != pressed)
+        if (IsPressed != pressed)
         {
-            MousePressedChanged(pressed);
+            MousePressedChanged(pressed, ctrl);
         }
 
-        MouseDown = pressed;
+        IsPressed = pressed;
     }
 
-    protected virtual void MousePressedChanged(bool pressed)
+    protected virtual void MousePressedChanged(bool pressed, bool ctrl)
     {
         if (pressed)
         {
@@ -139,13 +88,26 @@ public partial class NodeObject : Area3D
             Handled = null;
             GlobalPosition = GlobalPosition.Set(y: 0);
 
-            if (Selected)
+            if (ctrl)
             {
-                SelectionController.Instance.DragEndSelection();
+                ToggleSelected();
             }
-            else
+            else if (!has_dragged)
             {
-                DragEnd();
+                SelectionController.Instance.ClearSelection();
+                OnClicked?.Invoke();
+            }
+
+            if (has_dragged)
+            {
+                if (IsSelected)
+                {
+                    SelectionController.Instance.StopDragSelection();
+                }
+                else
+                {
+                    DragEnd();
+                }
             }
         }
     }
@@ -154,29 +116,29 @@ public partial class NodeObject : Area3D
     {
         var mouse_position = DraggableCamera.Instance.MouseWorldPosition;
 
-        if (!Dragging)
+        if (!IsDragging)
         {
             DragStartPosition = GlobalPosition.Set(y: 0);
             drag_offset = DragStartPosition - mouse_position;
 
-            if (!Selected)
+            if (!IsSelected)
             {
                 OnDragStarted?.Invoke();
             }
         }
 
         has_dragged = true;
-        Dragging = true;
+        IsDragging = true;
         GlobalPosition = new Vector3(mouse_position.X, GlobalPosition.Y, mouse_position.Z) + drag_offset;
     }
 
     public void DragEnd()
     {
-        if (!Dragging) return;
-        Dragging = false;
+        if (!IsDragging) return;
+        IsDragging = false;
         DragEndPosition = GlobalPosition;
 
-        if (!Selected)
+        if (!IsSelected)
         {
             OnDragEnded?.Invoke();
         }
@@ -211,10 +173,17 @@ public partial class NodeObject : Area3D
         QueueFree();
     }
 
+    public void ToggleSelected()
+    {
+        UndoController.Instance.StartUndoAction($"Node {NodeName} selected");
+        SelectionController.Instance.ToggleNode(this);
+        UndoController.Instance.EndUndoAction();
+    }
+
     public virtual void SetSelected(bool selected)
     {
-        if (Selected == selected) return;
-        Selected = selected;
+        if (IsSelected == selected) return;
+        IsSelected = selected;
         Mesh_Select.Visible = selected;
         UndoController.Instance.AddSelectNodeAction(NodeName, selected);
     }

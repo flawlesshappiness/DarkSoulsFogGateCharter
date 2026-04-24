@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Linq;
 
 public partial class MainView : View
@@ -16,17 +15,13 @@ public partial class MainView : View
     public SessionSettingsControl SessionSettings;
 
     [Export]
-    public MousePrompt MousePrompt;
-
-    [Export]
     public Control Selection;
 
     private GateController Gate => GateController.Instance;
     private MainScene Scene => MainScene.Instance;
     private NodeController Node => NodeController.Instance;
 
-    private bool has_mouse_prompt;
-    private event Action OnMousePrompt;
+    private bool has_popup_menu;
 
     public override void _Ready()
     {
@@ -34,7 +29,6 @@ public partial class MainView : View
         Instance = this;
         SearchList.Hide();
         SessionSettings.Hide();
-        EndMousePrompt();
 
         SessionSettings.ConfirmButton.Pressed += SessionSettingsConfirm_Pressed;
 
@@ -44,7 +38,6 @@ public partial class MainView : View
     public override void _Process(double delta)
     {
         base._Process(delta);
-        MousePrompt.Position = GetViewport().GetMousePosition() + new Vector2(0, -40);
         Process_Selection();
     }
 
@@ -63,27 +56,6 @@ public partial class MainView : View
         Selection.Size = size;
     }
 
-    public override void _UnhandledInput(InputEvent e)
-    {
-        base._UnhandledInput(e);
-
-        if (e is InputEventMouseButton button)
-        {
-            if (!has_mouse_prompt) return;
-            if (button.ButtonIndex == MouseButton.Left)
-            {
-                OnMousePrompt?.Invoke();
-                EndMousePrompt();
-                GetViewport().SetInputAsHandled();
-            }
-            else if (button.ButtonIndex == MouseButton.Right)
-            {
-                EndMousePrompt();
-                GetViewport().SetInputAsHandled();
-            }
-        }
-    }
-
     protected override void OnShow()
     {
         base.OnShow();
@@ -98,7 +70,15 @@ public partial class MainView : View
 
     public void EmptySpace_Clicked(Vector3 position)
     {
-        if (SearchList.Visible) return;
+        if (HasActiveUI()) return;
+
+        if (has_popup_menu)
+        {
+            has_popup_menu = false;
+            return;
+        }
+
+        has_popup_menu = true;
 
         PopupMenu.ClearItems();
         PopupMenu.AddActionItem("Create", () => OpenGateSearch(position));
@@ -109,6 +89,16 @@ public partial class MainView : View
 
     public void GateNode_Clicked(GateNodeObject node)
     {
+        if (HasActiveUI()) return;
+
+        if (has_popup_menu)
+        {
+            has_popup_menu = false;
+            return;
+        }
+
+        has_popup_menu = true;
+
         bool show = false;
 
         PopupMenu.ClearItems();
@@ -209,20 +199,6 @@ public partial class MainView : View
 
     public bool HasActiveUI()
     {
-        return SearchList.IsVisibleInTree();
-    }
-
-    private void StartMousePrompt(string text, Action action)
-    {
-        MousePrompt.Show();
-        MousePrompt.Label.Text = text;
-        has_mouse_prompt = true;
-        OnMousePrompt = action;
-    }
-
-    private void EndMousePrompt()
-    {
-        has_mouse_prompt = false;
-        MousePrompt.Hide();
+        return SearchList.IsVisibleInTree() || has_popup_menu;
     }
 }

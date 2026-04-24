@@ -34,9 +34,9 @@ public partial class GroupNodeObject : NodeObject
         Animation.Play("shrink");
     }
 
-    protected override void MousePressedChanged(bool pressed)
+    protected override void MousePressedChanged(bool pressed, bool ctrl)
     {
-        base.MousePressedChanged(pressed);
+        base.MousePressedChanged(pressed, ctrl);
 
         if (pressed)
         {

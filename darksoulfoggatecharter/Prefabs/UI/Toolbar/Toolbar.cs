@@ -48,22 +48,9 @@ public partial class Toolbar : MarginContainer
         SaveFileDialog.FileSelected += SafeFile_Selected;
 
         NodeController.Instance.OnNodeChanges += Node_Changes;
+        InputController.Instance.OnShortcutQuicksave += QuickSave;
 
         SetUnsavedChanges(false);
-    }
-
-    public override void _Input(InputEvent e)
-    {
-        base._Input(e);
-
-        if (e is InputEventKey key)
-        {
-            if (key.Keycode == Key.S && key.IsReleased() && key.CtrlPressed)
-            {
-                QuickSave();
-                GetViewport().SetInputAsHandled();
-            }
-        }
     }
 
     private void New_Pressed()

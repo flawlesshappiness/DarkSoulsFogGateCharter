@@ -4,7 +4,6 @@ using System;
 public partial class DraggableCamera : Camera3D
 {
     public static DraggableCamera Instance { get; private set; }
-    public bool Dragging { get; private set; }
     public Vector2 MousePosition => GetViewport().GetMousePosition();
     public Vector3 MouseWorldPosition => ProjectPosition(MousePosition, GlobalPosition.Y);
     public Vector2 ViewportSize => GetViewport().GetVisibleRect().Size;
@@ -20,48 +19,6 @@ public partial class DraggableCamera : Camera3D
         Instance = this;
     }
 
-    public override void _UnhandledInput(InputEvent e)
-    {
-        base._UnhandledInput(e);
-
-        if (MainView.Instance?.HasActiveUI() ?? false) return;
-        if (e is InputEventMouseButton button)
-        {
-            if (button.ButtonIndex == MouseButton.Middle || button.ButtonIndex == MouseButton.Right)
-            {
-                MousePressed(button.Pressed);
-                GetViewport().SetInputAsHandled();
-            }
-            else if (button.ButtonIndex == MouseButton.WheelUp)
-            {
-                AdjustSize(-0.5f);
-                GetViewport().SetInputAsHandled();
-            }
-            else if (button.ButtonIndex == MouseButton.WheelDown)
-            {
-                AdjustSize(0.5f);
-                GetViewport().SetInputAsHandled();
-            }
-        }
-        else if (e is InputEventMouseMotion motion && Dragging)
-        {
-            var rn = -motion.Relative / ViewportSize;
-            var x = rn.X * Size * AspectRatio;
-            var z = rn.Y * Size;
-            var dir = new Vector3(x, 0, z);
-            GlobalPosition += dir;
-            GetViewport().SetInputAsHandled();
-        }
-        else if (e is InputEventKey key)
-        {
-            if (key.CtrlPressed) return;
-
-            var dir = PlayerInput.GetMoveInput().Normalized();
-            IntendedMoveDirection = new Vector3(dir.X, 0, dir.Y);
-            GetViewport().SetInputAsHandled();
-        }
-    }
-
     public override void _Process(double delta)
     {
         base._Process(delta);
@@ -73,30 +30,34 @@ public partial class DraggableCamera : Camera3D
         }
     }
 
-    private void MousePressed(bool pressed)
+    public void Drag(Vector2 relative)
     {
-        if (Dragging != pressed)
-        {
-            MousePressedChanged(pressed);
-        }
-
-        Dragging = pressed;
+        var rn = -relative / ViewportSize;
+        var x = rn.X * Size * AspectRatio;
+        var z = rn.Y * Size;
+        var dir = new Vector3(x, 0, z);
+        GlobalPosition += dir;
     }
 
-    private void MousePressedChanged(bool pressed)
+    public void Move(Vector2 dir)
     {
-        if (pressed)
-        {
-        }
-        else
-        {
-        }
+        IntendedMoveDirection = new Vector3(dir.X, 0, dir.Y);
     }
 
     private float CalculateAspectRatio()
     {
         var size = ViewportSize;
         return size.X / size.Y;
+    }
+
+    public void ZoomIn()
+    {
+        AdjustSize(-0.5f);
+    }
+
+    public void ZoomOut()
+    {
+        AdjustSize(0.5f);
     }
 
     private void AdjustSize(float value)

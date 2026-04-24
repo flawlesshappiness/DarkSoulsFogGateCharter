@@ -11,48 +11,9 @@ public partial class SelectionController : SingletonController
     public Vector2 ViewportDragStart { get; private set; }
     public Vector3 DragStart { get; private set; }
     public Vector3 DragEnd { get; private set; }
+    public bool HasSelection => selected_nodes.Count > 0;
 
     private List<NodeObject> selected_nodes = new();
-
-    public override void _UnhandledInput(InputEvent e)
-    {
-        base._UnhandledInput(e);
-
-        if (e is InputEventMouseButton button)
-        {
-            MouseDown = button.Pressed;
-
-            if (button.Pressed)
-            {
-                ViewportDragStart = DraggableCamera.Instance.MousePosition;
-                DragStart = DraggableCamera.Instance.MouseWorldPosition;
-            }
-            else if (Dragging)
-            {
-                DragEnd = DraggableCamera.Instance.MouseWorldPosition;
-                Dragging = false;
-                SelectNodesInArea(button.CtrlPressed);
-
-                GetViewport().SetInputAsHandled();
-            }
-            else if (selected_nodes.Count > 0)
-            {
-                ClearSelection();
-            }
-            else
-            {
-                MainView.Instance.EmptySpace_Clicked(DraggableCamera.Instance.MouseWorldPosition);
-            }
-        }
-
-        if (e is InputEventMouseMotion motion)
-        {
-            if (MouseDown && !Dragging)
-            {
-                Dragging = true;
-            }
-        }
-    }
 
     public void ClearSelection()
     {
@@ -136,6 +97,25 @@ public partial class SelectionController : SingletonController
         }
     }
 
+    public void StartSelectionArea()
+    {
+        if (Dragging) return;
+        Debug.LogMethod();
+        ViewportDragStart = DraggableCamera.Instance.MousePosition;
+        DragStart = DraggableCamera.Instance.MouseWorldPosition;
+        Dragging = true;
+    }
+
+    public void StopSelectionArea(bool ctrl)
+    {
+        if (!Dragging) return;
+
+        Debug.LogMethod();
+        DragEnd = DraggableCamera.Instance.MouseWorldPosition;
+        Dragging = false;
+        SelectNodesInArea(ctrl);
+    }
+
     public void DragSelection()
     {
         foreach (var node in selected_nodes)
@@ -144,7 +124,7 @@ public partial class SelectionController : SingletonController
         }
     }
 
-    public void DragEndSelection()
+    public void StopDragSelection()
     {
         UndoController.Instance.StartUndoAction("Selection dragged");
         foreach (var node in selected_nodes)
