@@ -12,6 +12,7 @@ public partial class NodeController : SingletonController
     private DraggableCamera Camera => DraggableCamera.Instance;
     private UndoController Undo => UndoController.Instance;
     public MainScene Scene => MainScene.Instance;
+    public bool IsLoaded { get; private set; }
 
     public const float DEFAULT_NODE_DISTANCE = 1.5f;
 
@@ -485,5 +486,7 @@ public partial class NodeController : SingletonController
             var position = new Vector3(data.X, data.Y, data.Z);
             node.GlobalPosition = position;
         }
+
+        IsLoaded = true;
     }
 }

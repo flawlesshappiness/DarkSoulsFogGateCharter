@@ -71,6 +71,7 @@ public partial class MainView : View
     public void EmptySpace_Clicked(Vector3 position)
     {
         if (HasActiveUI()) return;
+        if (!NodeController.Instance.IsLoaded) return;
 
         if (has_popup_menu)
         {
