@@ -9,7 +9,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="SessionSettingsControl" type="MarginContainer" node_paths=PackedStringArray("TraversableCheck", "GoldenCheck", "PvpCheck", "BossCheck", "WarpCheck", "ObjectiveCheck", "ConfirmButton", "CancelButton")]
+[node name="SessionSettingsControl" type="MarginContainer" node_paths=PackedStringArray("TraversableCheck", "GoldenCheck", "PvpCheck", "MinorPvpCheck", "BossCheck", "WarpCheck", "ObjectiveCheck", "ConfirmButton", "CancelButton")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,6 +19,7 @@ script = ExtResource("1_6v1kf")
 TraversableCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/TraversableCheck")
 GoldenCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/GoldenCheck")
 PvpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/PvpCheck")
+MinorPvpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/MinorPvpCheck")
 BossCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer/BossCheck")
 WarpCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/WarpCheck")
 ObjectiveCheck = NodePath("HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2/ObjectiveCheck")
@@ -101,6 +102,11 @@ layout_mode = 2
 layout_mode = 2
 button_pressed = true
 text = "PVP"
+
+[node name="MinorPvpCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+button_pressed = true
+text = "Minor PVP"
 
 [node name="WarpCheck" type="CheckBox" parent="HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer2"]
 layout_mode = 2

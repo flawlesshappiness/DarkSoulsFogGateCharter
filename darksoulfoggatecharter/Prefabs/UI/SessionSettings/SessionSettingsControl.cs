@@ -14,6 +14,9 @@ public partial class SessionSettingsControl : MarginContainer
     public CheckBox PvpCheck;
 
     [Export]
+    public CheckBox MinorPvpCheck;
+
+    [Export]
     public CheckBox BossCheck;
 
     [Export]
@@ -48,6 +51,7 @@ public partial class SessionSettingsControl : MarginContainer
             { TraversableCheck, GateType.Traversable.ToString() },
             { GoldenCheck, GateType.Golden.ToString() },
             { PvpCheck, GateType.PVP.ToString() },
+            { MinorPvpCheck, GateType.MinorPVP.ToString() },
             { BossCheck, GateType.Boss.ToString() },
             { WarpCheck, GateType.Warp.ToString() },
             { ObjectiveCheck, GateType.Objective.ToString() },
