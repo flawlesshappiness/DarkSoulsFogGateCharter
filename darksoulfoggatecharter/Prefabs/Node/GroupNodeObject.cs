@@ -15,11 +15,26 @@ public partial class GroupNodeObject : NodeObject
         Animation.Play("show");
     }
 
+    protected override void Node_Created(NodeObject node)
+    {
+        if (node is GroupNodeObject group)
+        {
+            var relation = new NodeRelation
+            {
+                Node = node,
+                MinDistance = 7f
+            };
+
+            Relations.Add(relation);
+        }
+    }
+
     public void SetGroup(GateGroup group)
     {
         Group = group;
         Label.Text = group.Name;
         LoadColorPalette();
+        InitializeOtherNodes();
     }
 
     public override void _MouseEnter()

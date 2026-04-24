@@ -78,10 +78,12 @@ public partial class InputController : SingletonController
             }
             else if (button.ButtonIndex == MouseButton.WheelDown) // Wheel down
             {
+                if (MainView.Instance.HasActiveUI()) return;
                 DraggableCamera.Instance.ZoomOut();
             }
             else if (button.ButtonIndex == MouseButton.WheelUp) // Wheel up
             {
+                if (MainView.Instance.HasActiveUI()) return;
                 DraggableCamera.Instance.ZoomIn();
             }
         }
@@ -127,6 +129,7 @@ public partial class InputController : SingletonController
 
         if (!e.CtrlPressed) // Move camera
         {
+            if (MainView.Instance.HasActiveUI()) return;
             DraggableCamera.Instance.Move(PlayerInput.GetMoveInput().Normalized());
         }
     }

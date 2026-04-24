@@ -17,6 +17,7 @@ public partial class NodeController : SingletonController
     public const float DEFAULT_NODE_DISTANCE = 1.5f;
 
     public Action OnNodeChanges;
+    public Action<NodeObject> OnNodeCreated;
 
     private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
@@ -50,6 +51,7 @@ public partial class NodeController : SingletonController
         node.OnDragEnded += () => Node_DragEnded(node);
         node.OnClicked += () => Gate_Clicked(node);
 
+        OnNodeCreated?.Invoke(node);
         OnNodeChanges?.Invoke();
 
         return node;
@@ -88,6 +90,7 @@ public partial class NodeController : SingletonController
 
         node.OnDragEnded += () => Node_DragEnded(node);
 
+        OnNodeCreated?.Invoke(node);
         OnNodeChanges?.Invoke();
 
         return node;

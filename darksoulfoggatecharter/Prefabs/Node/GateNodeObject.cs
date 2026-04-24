@@ -28,12 +28,34 @@ public partial class GateNodeObject : NodeObject
         Animation.Play("show");
     }
 
+    protected override void Node_Created(NodeObject node)
+    {
+        base.Node_Created(node);
+
+        if (node is GroupNodeObject group)
+        {
+            var relation = GetOrCreateRelation(node);
+            relation.MinDistance = 1.7f;
+
+            if (Gate.Location == group.NodeName)
+            {
+                relation.MaxDistance = 2.2f;
+            }
+        }
+        else if (node is GateNodeObject gate)
+        {
+            var relation = GetOrCreateRelation(node);
+            relation.MinDistance = 1.5f;
+        }
+    }
+
     public void SetGate(GateNode gate)
     {
         Gate = gate;
         Label.Text = gate.Name;
         LoadColorPalette();
         UpdateIcon(gate.Type);
+        InitializeOtherNodes();
     }
 
     public override void _MouseEnter()
@@ -91,6 +113,11 @@ public partial class GateNodeObject : NodeObject
     {
         base.AddConnection(id, node);
         Animation.Play("bounce");
+
+        if (node is GateNodeObject gate)
+        {
+            Node_Created(node);
+        }
     }
 
     public override void DestroyNode()

@@ -116,7 +116,6 @@ public partial class GateController : SingletonController
     {
         if (IsGroup(name))
         {
-            Debug.LogMethod($"{name}");
             return name;
         }
         else
@@ -130,12 +129,10 @@ public partial class GateController : SingletonController
             {
                 if (gate.Type == GateType.Objective)
                 {
-                    Debug.LogMethod($"{name}");
                     return gate.Name;
                 }
                 else if (IsExit(name))
                 {
-                    Debug.LogMethod($"{name}");
                     return GetNextValidGate(gate.Location);
                 }
                 else
@@ -143,19 +140,16 @@ public partial class GateController : SingletonController
                     var exit = GetGateExit(name);
                     if (string.IsNullOrEmpty(previous) || exit.Name != previous)
                     {
-                        Debug.LogMethod($"{name}");
                         return GetNextValidGate(exit.Name, name);
                     }
                     else
                     {
-                        Debug.LogMethod($"{previous} > {name} > {gate.Location}");
                         return GetNextValidGate(gate.Location, name);
                     }
                 }
             }
             else
             {
-                Debug.LogMethod($"{name}");
                 return gate.Name;
             }
         }

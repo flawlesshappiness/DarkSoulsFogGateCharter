@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class NodeObject : Area3D
 {
@@ -27,6 +28,7 @@ public partial class NodeObject : Area3D
     protected bool IsPressed { get; private set; }
     protected bool IsDragging { get; private set; }
     public bool IsSelected { get; private set; }
+    protected List<NodeRelation> Relations { get; private set; } = new();
 
     public event Action OnClicked;
     public event Action OnDragStarted;
@@ -43,11 +45,34 @@ public partial class NodeObject : Area3D
         InitializeMesh();
     }
 
+    protected virtual void InitializeOtherNodes()
+    {
+        foreach (var node in NodeController.Instance.GetNodes())
+        {
+            if (node == this) continue;
+            Node_Created(node);
+        }
+
+        NodeController.Instance.OnNodeCreated += Node_Created;
+    }
+
+    protected virtual void Node_Created(NodeObject node)
+    {
+
+    }
+
     private void InitializeMesh()
     {
         material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
         Mesh.SetSurfaceOverrideMaterial(0, material);
         Mesh_Select.Hide();
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+        var fdelta = Convert.ToSingle(delta);
+        Process_Relations(fdelta);
     }
 
     public override void _MouseEnter()
@@ -186,5 +211,67 @@ public partial class NodeObject : Area3D
         IsSelected = selected;
         Mesh_Select.Visible = selected;
         UndoController.Instance.AddSelectNodeAction(NodeName, selected);
+    }
+
+    protected NodeRelation GetOrCreateRelation(NodeObject node)
+    {
+        var relation = Relations.FirstOrDefault(x => x.Node.NodeName == node.NodeName);
+        if (relation == null)
+        {
+            relation = new NodeRelation
+            {
+                Node = node
+            };
+            Relations.Add(relation);
+        }
+
+        return relation;
+    }
+
+    protected void RemoveRelation(string name)
+    {
+        var relation = Relations.FirstOrDefault(x => x.Node.NodeName == name);
+        if (relation == null) return;
+
+        Relations.Remove(relation);
+    }
+
+    private void Process_Relations(float delta)
+    {
+        if (IsHandled) return;
+
+        var position = GlobalPosition;
+        var velocity = Vector3.Zero;
+        var iterations = 0;
+        foreach (var relation in Relations)
+        {
+            if (relation.Node.IsHandled) continue;
+
+            var dir = position - relation.Node.GlobalPosition;
+            var length = dir.Length();
+
+            if (length < (relation.MinDistance ?? 0))
+            {
+                var min_distance = relation.MinDistance ?? 0f;
+                var ease_range = min_distance - 2f;
+                var t = 1f - Mathf.Clamp((length - ease_range) / (min_distance - ease_range), 0f, 1f);
+                velocity += dir.Normalized() * t;
+                iterations++;
+            }
+            else if (length > (relation.MaxDistance ?? float.MaxValue))
+            {
+                var ease_range = 2f;
+                var max_distance = relation.MaxDistance ?? 0f;
+                var t = Mathf.Clamp((length - max_distance) / ease_range, 0f, 1f);
+                velocity += -dir.Normalized() * t;
+                iterations++;
+            }
+        }
+
+        if (iterations > 0)
+        {
+            velocity *= 1f / iterations;
+        }
+        GlobalPosition += velocity * 15f * delta;
     }
 }
