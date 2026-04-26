@@ -39,18 +39,21 @@ public partial class GroupNodeObject : NodeObject
 
     public override void _MouseEnter()
     {
+        if (IsDestroying) return;
         base._MouseEnter();
         Animation.Play("grow");
     }
 
     public override void _MouseExit()
     {
+        if (IsDestroying) return;
         base._MouseExit();
         Animation.Play("shrink");
     }
 
     protected override void MousePressedChanged(bool pressed, bool ctrl)
     {
+        if (IsDestroying) return;
         base.MousePressedChanged(pressed, ctrl);
 
         if (pressed)
@@ -72,10 +75,12 @@ public partial class GroupNodeObject : NodeObject
 
     public override void DestroyNode()
     {
+        IsDestroying = true;
         this.StartCoroutine(Cr, "destroy");
         IEnumerator Cr()
         {
-            yield return Animation.PlayAndWaitForAnimation("hide");
+            Animation.Play("hide");
+            yield return new WaitForSeconds(1);
             QueueFree();
         }
     }

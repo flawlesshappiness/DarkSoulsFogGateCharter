@@ -22,6 +22,7 @@ public partial class ConnectionObject : Node3D
     public string NameA { get; private set; }
     public string NameB { get; private set; }
     public bool ConnectedToGroup { get; private set; }
+    protected bool IsDestroying { get; set; }
 
     private BoxMesh box_mesh;
     private StandardMaterial3D material;
@@ -116,10 +117,12 @@ public partial class ConnectionObject : Node3D
 
     public void DestroyConnection()
     {
+        IsDestroying = true;
         this.StartCoroutine(Cr, "destroy");
         IEnumerator Cr()
         {
-            yield return Animation.PlayAndWaitForAnimation("hide");
+            Animation.Play("hide");
+            yield return new WaitForSeconds(1);
             QueueFree();
         }
     }

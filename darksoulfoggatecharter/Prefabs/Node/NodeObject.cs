@@ -27,6 +27,7 @@ public partial class NodeObject : Area3D
     protected bool IsHovered => Hovered == this;
     protected bool IsPressed { get; private set; }
     protected bool IsDragging { get; private set; }
+    protected bool IsDestroying { get; set; }
     public bool IsSelected { get; private set; }
     protected List<NodeRelation> Relations { get; private set; } = new();
 
@@ -43,6 +44,16 @@ public partial class NodeObject : Area3D
     {
         base._Ready();
         InitializeMesh();
+
+        NodeController.Instance.OnNodeCreated += Node_Created;
+        NodeController.Instance.OnNodeRemoved += Node_Removed;
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        NodeController.Instance.OnNodeCreated -= Node_Created;
+        NodeController.Instance.OnNodeRemoved -= Node_Removed;
     }
 
     protected virtual void InitializeOtherNodes()
@@ -52,13 +63,16 @@ public partial class NodeObject : Area3D
             if (node == this) continue;
             Node_Created(node);
         }
-
-        NodeController.Instance.OnNodeCreated += Node_Created;
     }
 
     protected virtual void Node_Created(NodeObject node)
     {
 
+    }
+
+    protected virtual void Node_Removed(NodeObject node)
+    {
+        RemoveRelation(node.NodeName);
     }
 
     private void InitializeMesh()
@@ -78,6 +92,7 @@ public partial class NodeObject : Area3D
     public override void _MouseEnter()
     {
         base._MouseEnter();
+        if (IsDestroying) return;
         Hovered = this;
     }
 
@@ -92,6 +107,8 @@ public partial class NodeObject : Area3D
 
     public void MousePressed(bool pressed, bool ctrl)
     {
+        if (IsDestroying) return;
+
         if (IsPressed != pressed)
         {
             MousePressedChanged(pressed, ctrl);
@@ -195,6 +212,7 @@ public partial class NodeObject : Area3D
 
     public virtual void DestroyNode()
     {
+        IsDestroying = true;
         QueueFree();
     }
 

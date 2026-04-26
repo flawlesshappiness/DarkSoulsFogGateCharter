@@ -39,6 +39,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0.9, 0.9, 0.9)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Anim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_m2fqg"]
 resource_name = "bounce"
@@ -55,6 +67,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.5, -2, -2, -2, 0.5),
 "update": 0,
 "values": [Vector3(0.9, 0.9, 0.9), Vector3(1.2, 1.2, 1.2), Vector3(0.7, 0.7, 0.7), Vector3(1.05, 1.05, 1.05), Vector3(0.9, 0.9, 0.9)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Anim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_d6nvu"]
@@ -73,6 +97,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Anim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_722xc"]
 resource_name = "hide"
@@ -89,6 +125,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.5, -2, 0.5),
 "update": 0,
 "values": [Vector3(0.9, 0.9, 0.9), Vector3(1, 1, 1), Vector3(0.01, 0.01, 0.01)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Anim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_t0cd5"]
@@ -107,6 +155,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0.01, 0.01, 0.01), Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Anim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_jxqiy"]
 resource_name = "shrink"
@@ -123,6 +183,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.5, 0.5),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(0.9, 0.9, 0.9)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Anim:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t0cd5"]
@@ -151,6 +223,7 @@ shape = SubResource("BoxShape3D_d6nvu")
 
 [node name="Anim" type="Node3D" parent="."]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
+visible = false
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Anim"]
 mesh = SubResource("CylinderMesh_sakr1")
@@ -200,4 +273,4 @@ texture = ExtResource("5_m2fqg")
 libraries = {
 &"": SubResource("AnimationLibrary_t0cd5")
 }
-playback_default_blend_time = 0.1
+playback_default_blend_time = 0.02

@@ -19,13 +19,15 @@ public partial class GateNodeObject : NodeObject
     public Sprite3D IconLocked;
 
     public override string NodeName => Gate.Name;
-
     public GateNode Gate { get; private set; }
+
+    private float spawn_time;
 
     public override void _Ready()
     {
         base._Ready();
         Animation.Play("show");
+        spawn_time = GameTime.Time + 0.5f;
     }
 
     protected override void Node_Created(NodeObject node)
@@ -60,6 +62,7 @@ public partial class GateNodeObject : NodeObject
 
     public override void _MouseEnter()
     {
+        if (IsDestroying) return;
         base._MouseEnter();
         if (IsHandled) return;
         Animation.Play("grow");
@@ -67,6 +70,7 @@ public partial class GateNodeObject : NodeObject
 
     public override void _MouseExit()
     {
+        if (IsDestroying) return;
         base._MouseExit();
         if (IsHandled) return;
         Animation.Play("shrink");
@@ -74,6 +78,7 @@ public partial class GateNodeObject : NodeObject
 
     protected override void MousePressedChanged(bool pressed, bool ctrl)
     {
+        if (IsDestroying) return;
         base.MousePressedChanged(pressed, ctrl);
 
         if (pressed)
@@ -112,7 +117,11 @@ public partial class GateNodeObject : NodeObject
     public override void AddConnection(string id, NodeObject node)
     {
         base.AddConnection(id, node);
-        Animation.Play("bounce");
+
+        if (GameTime.Time > spawn_time)
+        {
+            Animation.Play("bounce");
+        }
 
         if (node is GateNodeObject gate)
         {
@@ -122,10 +131,12 @@ public partial class GateNodeObject : NodeObject
 
     public override void DestroyNode()
     {
+        IsDestroying = true;
         this.StartCoroutine(Cr, "destroy");
         IEnumerator Cr()
         {
-            yield return Animation.PlayAndWaitForAnimation("hide");
+            Animation.Play("hide");
+            yield return new WaitForSeconds(1f);
             QueueFree();
         }
     }

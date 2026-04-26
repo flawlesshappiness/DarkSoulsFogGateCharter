@@ -18,6 +18,7 @@ public partial class NodeController : SingletonController
 
     public Action OnNodeChanges;
     public Action<NodeObject> OnNodeCreated;
+    public Action<NodeObject> OnNodeRemoved;
 
     private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
@@ -356,6 +357,7 @@ public partial class NodeController : SingletonController
     {
         //Debug.LogMethod(name);
         var node = GetNode(name);
+        OnNodeRemoved?.Invoke(node);
         node?.DestroyNode();
         nodes.Remove(name);
     }

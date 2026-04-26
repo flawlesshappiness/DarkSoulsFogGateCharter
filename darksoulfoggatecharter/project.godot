@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 MouseVisibility="*res://Modules/Input/MouseVisibility.cs"
+GameTime="*res://Modules/Time/GameTime.cs"
 
 [dotnet]
 
