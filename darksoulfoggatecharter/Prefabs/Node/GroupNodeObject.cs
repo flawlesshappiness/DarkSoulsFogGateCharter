@@ -6,6 +6,12 @@ public partial class GroupNodeObject : NodeObject
     [Export]
     public AnimationPlayer Animation;
 
+    [Export]
+    public AnimationPlayer Animation_Search;
+
+    [Export]
+    public ColorPaletteInfo GreyedOutColorPalette;
+
     public GateGroup Group { get; private set; }
     public override string NodeName => Group.Name;
 
@@ -27,6 +33,20 @@ public partial class GroupNodeObject : NodeObject
 
             Relations.Add(relation);
         }
+    }
+
+    protected override void SearchValid()
+    {
+        base.SearchValid();
+        Animation_Search.Play("show");
+        LoadColorPalette();
+    }
+
+    protected override void SearchInvalid()
+    {
+        base.SearchInvalid();
+        Animation_Search.Play("hide");
+        LoadColorPalette(GreyedOutColorPalette);
     }
 
     public void SetGroup(GateGroup group)
@@ -69,6 +89,11 @@ public partial class GroupNodeObject : NodeObject
     private void LoadColorPalette()
     {
         var info = ColorPaletteController.Instance.GetInfo(Group.Area);
+        LoadColorPalette(info);
+    }
+
+    private void LoadColorPalette(ColorPaletteInfo info)
+    {
         SetColor(info.GetColor(1));
         Label.Modulate = info.GetColor(4);
     }

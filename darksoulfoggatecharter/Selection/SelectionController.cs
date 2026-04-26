@@ -1,4 +1,3 @@
-using FlawLizArt.Debug;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,7 +100,6 @@ public partial class SelectionController : SingletonController
     public void StartSelectionArea()
     {
         if (Dragging) return;
-        Debug.LogMethod();
         ViewportDragStart = DraggableCamera.Instance.MousePosition;
         DragStart = DraggableCamera.Instance.MouseWorldPosition;
         Dragging = true;
@@ -111,7 +109,6 @@ public partial class SelectionController : SingletonController
     {
         if (!Dragging) return;
 
-        Debug.LogMethod();
         DragEnd = DraggableCamera.Instance.MouseWorldPosition;
         Dragging = false;
         SelectNodesInArea(ctrl);

@@ -35,6 +35,7 @@ public partial class NodeObject : Area3D
     public event Action OnDragStarted;
     public event Action OnDragEnded;
 
+    private bool is_visible_from_search = true;
     private bool has_dragged;
     private Vector3 drag_offset;
     private StandardMaterial3D material;
@@ -47,6 +48,7 @@ public partial class NodeObject : Area3D
 
         NodeController.Instance.OnNodeCreated += Node_Created;
         NodeController.Instance.OnNodeRemoved += Node_Removed;
+        SearchController.Instance.OnSearchChanged += Search_Changed;
     }
 
     public override void _ExitTree()
@@ -54,6 +56,7 @@ public partial class NodeObject : Area3D
         base._ExitTree();
         NodeController.Instance.OnNodeCreated -= Node_Created;
         NodeController.Instance.OnNodeRemoved -= Node_Removed;
+        SearchController.Instance.OnSearchChanged -= Search_Changed;
     }
 
     protected virtual void InitializeOtherNodes()
@@ -63,6 +66,32 @@ public partial class NodeObject : Area3D
             if (node == this) continue;
             Node_Created(node);
         }
+    }
+
+    private void Search_Changed(string term)
+    {
+        var valid = string.IsNullOrEmpty(term) || NodeName.ToLower().Contains(term.Trim().ToLower());
+        if (valid == is_visible_from_search) return;
+
+        is_visible_from_search = valid;
+        if (is_visible_from_search)
+        {
+            SearchValid();
+        }
+        else
+        {
+            SearchInvalid();
+        }
+    }
+
+    protected virtual void SearchValid()
+    {
+
+    }
+
+    protected virtual void SearchInvalid()
+    {
+
     }
 
     protected virtual void Node_Created(NodeObject node)

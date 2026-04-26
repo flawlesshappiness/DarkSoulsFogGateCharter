@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ba2lcgh1l41v5"]
+[gd_scene load_steps=8 format=3 uid="uid://ba2lcgh1l41v5"]
 
 [ext_resource type="Script" uid="uid://3fc7ycbd12b5" path="res://Views/MainView/MainView.cs" id="1_qg6sy"]
 [ext_resource type="PackedScene" uid="uid://b4fb8t62jq6f3" path="res://Prefabs/UI/SearchList/search_list_control.tscn" id="2_g5bbi"]
 [ext_resource type="PackedScene" uid="uid://dqw0lkmli5wsu" path="res://Prefabs/UI/Toolbar/toolbar.tscn" id="4_gb8h6"]
 [ext_resource type="PackedScene" uid="uid://bjjo1ifkwv0jq" path="res://Prefabs/UI/SessionSettings/session_settings_control.tscn" id="4_jrpvu"]
+[ext_resource type="PackedScene" uid="uid://dsrn3adn4dyow" path="res://Prefabs/UI/SearchBar/search_bar.tscn" id="5_6qf0b"]
 [ext_resource type="PackedScene" uid="uid://b814v08ei12em" path="res://Prefabs/UI/Log/log.tscn" id="5_jrpvu"]
 [ext_resource type="Script" uid="uid://cs4ht1xspdo6x" path="res://Views/MainView/ScrollPopupMenu.cs" id="5_k4w8c"]
 
@@ -30,6 +31,9 @@ layout_mode = 1
 
 [node name="SessionSettingsControl" parent="." instance=ExtResource("4_jrpvu")]
 visible = false
+layout_mode = 1
+
+[node name="SearchBar" parent="." instance=ExtResource("5_6qf0b")]
 layout_mode = 1
 
 [node name="Log" parent="." instance=ExtResource("5_jrpvu")]

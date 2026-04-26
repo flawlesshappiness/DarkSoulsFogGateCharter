@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ColorPaletteInfo" load_steps=2 format=3 uid="uid://lgh1w5rcnu4r"]
+
+[ext_resource type="Script" uid="uid://comdln8k3icsc" path="res://ColorPalette/ColorPaletteInfo.cs" id="1_ok7pg"]
+
+[resource]
+script = ExtResource("1_ok7pg")
+Name = "_GreyedOut"
+Colors = Array[Color]([Color(0.2, 0.2, 0.2, 1), Color(0.25, 0.25, 0.25, 1), Color(0.3, 0.3, 0.3, 1), Color(0.35, 0.35, 0.35, 1), Color(0.4, 0.4, 0.4, 1)])
+metadata/_custom_type_script = "uid://comdln8k3icsc"

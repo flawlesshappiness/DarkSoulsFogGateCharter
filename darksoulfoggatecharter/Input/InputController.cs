@@ -10,6 +10,10 @@ public partial class InputController : SingletonController
     private bool MiddleMouseDown { get; set; }
 
     public Action OnShortcutQuicksave;
+    public Action OnShortcutSearch;
+    public Action<NodeObject> OnNodeClicked;
+    public Action OnEmptySpaceClicked;
+    public Action OnDrag;
 
     public override void _UnhandledInput(InputEvent e)
     {
@@ -47,6 +51,7 @@ public partial class InputController : SingletonController
                 {
                     if (NodeObject.Handled != null) // Release currently handled node
                     {
+                        OnNodeClicked?.Invoke(NodeObject.Handled);
                         NodeObject.Handled.MousePressed(button.Pressed, button.CtrlPressed);
                     }
                     else // Empty area
@@ -61,6 +66,7 @@ public partial class InputController : SingletonController
                         }
                         else // Click empty area
                         {
+                            OnEmptySpaceClicked?.Invoke();
                             MainView.Instance.EmptySpace_Clicked(DraggableCamera.Instance.MouseWorldPosition);
                         }
 
@@ -108,6 +114,7 @@ public partial class InputController : SingletonController
 
             if (!LeftMouseDown && (RightMouseDown || MiddleMouseDown)) // Drag camera
             {
+                OnDrag?.Invoke();
                 DraggableCamera.Instance.Drag(motion.Relative);
             }
         }
@@ -124,6 +131,10 @@ public partial class InputController : SingletonController
             if (e.Keycode == Key.S && e.CtrlPressed) // Quicksave
             {
                 OnShortcutQuicksave?.Invoke();
+            }
+            else if (e.Keycode == Key.F && e.CtrlPressed) // Search
+            {
+                OnShortcutSearch?.Invoke();
             }
         }
 

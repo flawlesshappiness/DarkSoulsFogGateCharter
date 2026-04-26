@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsrn3adn4dyow"]
+
+[ext_resource type="Script" uid="uid://by3dqwy62j24r" path="res://Prefabs/UI/SearchBar/SearchBar.cs" id="1_2828x"]
+[ext_resource type="Texture2D" uid="uid://cxvb035k6h2nj" path="res://Assets/Icons/icon_search.png" id="1_kjd4a"]
+
+[node name="SearchBar" type="MarginContainer" node_paths=PackedStringArray("TextEdit", "SearchButton")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_2828x")
+TextEdit = NodePath("Control/MarginContainer/HBoxContainer/SearchBar")
+SearchButton = NodePath("Control/MarginContainer/HBoxContainer/SearchButton")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -362.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="SearchBar" type="TextEdit" parent="Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search..."
+
+[node name="SearchButton" type="Button" parent="Control/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+icon = ExtResource("1_kjd4a")

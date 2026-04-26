@@ -7,6 +7,9 @@ public partial class GateNodeObject : NodeObject
     public AnimationPlayer Animation;
 
     [Export]
+    public AnimationPlayer Animation_Search;
+
+    [Export]
     public Sprite3D IconObjective;
 
     [Export]
@@ -17,6 +20,9 @@ public partial class GateNodeObject : NodeObject
 
     [Export]
     public Sprite3D IconLocked;
+
+    [Export]
+    public ColorPaletteInfo GreyedOutColorPalette;
 
     public override string NodeName => Gate.Name;
     public GateNode Gate { get; private set; }
@@ -49,6 +55,20 @@ public partial class GateNodeObject : NodeObject
             var relation = GetOrCreateRelation(node);
             relation.MinDistance = 1.5f;
         }
+    }
+
+    protected override void SearchValid()
+    {
+        base.SearchValid();
+        Animation_Search.Play("show");
+        LoadColorPalette();
+    }
+
+    protected override void SearchInvalid()
+    {
+        base.SearchInvalid();
+        Animation_Search.Play("hide");
+        LoadColorPalette(GreyedOutColorPalette);
     }
 
     public void SetGate(GateNode gate)
@@ -105,6 +125,11 @@ public partial class GateNodeObject : NodeObject
     private void LoadColorPalette()
     {
         var info = ColorPaletteController.Instance.GetInfo(Gate.Area);
+        LoadColorPalette(info);
+    }
+
+    private void LoadColorPalette(ColorPaletteInfo info)
+    {
         SetColor(info.GetColor(2));
         Label.Modulate = info.GetColor(4);
 
