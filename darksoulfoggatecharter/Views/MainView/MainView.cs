@@ -1,4 +1,6 @@
+using FlawLizArt.Log;
 using Godot;
+using System;
 using System.Linq;
 
 public partial class MainView : View
@@ -194,8 +196,16 @@ public partial class MainView : View
 
     private void CreateStart(string name)
     {
-        Node.CreateNodeAtCenter(name);
-        UndoController.Instance.Clear();
+        try
+        {
+            Node.CreateNodeAtCenter(name);
+            UndoController.Instance.Clear();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
     }
 
     public bool HasActiveUI()

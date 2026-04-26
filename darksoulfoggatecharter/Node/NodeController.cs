@@ -1,3 +1,4 @@
+using FlawLizArt.Log;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ public partial class NodeController : SingletonController
         }
         nodes.Clear();
 
+        Log.Clear();
         UndoController.Instance.Clear();
     }
 
@@ -108,7 +110,7 @@ public partial class NodeController : SingletonController
         if (A.HasConnection(id)) return null;
         if (B.HasConnection(id)) return null;
 
-        //Debug.LogMethod($"{id}");
+        Log.Trace($"Connect: {id}");
 
         A.AddConnection(id, B);
         B.AddConnection(id, A);
@@ -147,7 +149,7 @@ public partial class NodeController : SingletonController
         var connection = connections.TryGetValue(id, out var result) ? result : null;
         if (connection == null) return;
 
-        //Debug.LogMethod(id);
+        Log.Trace($"Disconnect: {id}");
         connection.ObjectA.RemoveConnection(id);
         connection.ObjectB.RemoveConnection(id);
         connection.DestroyConnection();
@@ -204,7 +206,6 @@ public partial class NodeController : SingletonController
                 if (gate.HasId)
                 {
                     var exit = Gate.GetGateExit(name);
-                    //GD.Print($"{gate.Type} Disabled: {name} > {exit.Name}");
                     CreateNode(exit.Name, position, node);
                 }
 
@@ -215,12 +216,10 @@ public partial class NodeController : SingletonController
                 {
                     var connection = connections[i];
                     var arc_position = node.GlobalPosition + GetArcPosition(dir, 90, i, count) * DEFAULT_NODE_DISTANCE;
-                    //GD.Print($"Objective: {name} > {connection.Name}");
                     CreateNode(connection.Name, arc_position, node);
                 }
                 foreach (var connection in connections)
                 {
-                    //GD.Print($"{gate.Type} Disabled: {name} > {connection.Name}");
                     CreateNode(connection.Name, position, node);
                 }
             }
@@ -228,7 +227,6 @@ public partial class NodeController : SingletonController
             {
                 var exit = Gate.GetGateExit(name);
                 var next = exit.Location;
-                //GD.Print($"Shortcut: {name} > {next}");
                 CreateNode(next, position, node);
             }
             else if (gate.Type == GateType.Objective)
@@ -253,7 +251,7 @@ public partial class NodeController : SingletonController
 
     public void TraverseObjective(string name)
     {
-        //Undo.StartUndoAction("Objective completed");
+        //Undo.StartUndoAction("Objective completed"); // Disabled be cause objectives are automatically traversed
 
         var gate = Gate.GetGate(name);
         var node = GetNode(name);
@@ -265,7 +263,7 @@ public partial class NodeController : SingletonController
         {
             var connection = connections[i];
             var position = node.GlobalPosition + GetArcPosition(dir, 90, i, count) * DEFAULT_NODE_DISTANCE;
-            //GD.Print($"Objective: {name} > {connection.Name}");
+            Log.Trace($"Objective: {name} > {connection.Name}");
             CreateNode(connection.Name, position, node);
         }
 
@@ -281,16 +279,24 @@ public partial class NodeController : SingletonController
         var pos = GetNextNodePosition(node);
         var exit = GateController.Instance.GetGateExit(name);
 
-        Undo.StartUndoAction($"Traversing locked door {name}");
-        CreateNode(exit.Name, pos, node);
-        Undo.EndUndoAction();
+        StartCreateNode(exit.Name, pos, node);
     }
 
     public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
     {
-        Undo.StartUndoAction($"Create node {name}");
-        var result = CreateNode(name, position, node_prev);
-        Undo.EndUndoAction();
+        NodeObject result = null;
+
+        try
+        {
+            Undo.StartUndoAction($"Create node {name}");
+            result = CreateNode(name, position, node_prev);
+            Undo.EndUndoAction();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
 
         return result;
     }
@@ -308,7 +314,7 @@ public partial class NodeController : SingletonController
             }
             else
             {
-                //GD.Print($"Create group: {name}");
+                Log.Trace($"Create group: {name}");
                 var node = CreateGroupNode(group);
                 node.GlobalPosition = position;
 
@@ -336,7 +342,7 @@ public partial class NodeController : SingletonController
             }
             else
             {
-                //GD.Print($"Create node: {name}");
+                Log.Trace($"Create node: {name}");
                 var node = CreateGateNode(gate);
                 node.GlobalPosition = position;
 
@@ -357,7 +363,7 @@ public partial class NodeController : SingletonController
 
     public void RemoveNode(string name)
     {
-        //Debug.LogMethod(name);
+        Log.Trace($"Remove: {name}");
         var node = GetNode(name);
         OnNodeRemoved?.Invoke(node);
         node?.DestroyNode();

@@ -1,3 +1,4 @@
+using FlawLizArt.Debug;
 using Godot;
 
 public partial class Scene : NodeScript

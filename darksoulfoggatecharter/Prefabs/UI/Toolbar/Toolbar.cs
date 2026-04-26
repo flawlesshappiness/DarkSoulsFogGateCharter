@@ -1,3 +1,4 @@
+using FlawLizArt.Log;
 using Godot;
 using System;
 using System.Text.Json;
@@ -75,12 +76,28 @@ public partial class Toolbar : MarginContainer
 
     private void Undo_Pressed()
     {
-        UndoController.Instance.Undo();
+        try
+        {
+            UndoController.Instance.Undo();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
     }
 
     private void Redo_Pressed()
     {
-        UndoController.Instance.Redo();
+        try
+        {
+            UndoController.Instance.Redo();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
     }
 
     private void OpenFile_Selected(string path)
@@ -93,7 +110,7 @@ public partial class Toolbar : MarginContainer
         try
         {
             var data = JsonSerializer.Deserialize<SessionData>(json);
-            NodeController.Instance.Load(data);
+            Load(data);
 
             selected_save_path = path;
             SetUnsavedChanges(false);
@@ -104,7 +121,33 @@ public partial class Toolbar : MarginContainer
         }
     }
 
+    private void Load(SessionData data)
+    {
+        try
+        {
+            NodeController.Instance.Load(data);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
+    }
+
     private void SafeFile_Selected(string path)
+    {
+        try
+        {
+            Save(path);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
+    }
+
+    private void Save(string path)
     {
         var extension = path.GetExtension();
         if (string.IsNullOrEmpty(extension))

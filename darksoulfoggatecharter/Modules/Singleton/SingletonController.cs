@@ -1,3 +1,4 @@
+using FlawLizArt.Debug;
 using System;
 
 public abstract partial class SingletonController : NodeScript, IComparable<SingletonController>

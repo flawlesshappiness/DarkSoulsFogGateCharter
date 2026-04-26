@@ -87,12 +87,12 @@ public abstract partial class BaseStateMachine : Node
     {
         if (start == null)
         {
-            Debug.LogError("Start node is null");
+            Debug.Debug.LogError("Start node is null");
         }
 
         if (end == null)
         {
-            Debug.LogError("End node is null");
+            Debug.Debug.LogError("End node is null");
         }
 
         var connection = new Connection(start, end, conditions);
@@ -103,12 +103,12 @@ public abstract partial class BaseStateMachine : Node
     {
         if (end == null)
         {
-            Debug.LogError("End node is null");
+            Debug.Debug.LogError("End node is null");
         }
 
         if (conditions == null || conditions.Length == 0)
         {
-            Debug.LogError("Connection from any state must have at least 1 condition");
+            Debug.Debug.LogError("Connection from any state must have at least 1 condition");
         }
 
         var connection = new Connection(Any, end, conditions);
