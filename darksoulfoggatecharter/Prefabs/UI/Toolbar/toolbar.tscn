@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dqw0lkmli5wsu"]
+[gd_scene load_steps=10 format=3 uid="uid://dqw0lkmli5wsu"]
 
 [ext_resource type="Script" uid="uid://c0fa2ebh4g8pl" path="res://Prefabs/UI/Toolbar/Toolbar.cs" id="1_pkhvg"]
 [ext_resource type="Texture2D" uid="uid://l4taen6w7jel" path="res://Assets/Icons/icon_files.png" id="1_wgobe"]
@@ -7,8 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://cj50ke4l721tx" path="res://Assets/Icons/icon_book.png" id="5_5gakf"]
 [ext_resource type="Texture2D" uid="uid://k5dtqdlq2ol0" path="res://Assets/Icons/icon_undo.png" id="5_fhjrk"]
 [ext_resource type="Texture2D" uid="uid://nn8gmajvgswa" path="res://Assets/Icons/icon_redo.png" id="6_78tfo"]
+[ext_resource type="Texture2D" uid="uid://df454avxje6by" path="res://Assets/Icons/icon_node_map.png" id="6_j7coh"]
+[ext_resource type="Texture2D" uid="uid://cu36r8dpjm7ca" path="res://Assets/Icons/icon_image_map.png" id="8_r68u1"]
 
-[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "NodesButton", "UndoButton", "RedoButton", "OpenFileDialog", "SaveFileDialog", "UnsavedChangesLabel")]
+[node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "NodesButton", "UndoButton", "RedoButton", "ImageMapButton", "NodeMapButton", "OpenFileDialog", "SaveFileDialog", "UnsavedChangesLabel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,6 +27,8 @@ SaveButton = NodePath("Buttons/VBoxContainer/HBoxContainer/SaveButton")
 NodesButton = NodePath("Buttons/VBoxContainer/HBoxContainer/NodesButton")
 UndoButton = NodePath("Buttons/VBoxContainer/HBoxContainer/UndoButton")
 RedoButton = NodePath("Buttons/VBoxContainer/HBoxContainer/RedoButton")
+ImageMapButton = NodePath("Buttons/VBoxContainer/HBoxContainer/ImageMapButton")
+NodeMapButton = NodePath("Buttons/VBoxContainer/HBoxContainer/NodeMapButton")
 OpenFileDialog = NodePath("OpenFileDialog")
 SaveFileDialog = NodePath("SaveFileDialog")
 UnsavedChangesLabel = NodePath("Buttons/VBoxContainer/HBoxContainer/SaveButton/UnsavedChangesLabel")
@@ -71,6 +75,19 @@ text = "*"
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("5_5gakf")
+expand_icon = true
+
+[node name="NodeMapButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("6_j7coh")
+expand_icon = true
+
+[node name="ImageMapButton" type="Button" parent="Buttons/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("8_r68u1")
 expand_icon = true
 
 [node name="Control" type="Control" parent="Buttons/VBoxContainer/HBoxContainer"]

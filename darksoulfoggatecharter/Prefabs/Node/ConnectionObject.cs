@@ -31,6 +31,19 @@ public partial class ConnectionObject : Node3D
     {
         base._Ready();
         Animation.Play("show");
+        ImageMapMode_Changed(ImageMapController.Instance.ImageMapModeEnabled);
+        ImageMapController.Instance.OnImageMapModeChanged += ImageMapMode_Changed;
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        ImageMapController.Instance.OnImageMapModeChanged -= ImageMapMode_Changed;
+    }
+
+    private void ImageMapMode_Changed(bool enabled)
+    {
+        Visible = !ConnectedToGroup || !enabled;
     }
 
     public override void _Process(double delta)

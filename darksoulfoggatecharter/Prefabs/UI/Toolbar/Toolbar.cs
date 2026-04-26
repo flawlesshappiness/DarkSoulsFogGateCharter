@@ -24,6 +24,12 @@ public partial class Toolbar : MarginContainer
     public Button RedoButton;
 
     [Export]
+    public Button ImageMapButton;
+
+    [Export]
+    public Button NodeMapButton;
+
+    [Export]
     public FileDialog OpenFileDialog;
 
     [Export]
@@ -44,6 +50,8 @@ public partial class Toolbar : MarginContainer
         NodesButton.Pressed += Nodes_Pressed;
         UndoButton.Pressed += Undo_Pressed;
         RedoButton.Pressed += Redo_Pressed;
+        ImageMapButton.Pressed += ImageMap_Pressed;
+        NodeMapButton.Pressed += NodeMap_Pressed;
 
         OpenFileDialog.FileSelected += OpenFile_Selected;
         SaveFileDialog.FileSelected += SafeFile_Selected;
@@ -98,6 +106,44 @@ public partial class Toolbar : MarginContainer
             Log.Error(e.Message);
             Log.Stacktrace(e.StackTrace);
         }
+    }
+
+    private void ImageMap_Pressed()
+    {
+        UndoController.Instance.StartUndoAction();
+
+        try
+        {
+            ImageMapButton.Hide();
+            NodeMapButton.Show();
+            ImageMapController.Instance.SetImageMapModeEnabled(true);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
+
+        UndoController.Instance.EndUndoAction();
+    }
+
+    private void NodeMap_Pressed()
+    {
+        UndoController.Instance.StartUndoAction();
+
+        try
+        {
+            ImageMapButton.Show();
+            NodeMapButton.Hide();
+            ImageMapController.Instance.SetImageMapModeEnabled(false);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Stacktrace(e.StackTrace);
+        }
+
+        UndoController.Instance.EndUndoAction();
     }
 
     private void OpenFile_Selected(string path)

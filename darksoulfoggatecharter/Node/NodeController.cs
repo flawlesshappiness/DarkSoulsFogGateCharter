@@ -24,6 +24,12 @@ public partial class NodeController : SingletonController
     private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
 
+    protected override void Initialize()
+    {
+        base.Initialize();
+        ImageMapController.Instance.CreateMapNodes();
+    }
+
     public void Clear()
     {
         foreach (var connection in connections.Values)
@@ -80,6 +86,18 @@ public partial class NodeController : SingletonController
 
             return false;
         }
+    }
+
+    // OTHER NODE //
+    public T CreateOtherNode<T>(PackedScene prefab) where T : NodeObject
+    {
+        var node = prefab.Instantiate<T>();
+        node.SetParent(Scene.NodeParent);
+        node.Show();
+
+        node.OnDragEnded += () => Node_DragEnded(node);
+
+        return node;
     }
 
     // GROUP //

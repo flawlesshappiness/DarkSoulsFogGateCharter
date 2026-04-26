@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ImageMapCollection" load_steps=2 format=3 uid="uid://o2lxb3sqb1bp"]
+
+[ext_resource type="Script" uid="uid://chu6fh45ptfm1" path="res://ImageMap/ImageMapCollection.cs" id="1_suyit"]
+
+[resource]
+script = ExtResource("1_suyit")
+metadata/_custom_type_script = "uid://chu6fh45ptfm1"

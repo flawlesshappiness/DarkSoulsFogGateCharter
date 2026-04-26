@@ -264,7 +264,7 @@ _data = {
 &"show": SubResource("Animation_po7yq")
 }
 
-[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "Animation_Search", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "Mesh", "Mesh_Select", "Label")]
+[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "Animation_Search", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "Label", "Mesh", "Mesh_Select")]
 script = ExtResource("1_d6nvu")
 Animation = NodePath("AnimationPlayer")
 Animation_Search = NodePath("AnimationPlayer_Search")
@@ -273,9 +273,9 @@ IconShortcut = NodePath("Anim/AnimSearch/icons/icon_shortcut")
 IconShortcutOneway = NodePath("Anim/AnimSearch/icons/icon_shortcut_oneway")
 IconLocked = NodePath("Anim/AnimSearch/icons/icon_locked")
 GreyedOutColorPalette = ExtResource("2_m2fqg")
+Label = NodePath("Anim/AnimSearch/Label3D")
 Mesh = NodePath("Anim/AnimSearch/MeshInstance3D2")
 Mesh_Select = NodePath("Anim/AnimSearch/Selected")
-Label = NodePath("Anim/AnimSearch/Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_d6nvu")

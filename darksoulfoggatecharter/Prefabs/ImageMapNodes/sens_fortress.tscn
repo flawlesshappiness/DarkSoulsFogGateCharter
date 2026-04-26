@@ -1,0 +1,86 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkmgjha8uf62o"]
+
+[ext_resource type="Script" uid="uid://c808eqmwosj8g" path="res://ImageMap/ImageMapNode.cs" id="1_hd7mf"]
+[ext_resource type="Texture2D" uid="uid://by4e26d763unq" path="res://Assets/ImageMaps/sens_fortress.jpg" id="2_np7qx"]
+[ext_resource type="Script" uid="uid://doxrummxjwwap" path="res://ImageMap/ImageMapMarker.cs" id="3_rxube"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rxube"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pmtlq"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.207843)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pmtlq"]
+material = SubResource("StandardMaterial3D_pmtlq")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.01
+
+[node name="ImageMapNode" type="Area3D"]
+script = ExtResource("1_hd7mf")
+AreaName = "SensFortress"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_rxube")
+
+[node name="Anim" type="Node3D" parent="."]
+
+[node name="ImageScale" type="Node3D" parent="Anim"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Anim/ImageScale"]
+mesh = SubResource("CylinderMesh_pmtlq")
+
+[node name="Sprite3D" type="Sprite3D" parent="Anim/ImageScale"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.5, 0)
+texture = ExtResource("2_np7qx")
+
+[node name="Markers" type="Node3D" parent="Anim/ImageScale"]
+
+[node name="Warp to Anor Londo" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78886, 0, -1.42027)
+script = ExtResource("3_rxube")
+GateName = "Warp to Anor Londo"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="Inside Iron Golem entrance" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.83513, 0, -0.30161)
+script = ExtResource("3_rxube")
+GateName = "Inside Iron Golem entrance"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="To Iron Golem" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.82455, 0, 0.463758)
+script = ExtResource("3_rxube")
+GateName = "To Iron Golem"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="From roof to final swinging axes" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.74225, 0, -0.298209)
+script = ExtResource("3_rxube")
+GateName = "From roof to final swinging axes"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="From final swinging axes to roof" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.74225, 0, -1.27825)
+script = ExtResource("3_rxube")
+GateName = "From final swinging axes to roof"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="From Outside Boulder Stairway near Siegmeyer" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.851329, 0, -1.36195)
+script = ExtResource("3_rxube")
+GateName = "From Outside Boulder Stairway near Siegmeyer"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="To Outside Boulder Stairway near Siegmeyer" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.851329, 0, -0.542821)
+script = ExtResource("3_rxube")
+GateName = "To Outside Boulder Stairway near Siegmeyer"
+metadata/_custom_type_script = "uid://doxrummxjwwap"
+
+[node name="To Andre from Sen\'s" type="Marker3D" parent="Anim/ImageScale/Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0448, 0, 0.826475)
+script = ExtResource("3_rxube")
+GateName = "To Andre from Sen's"
+metadata/_custom_type_script = "uid://doxrummxjwwap"

@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections;
 
-public partial class GroupNodeObject : NodeObject
+public partial class GroupNodeObject : MeshNodeObject
 {
     [Export]
     public AnimationPlayer Animation;
@@ -19,6 +19,13 @@ public partial class GroupNodeObject : NodeObject
     {
         base._Ready();
         Animation.Play("show");
+        ImageMapMode_Changed(ImageMapController.Instance.ImageMapModeEnabled);
+    }
+
+    protected override void ImageMapMode_Changed(bool enabled)
+    {
+        base.ImageMapMode_Changed(enabled);
+        Visible = !enabled;
     }
 
     protected override void Node_Created(NodeObject node)

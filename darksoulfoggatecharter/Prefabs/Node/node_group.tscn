@@ -230,14 +230,14 @@ _data = {
 &"show": SubResource("Animation_thb3b")
 }
 
-[node name="NodeGroup" type="Area3D" node_paths=PackedStringArray("Animation", "Animation_Search", "Mesh", "Mesh_Select", "Label")]
+[node name="NodeGroup" type="Area3D" node_paths=PackedStringArray("Animation", "Animation_Search", "Label", "Mesh", "Mesh_Select")]
 script = ExtResource("1_thb3b")
 Animation = NodePath("AnimationPlayer")
 Animation_Search = NodePath("AnimationPlayer_Search")
 GreyedOutColorPalette = ExtResource("2_8kayj")
+Label = NodePath("Anim/Anim_Search/Label3D")
 Mesh = NodePath("Anim/Anim_Search/MeshInstance3D")
 Mesh_Select = NodePath("Anim/Anim_Search/Selected")
-Label = NodePath("Anim/Anim_Search/Label3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_mnocw")

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ImageMapInfo" load_steps=3 format=3 uid="uid://bqf4bomnbk33w"]
+
+[ext_resource type="PackedScene" uid="uid://dkmgjha8uf62o" path="res://Prefabs/ImageMapNodes/sens_fortress.tscn" id="1_8v7ni"]
+[ext_resource type="Script" uid="uid://bs6iptwmxexsk" path="res://ImageMap/ImageMapInfo.cs" id="1_cs1p1"]
+
+[resource]
+script = ExtResource("1_cs1p1")
+Prefab = ExtResource("1_8v7ni")
+metadata/_custom_type_script = "uid://bs6iptwmxexsk"

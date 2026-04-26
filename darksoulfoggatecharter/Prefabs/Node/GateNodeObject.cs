@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections;
 
-public partial class GateNodeObject : NodeObject
+public partial class GateNodeObject : MeshNodeObject
 {
     [Export]
     public AnimationPlayer Animation;
@@ -55,6 +55,9 @@ public partial class GateNodeObject : NodeObject
             var relation = GetOrCreateRelation(node);
             relation.MinDistance = 1.5f;
         }
+
+        // ImageMapMode
+        ImageMapTarget = ImageMapController.Instance.GetMapMarker(Gate.Name);
     }
 
     protected override void SearchValid()

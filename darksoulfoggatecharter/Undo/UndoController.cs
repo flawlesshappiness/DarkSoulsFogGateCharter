@@ -1,4 +1,5 @@
 using FlawLizArt.Debug;
+using FlawLizArt.Log;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,6 +100,24 @@ public partial class UndoController : SingletonController
         }
     }
 
+    private class ImageMapModeAction : UndoAction
+    {
+        public bool Enabled { get; set; }
+
+        public override string UndoString => $"{(Enabled ? "Enable" : "Disable")} ImageMapMode";
+        public override string RedoString => $"{(Enabled ? "Enable" : "Disable")} ImageMapMode";
+
+        public override void Redo()
+        {
+            ImageMapController.Instance.SetImageMapModeEnabled(Enabled);
+        }
+
+        public override void Undo()
+        {
+            ImageMapController.Instance.SetImageMapModeEnabled(!Enabled);
+        }
+    }
+
     private class UndoActionGroup
     {
         public Stack<UndoAction> Actions { get; set; } = new();
@@ -180,7 +199,7 @@ public partial class UndoController : SingletonController
         undo_actions.Clear();
         redo_actions.Clear();
         current_group = null;
-        //Debug.Log("UNDO: Clear");
+        Log.Trace("UNDO: Clear");
     }
 
     public void StartUndoAction(string debug_string = null)
@@ -189,11 +208,11 @@ public partial class UndoController : SingletonController
 
         if (string.IsNullOrEmpty(debug_string))
         {
-            //Debug.Log("UNDO: Start");
+            Log.Trace("UNDO: Start");
         }
         else
         {
-            //Debug.Log($"UNDO: Start ({debug_string})");
+            Log.Trace($"UNDO: Start ({debug_string})");
         }
     }
 
@@ -208,7 +227,7 @@ public partial class UndoController : SingletonController
 
         current_group = null;
 
-        //Debug.Log("UNDO: End");
+        Log.Trace("UNDO: End");
     }
 
     private void AddUndoAction(UndoAction action)
@@ -216,7 +235,7 @@ public partial class UndoController : SingletonController
         current_group ??= new UndoActionGroup();
         current_group.Actions.Push(action);
 
-        //Debug.Log($"UNDO: {action.RedoString}");
+        Log.Trace($"UNDO: {action.RedoString}");
     }
 
     public void AddCreateNodeAction(string name, Vector3 position, NodeObject node_previous = null)
@@ -254,6 +273,14 @@ public partial class UndoController : SingletonController
         {
             Name = name,
             Selected = selected
+        });
+    }
+
+    public void AddImageMapModeAction(bool enabled)
+    {
+        AddUndoAction(new ImageMapModeAction
+        {
+            Enabled = enabled
         });
     }
 

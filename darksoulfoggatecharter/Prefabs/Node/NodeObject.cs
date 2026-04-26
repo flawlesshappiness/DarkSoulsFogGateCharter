@@ -5,15 +5,6 @@ using System.Linq;
 
 public partial class NodeObject : Area3D
 {
-    [Export]
-    public MeshInstance3D Mesh;
-
-    [Export]
-    public MeshInstance3D Mesh_Select;
-
-    [Export]
-    public Label3D Label;
-
     public virtual string NodeName => string.Empty;
 
     public Dictionary<string, NodeObject> ConnectedNodes = new();
@@ -30,6 +21,7 @@ public partial class NodeObject : Area3D
     protected bool IsDestroying { get; set; }
     public bool IsSelected { get; private set; }
     protected List<NodeRelation> Relations { get; private set; } = new();
+    protected Node3D ImageMapTarget { get; set; }
 
     public event Action OnClicked;
     public event Action OnDragStarted;
@@ -38,17 +30,14 @@ public partial class NodeObject : Area3D
     private bool is_visible_from_search = true;
     private bool has_dragged;
     private Vector3 drag_offset;
-    private StandardMaterial3D material;
-    private ShaderMaterial material_glow;
 
     public override void _Ready()
     {
         base._Ready();
-        InitializeMesh();
-
         NodeController.Instance.OnNodeCreated += Node_Created;
         NodeController.Instance.OnNodeRemoved += Node_Removed;
         SearchController.Instance.OnSearchChanged += Search_Changed;
+        ImageMapController.Instance.OnImageMapModeChanged += ImageMapMode_Changed;
     }
 
     public override void _ExitTree()
@@ -57,6 +46,7 @@ public partial class NodeObject : Area3D
         NodeController.Instance.OnNodeCreated -= Node_Created;
         NodeController.Instance.OnNodeRemoved -= Node_Removed;
         SearchController.Instance.OnSearchChanged -= Search_Changed;
+        ImageMapController.Instance.OnImageMapModeChanged -= ImageMapMode_Changed;
     }
 
     protected virtual void InitializeOtherNodes()
@@ -94,6 +84,11 @@ public partial class NodeObject : Area3D
 
     }
 
+    protected virtual void ImageMapMode_Changed(bool enabled)
+    {
+
+    }
+
     protected virtual void Node_Created(NodeObject node)
     {
 
@@ -104,18 +99,19 @@ public partial class NodeObject : Area3D
         RemoveRelation(node.NodeName);
     }
 
-    private void InitializeMesh()
-    {
-        material = Mesh.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
-        Mesh.SetSurfaceOverrideMaterial(0, material);
-        Mesh_Select.Hide();
-    }
-
     public override void _Process(double delta)
     {
         base._Process(delta);
         var fdelta = Convert.ToSingle(delta);
-        Process_Relations(fdelta);
+
+        if (ImageMapController.Instance.ImageMapModeEnabled)
+        {
+            Process_ImageMapMode(fdelta);
+        }
+        else
+        {
+            Process_Relations(fdelta);
+        }
     }
 
     public override void _MouseEnter()
@@ -234,9 +230,8 @@ public partial class NodeObject : Area3D
         return ConnectedNodes.ContainsKey(id);
     }
 
-    protected void SetColor(Color color)
+    protected virtual void SetColor(Color color)
     {
-        material.AlbedoColor = color;
     }
 
     public virtual void DestroyNode()
@@ -256,8 +251,12 @@ public partial class NodeObject : Area3D
     {
         if (IsSelected == selected) return;
         IsSelected = selected;
-        Mesh_Select.Visible = selected;
         UndoController.Instance.AddSelectNodeAction(NodeName, selected);
+    }
+
+    public void SetTarget(Node3D target)
+    {
+        ImageMapTarget = target;
     }
 
     protected NodeRelation GetOrCreateRelation(NodeObject node)
@@ -320,5 +319,13 @@ public partial class NodeObject : Area3D
             velocity *= 1f / iterations;
         }
         GlobalPosition += velocity * 15f * delta;
+    }
+
+    private void Process_ImageMapMode(float delta)
+    {
+        if (ImageMapTarget == null) return;
+        if (IsHandled) return;
+
+        GlobalPosition = GlobalPosition.Lerp(ImageMapTarget.GlobalPosition.Set(y: GlobalPosition.Y), 20f * delta);
     }
 }
