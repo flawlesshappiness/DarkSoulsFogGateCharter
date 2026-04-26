@@ -281,7 +281,9 @@ public partial class NodeController : SingletonController
         var pos = GetNextNodePosition(node);
         var exit = GateController.Instance.GetGateExit(name);
 
+        Undo.StartUndoAction($"Traversing locked door {name}");
         CreateNode(exit.Name, pos, node);
+        Undo.EndUndoAction();
     }
 
     public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
