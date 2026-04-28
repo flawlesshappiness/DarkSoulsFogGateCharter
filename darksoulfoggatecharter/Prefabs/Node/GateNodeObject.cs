@@ -40,7 +40,7 @@ public partial class GateNodeObject : MeshNodeObject
     public override void Initialize(string name)
     {
         Gate = GateController.Instance.GetGate(name);
-        Label.Text = name;
+        Label.Text = Gate.DisplayName;
         UpdateIcon(Gate.Type);
         base.Initialize(name);
     }

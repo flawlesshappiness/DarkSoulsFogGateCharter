@@ -25,6 +25,9 @@ Selection = NodePath("Selection")
 [node name="Toolbar" parent="." instance=ExtResource("4_gb8h6")]
 layout_mode = 1
 
+[node name="Log" parent="." instance=ExtResource("5_jrpvu")]
+layout_mode = 1
+
 [node name="SearchListControl" parent="." instance=ExtResource("2_g5bbi")]
 visible = false
 layout_mode = 1
@@ -34,9 +37,6 @@ visible = false
 layout_mode = 1
 
 [node name="SearchBar" parent="." instance=ExtResource("5_6qf0b")]
-layout_mode = 1
-
-[node name="Log" parent="." instance=ExtResource("5_jrpvu")]
 layout_mode = 1
 
 [node name="Selection" type="Control" parent="."]

@@ -163,7 +163,6 @@
 83,From Royal Forest to Oolacile Sanctuary,MinorPVP,Royal Forest,DLC
 74,To Kalameet,Boss,Royal Forest,DLC
 75,To Artorias,Boss,Royal Forest,DLC
-82,To Abyss Elevator,MinorPVP,Royal Forest,DLC
 74,Inside Kalameet,Boss,Kalameet,DLC
 ,Kalameet,OptionalObjective,,DLC
 75,Inside Artorias to Royal Forest,Boss,Inside Artorias towards Township,DLC
@@ -181,7 +180,8 @@
 80,From inside Abyss Elevator towards Manus,MinorPVP,Abyss Elevator,DLC
 81,Abyss Elevator,LockedDoor,From inside Abyss Elevator towards Manus,DLC
 81,Abyss Elevator [2],LockedDoor,From inside Abyss Elevator to Royal Forest,DLC
-82,From inside Abyss Elevator to Royal Forest,MinorPVP,,DLC
+82,From inside Abyss Elevator to Royal Forest,MinorPVP,Abyss Elevator [2],DLC
+82,To Abyss Elevator,MinorPVP,Royal Forest,DLC
 90,To Taurus Demon from Burg,Boss,Upper Burg,Upper Undead Burg
 90,Inside Taurus Demon towards entrance,Boss,Inside Taurus Demon towards exit,Upper Undead Burg
 91,Inside Taurus Demon towards exit,Boss,Inside Taurus Demon towards entrance,Upper Undead Burg
