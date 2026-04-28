@@ -17,10 +17,10 @@ public partial class NodeController : SingletonController
 
     public const float DEFAULT_NODE_DISTANCE = 1.5f;
 
-    public Action OnClear;
-    public Action OnNodeChanges;
-    public Action<NodeObject> OnNodeCreated;
-    public Action<NodeObject> OnNodeRemoved;
+    public event Action OnClear;
+    public event Action OnNodeChanges;
+    public event Action<NodeObject> OnNodeCreated;
+    public event Action<NodeObject> OnNodeRemoved;
 
     private Dictionary<string, ConnectionObject> connections = new();
     private Dictionary<string, NodeObject> nodes = new();
@@ -407,6 +407,8 @@ public partial class NodeController : SingletonController
         Undo.StartUndoAction($"Dragged node {node.NodeName}");
         Undo.AddMoveNodeAction(node.NodeName, node.DragStartPosition, node.DragEndPosition);
         Undo.EndUndoAction();
+
+        OnNodeChanges?.Invoke();
     }
 
     public bool HasNode(string name) =>

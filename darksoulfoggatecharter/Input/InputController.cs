@@ -124,10 +124,6 @@ public partial class InputController : SingletonController
     {
         if (e.Pressed) // Key pressed
         {
-
-        }
-        else // Key released
-        {
             if (e.Keycode == Key.S && e.CtrlPressed) // Quicksave
             {
                 OnShortcutQuicksave?.Invoke();
@@ -136,6 +132,10 @@ public partial class InputController : SingletonController
             {
                 OnShortcutSearch?.Invoke();
             }
+        }
+        else // Key released
+        {
+
         }
 
         if (!e.CtrlPressed) // Move camera

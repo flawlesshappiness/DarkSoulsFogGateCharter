@@ -27,20 +27,18 @@
 ,Gwyn,OptionalObjective,,Kiln of the First Flame
 5,To Firelink Shrine from Catacombs,PVP,Catacombs Levered Door,Catacombs
 14,Catacombs Levered Door,LockedDoor,To Firelink Shrine from Catacombs,Catacombs
-14,Catacombs Levered Door [2],LockedDoor,Upper Catacombs,Catacombs
-6,From Patches flipped bridge,Traversable,Upper Catacombs,Catacombs
-6,To Patches flipped bridge,Traversable,Lower Catacombs,Catacombs
-17,Dropdown from Upper to Lower Catacombs,OnewayShortcut,Upper Catacombs,Catacombs
-17,Dropdown from Upper to Lower Catacombs Exit,ShortcutExit,Lower Catacombs,Catacombs
-7,To Pinwheel,Boss,Lower Catacombs,Catacombs
+14,Catacombs Levered Door [2],LockedDoor,Catacombs,Catacombs
+6,From Patches flipped bridge,Traversable,Catacombs,Catacombs
+6,To Patches flipped bridge,Traversable,Catacombs,Catacombs
+7,To Pinwheel,Boss,Catacombs,Catacombs
 7,Inside Pinwheel,Boss,Pinwheel Dropdown,Catacombs
 18,Pinwheel Dropdown,OnewayShortcut,Inside Pinwheel,Catacombs
 18,Pinwheel Dropdown Exit,ShortcutExit,Pinwheel,Catacombs
 ,Pinwheel,OptionalObjective,,Catacombs
 9,To Tomb of the Giants,PVP,Pinwheel,Catacombs
-19,Dropdown from Pinwheel to Lower Catacombs,OnewayShortcut,Pinwheel,Catacombs
-19,Dropdown from Pinwheel to Lower Catacombs Exit,ShortcutExit,Lower Catacombs,Catacombs
-8,Getting into coffin to Nito,Warp,Lower Catacombs,Catacombs
+19,Dropdown from Pinwheel to Catacombs,OnewayShortcut,Pinwheel,Catacombs
+19,Dropdown from Pinwheel to Catacombs Exit,ShortcutExit,Catacombs,Catacombs
+8,Getting into coffin to Nito,Warp,Catacombs,Catacombs
 8,Getting back in coffin at Nito,Warp,,Catacombs
 9,Between TotG and Catacombs,PVP,Before the Halberd Black Knight in TotG,Tomb of the Giants
 10,Before the Halberd Black Knight in TotG,Traversable,Between TotG and Catacombs,Tomb of the Giants
@@ -64,14 +62,8 @@
 84,To Lower Entrance of Burg Bonfire,MinorPvP,Upper Burg,Upper Undead Burg
 84,Inside Lower Entrance of Burg Bonfire,MinorPvP,,Upper Undead Burg
 28,Kick Ladder,LockedDoor,Inside Upper Entrance of Burg Bonfire,Upper Undead Burg
-28,Kick Ladder [2],LockedDoor,From inside Lower Entrance of Burg Bonfire,Upper Undead Burg
+28,Kick Ladder [2],LockedDoor,Inside Lower Entrance of Burg Bonfire,Upper Undead Burg
 143,Inside Upper Entrance of Burg Bonfire,PVP,Kick Ladder,Upper Undead Burg
-29,Skip to Lower Burg 1,GlitchedLogic,Undead Burg before Drake encounter,Upper Undead Burg
-29,Skip to Lower Burg 1 Exit,ShortcutExit,Lower Burg,Lower Undead Burg
-30,Skip to Lower Burg 2,GlitchedLogic,Upper Burg,Upper Undead Burg
-30,Skip to Lower Burg 2 Exit,ShortcutExit,Lower Burg,Lower Undead Burg
-36,Glitched Logic Skip to Depths,GlitchedLogic,Undead Burg before Drake encounter,Upper Undead Burg
-36,Glitched Logic Skip to Depths Exit,ShortcutExit,Depths,Upper Undead Burg
 31,Locked door to Depths,LockedDoor,Lower Burg,Lower Undead Burg
 31,Locked door to Lower Undead Burg,LockedDoor,Depths,Lower Undead Burg
 32,To Channeler in Depths,Traversable,Depths,Depths
@@ -79,8 +71,6 @@
 33,To Gaping Dragon,Boss,Depths,Depths
 33,Inside Gaping Dragon,Boss,Gaping Dragon,Depths
 ,Gaping Dragon,OptionalObjective,,Depths
-34,Dropdown from Channeler Balcony,GlitchedLogic,Depths,Depths
-34,Dropdown from Channeler Balcony Exit,ShortcutExit,From Inside Gaping Dragon,Depths
 35,Locked door to Blighttown,LockedDoor,Depths,Depths
 35,Locked door to Depths 2,LockedDoor,Upper Blighttown,Depths
 37,Fog to Lower Blighttown,Traversable,Upper Blighttown,Blighttown
