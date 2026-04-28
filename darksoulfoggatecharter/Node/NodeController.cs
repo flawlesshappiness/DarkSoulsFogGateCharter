@@ -17,6 +17,7 @@ public partial class NodeController : SingletonController
 
     public const float DEFAULT_NODE_DISTANCE = 1.5f;
 
+    public Action OnClear;
     public Action OnNodeChanges;
     public Action<NodeObject> OnNodeCreated;
     public Action<NodeObject> OnNodeRemoved;
@@ -46,6 +47,8 @@ public partial class NodeController : SingletonController
 
         Log.Clear();
         UndoController.Instance.Clear();
+
+        OnClear?.Invoke();
     }
 
     // GATE //
@@ -508,6 +511,13 @@ public partial class NodeController : SingletonController
             var gate = Gate.GetGate(data.Name);
             var position = new Vector3(data.X, data.Y, data.Z);
             var node = CreateNode(data.Name, position);
+
+            if (node == null)
+            {
+                Log.Warning($"Failed to load node: {data.Name}");
+                continue;
+            }
+
             node.GlobalPosition = position;
 
             foreach (var connection in data.Connections)

@@ -29,6 +29,7 @@ public partial class NodeObject : Area3D
 
     private bool is_visible_from_search = true;
     private bool has_dragged;
+    private float time_handled;
     private Vector3 drag_offset;
 
     public override void _Ready()
@@ -148,6 +149,7 @@ public partial class NodeObject : Area3D
         {
             Handled = this;
             has_dragged = false;
+            time_handled = GameTime.Time;
             GlobalPosition = GlobalPosition.Set(y: 1);
         }
         else
@@ -155,11 +157,13 @@ public partial class NodeObject : Area3D
             Handled = null;
             GlobalPosition = GlobalPosition.Set(y: 0);
 
+            var duration_handled = GameTime.Time - time_handled;
+
             if (ctrl)
             {
                 ToggleSelected();
             }
-            else if (!has_dragged)
+            else if (!has_dragged || duration_handled < 0.2f)
             {
                 SelectionController.Instance.ClearSelection();
                 OnClicked?.Invoke();

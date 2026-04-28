@@ -113,7 +113,7 @@ public partial class MainView : View
         }
         else if (node.Gate.Type == GateType.LockedDoor && !node.IsFullyConnected)
         {
-            PopupMenu.AddActionItem("Unlock", () => NodeController.Instance.TraverseLockedDoor(node.Gate.Name));
+            PopupMenu.AddActionItem("Unlock", () => TraverseLockedDoor(node.Gate.Name));
             show = true;
         }
 
@@ -138,6 +138,8 @@ public partial class MainView : View
         SearchList.SetGates(gates);
         SearchList.SetAction(gate => Node.StartCreateNode(gate.Name, position, null));
         SearchList.Show();
+
+        has_popup_menu = false;
     }
 
     /// <summary>
@@ -155,6 +157,8 @@ public partial class MainView : View
         SearchList.SetGates(gates);
         SearchList.SetAction(gate => Node.StartCreateNode(gate.Name, next_position, node));
         SearchList.Show();
+
+        has_popup_menu = false;
     }
 
     public void OpenGateList()
@@ -167,6 +171,8 @@ public partial class MainView : View
         SearchList.Title = "All gates";
         SearchList.SetGates(gates);
         SearchList.Show();
+
+        has_popup_menu = false;
     }
 
     public void OpenStartSettings()
@@ -211,5 +217,11 @@ public partial class MainView : View
     public bool HasActiveUI()
     {
         return SearchList.IsVisibleInTree();
+    }
+
+    private void TraverseLockedDoor(string name)
+    {
+        has_popup_menu = false;
+        NodeController.Instance.TraverseLockedDoor(name);
     }
 }

@@ -57,6 +57,7 @@ public partial class Toolbar : MarginContainer
         SaveFileDialog.FileSelected += SafeFile_Selected;
 
         NodeController.Instance.OnNodeChanges += Node_Changes;
+        NodeController.Instance.OnClear += Node_Clear;
         InputController.Instance.OnShortcutQuicksave += QuickSave;
 
         SetUnsavedChanges(false);
@@ -230,6 +231,11 @@ public partial class Toolbar : MarginContainer
     private void Node_Changes()
     {
         SetUnsavedChanges(true);
+    }
+
+    private void Node_Clear()
+    {
+        selected_save_path = null;
     }
 
     private void SetUnsavedChanges(bool has_unsaved_changes)
