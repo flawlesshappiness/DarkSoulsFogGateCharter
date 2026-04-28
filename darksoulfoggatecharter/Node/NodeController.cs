@@ -219,8 +219,9 @@ public partial class NodeController : SingletonController
         {
             var gate = Gate.GetGate(name);
             var node = GetNode(name);
+            var next = Gate.GetNextValidGate(gate.Location);
 
-            CreateNode(gate.Location, position, node);
+            CreateNode(next, position, node);
 
             if (Gate.IsDisabled(name))
             {
@@ -247,8 +248,7 @@ public partial class NodeController : SingletonController
             else if (Gate.IsShortcut(name))
             {
                 var exit = Gate.GetGateExit(name);
-                var next = exit.Location;
-                CreateNode(next, position, node);
+                CreateNode(exit.Location, position, node);
             }
             else if (gate.Type == GateType.Objective)
             {
