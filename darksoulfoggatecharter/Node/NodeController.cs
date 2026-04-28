@@ -221,7 +221,10 @@ public partial class NodeController : SingletonController
             var node = GetNode(name);
             var next = Gate.GetNextValidGate(gate.Location);
 
-            CreateNode(next, position, node);
+            if (!string.IsNullOrEmpty(next))
+            {
+                CreateNode(next, position, node);
+            }
 
             if (Gate.IsDisabled(name))
             {
