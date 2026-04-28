@@ -14,12 +14,21 @@ public partial class GroupNodeObject : MeshNodeObject
 
     public GateGroup Group { get; private set; }
     public override string NodeName => Group.Name;
+    public override string NodeArea => Group.Area;
+    public override bool IsGroup => true;
 
     public override void _Ready()
     {
         base._Ready();
         Animation.Play("show");
         ImageMapMode_Changed(ImageMapController.Instance.ImageMapModeEnabled);
+    }
+
+    public override void Initialize(string name)
+    {
+        Group = GateController.Instance.GetGroup(name);
+        Label.Text = name;
+        base.Initialize(name);
     }
 
     protected override void ImageMapMode_Changed(bool enabled)
@@ -42,26 +51,19 @@ public partial class GroupNodeObject : MeshNodeObject
         }
     }
 
-    protected override void SearchValid()
+    protected override void DisplayValid(bool valid)
     {
-        base.SearchValid();
-        Animation_Search.Play("show");
-        LoadColorPalette();
-    }
-
-    protected override void SearchInvalid()
-    {
-        base.SearchInvalid();
-        Animation_Search.Play("hide");
-        LoadColorPalette(GreyedOutColorPalette);
-    }
-
-    public void SetGroup(GateGroup group)
-    {
-        Group = group;
-        Label.Text = group.Name;
-        LoadColorPalette();
-        InitializeOtherNodes();
+        base.DisplayValid(valid);
+        if (valid)
+        {
+            Animation_Search.Play("show");
+            LoadColorPalette();
+        }
+        else
+        {
+            Animation_Search.Play("hide");
+            LoadColorPalette(GreyedOutColorPalette);
+        }
     }
 
     public override void _MouseEnter()
@@ -93,16 +95,16 @@ public partial class GroupNodeObject : MeshNodeObject
         }
     }
 
-    private void LoadColorPalette()
-    {
-        var info = ColorPaletteController.Instance.GetInfo(Group.Area);
-        LoadColorPalette(info);
-    }
-
-    private void LoadColorPalette(ColorPaletteInfo info)
+    protected override void LoadColorPalette(ColorPaletteInfo info)
     {
         SetColor(info.GetColor(1));
         Label.Modulate = info.GetColor(4);
+    }
+
+    protected override void LoadGreyedOutColorPalette()
+    {
+        base.LoadGreyedOutColorPalette();
+        LoadColorPalette(GreyedOutColorPalette);
     }
 
     public override void DestroyNode()

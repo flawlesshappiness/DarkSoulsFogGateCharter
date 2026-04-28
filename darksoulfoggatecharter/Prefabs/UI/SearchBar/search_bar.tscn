@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsrn3adn4dyow"]
+[gd_scene load_steps=4 format=3 uid="uid://dsrn3adn4dyow"]
 
 [ext_resource type="Script" uid="uid://by3dqwy62j24r" path="res://Prefabs/UI/SearchBar/SearchBar.cs" id="1_2828x"]
 [ext_resource type="Texture2D" uid="uid://cxvb035k6h2nj" path="res://Assets/Icons/icon_search.png" id="1_kjd4a"]
+[ext_resource type="Texture2D" uid="uid://c6g5bcja0yxp7" path="res://Assets/Icons/icon_open_gate.png" id="2_n3wlc"]
 
-[node name="SearchBar" type="MarginContainer" node_paths=PackedStringArray("TextEdit", "SearchButton")]
+[node name="SearchBar" type="MarginContainer" node_paths=PackedStringArray("TextEdit", "SearchButton", "OpenGateButton")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,6 +18,7 @@ theme_override_constants/margin_bottom = 5
 script = ExtResource("1_2828x")
 TextEdit = NodePath("Control/MarginContainer/HBoxContainer/SearchBar")
 SearchButton = NodePath("Control/MarginContainer/HBoxContainer/SearchButton")
+OpenGateButton = NodePath("Control/MarginContainer/HBoxContainer/OpenGateButton")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
@@ -33,6 +35,12 @@ grow_horizontal = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
+
+[node name="OpenGateButton" type="Button" parent="Control/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+icon = ExtResource("2_n3wlc")
+expand_icon = true
 
 [node name="SearchBar" type="TextEdit" parent="Control/MarginContainer/HBoxContainer"]
 layout_mode = 2

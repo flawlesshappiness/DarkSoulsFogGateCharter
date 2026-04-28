@@ -57,7 +57,7 @@ public partial class NodeController : SingletonController
         var node = NodeInfo.Instance.GateNodePrefab.Instantiate<GateNodeObject>();
         node.SetParent(Scene.NodeParent);
         node.Show();
-        node.SetGate(gate);
+        node.Initialize(gate.Name);
         nodes.Add(gate.Name, node);
 
         node.OnDragEnded += () => Node_DragEnded(node);
@@ -109,7 +109,7 @@ public partial class NodeController : SingletonController
         var node = NodeInfo.Instance.GroupNodePrefab.Instantiate<GroupNodeObject>();
         node.SetParent(Scene.NodeParent);
         node.Show();
-        node.SetGroup(group);
+        node.Initialize(group.Name);
         nodes.Add(group.Name, node);
 
         node.OnDragEnded += () => Node_DragEnded(node);

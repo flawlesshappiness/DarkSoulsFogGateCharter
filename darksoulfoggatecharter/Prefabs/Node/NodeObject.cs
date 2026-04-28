@@ -6,12 +6,14 @@ using System.Linq;
 public partial class NodeObject : Area3D
 {
     public virtual string NodeName => string.Empty;
+    public virtual string NodeArea => string.Empty;
+    public virtual bool IsGroup => false;
 
     public Dictionary<string, NodeObject> ConnectedNodes = new();
 
     public static NodeObject Handled { get; private set; }
     public static NodeObject Hovered { get; private set; }
-    public bool IsFullyConnected => ConnectedNodes.Count >= 2;
+    public bool IsFullyConnected => IsGroup || ConnectedNodes.Count >= 2;
     public Vector3 DragStartPosition { get; private set; }
     public Vector3 DragEndPosition { get; private set; }
     protected bool IsHandled => Handled == this;
@@ -19,6 +21,7 @@ public partial class NodeObject : Area3D
     protected bool IsPressed { get; private set; }
     protected bool IsDragging { get; private set; }
     protected bool IsDestroying { get; set; }
+    protected bool IsDisplayingValid { get; set; } = true;
     public bool IsSelected { get; private set; }
     protected List<NodeRelation> Relations { get; private set; } = new();
     protected Node3D ImageMapTarget { get; set; }
@@ -27,7 +30,6 @@ public partial class NodeObject : Area3D
     public event Action OnDragStarted;
     public event Action OnDragEnded;
 
-    private bool is_visible_from_search = true;
     private bool has_dragged;
     private float time_handled;
     private Vector3 drag_offset;
@@ -38,6 +40,7 @@ public partial class NodeObject : Area3D
         NodeController.Instance.OnNodeCreated += Node_Created;
         NodeController.Instance.OnNodeRemoved += Node_Removed;
         SearchController.Instance.OnSearchChanged += Search_Changed;
+        SearchController.Instance.OnOpenGateToggled += OpenGate_Toggled;
         ImageMapController.Instance.OnImageMapModeChanged += ImageMapMode_Changed;
     }
 
@@ -47,7 +50,22 @@ public partial class NodeObject : Area3D
         NodeController.Instance.OnNodeCreated -= Node_Created;
         NodeController.Instance.OnNodeRemoved -= Node_Removed;
         SearchController.Instance.OnSearchChanged -= Search_Changed;
+        SearchController.Instance.OnOpenGateToggled -= OpenGate_Toggled;
         ImageMapController.Instance.OnImageMapModeChanged -= ImageMapMode_Changed;
+    }
+
+    public virtual void Initialize(string name)
+    {
+        InitializeOtherNodes();
+
+        if (ShouldDisplayValid())
+        {
+            LoadColorPalette();
+        }
+        else
+        {
+            DisplayValid(false);
+        }
     }
 
     protected virtual void InitializeOtherNodes()
@@ -62,42 +80,70 @@ public partial class NodeObject : Area3D
     private void Search_Changed(string term)
     {
         var valid = string.IsNullOrEmpty(term) || NodeName.ToLower().Contains(term.Trim().ToLower());
-        if (valid == is_visible_from_search) return;
-
-        is_visible_from_search = valid;
-        if (is_visible_from_search)
-        {
-            SearchValid();
-        }
-        else
-        {
-            SearchInvalid();
-        }
+        Search_Changed(valid);
     }
 
-    protected virtual void SearchValid()
+    protected virtual void Search_Changed(bool valid)
     {
-
+        UpdateValidDisplay();
     }
 
-    protected virtual void SearchInvalid()
+    protected virtual void OpenGate_Toggled(bool toggled)
     {
-
+        UpdateValidDisplay();
     }
 
     protected virtual void ImageMapMode_Changed(bool enabled)
     {
-
     }
 
     protected virtual void Node_Created(NodeObject node)
     {
+    }
 
+    public virtual void Connection_Changed()
+    {
+        UpdateValidDisplay();
     }
 
     protected virtual void Node_Removed(NodeObject node)
     {
         RemoveRelation(node.NodeName);
+    }
+
+    private void UpdateValidDisplay()
+    {
+        var valid = ShouldDisplayValid();
+        if (valid == IsDisplayingValid) return;
+        DisplayValid(valid);
+    }
+
+    private bool ShouldDisplayValid()
+    {
+        var term = SearchController.Instance.CurrentSearchTerm;
+        var open_gate = SearchController.Instance.OpenGateToggled;
+        var valid_search = string.IsNullOrEmpty(term) || NodeName.ToLower().Contains(term.Trim().ToLower());
+        var valid_open_gate = !open_gate || !IsFullyConnected;
+        return valid_search && valid_open_gate;
+    }
+
+    protected virtual void DisplayValid(bool valid)
+    {
+        IsDisplayingValid = valid;
+    }
+
+    protected void LoadColorPalette()
+    {
+        var info = ColorPaletteController.Instance.GetInfo(NodeArea);
+        LoadColorPalette(info);
+    }
+
+    protected virtual void LoadGreyedOutColorPalette()
+    {
+    }
+
+    protected virtual void LoadColorPalette(ColorPaletteInfo info)
+    {
     }
 
     public override void _Process(double delta)

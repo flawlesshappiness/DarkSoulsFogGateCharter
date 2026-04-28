@@ -77,6 +77,9 @@ public partial class ConnectionObject : Node3D
         NameB = B.NodeName;
         ConnectedToGroup = IsConnectedToGroup();
 
+        A.Connection_Changed();
+        B.Connection_Changed();
+
         InitializeMesh();
         LoadColorPalette();
     }
@@ -130,6 +133,9 @@ public partial class ConnectionObject : Node3D
 
     public void DestroyConnection()
     {
+        ObjectA.Connection_Changed();
+        ObjectB.Connection_Changed();
+
         IsDestroying = true;
         this.StartCoroutine(Cr, "destroy");
         IEnumerator Cr()

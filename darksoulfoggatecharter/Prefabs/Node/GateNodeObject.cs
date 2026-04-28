@@ -25,6 +25,7 @@ public partial class GateNodeObject : MeshNodeObject
     public ColorPaletteInfo GreyedOutColorPalette;
 
     public override string NodeName => Gate.Name;
+    public override string NodeArea => Gate.Area;
     public GateNode Gate { get; private set; }
 
     private float spawn_time;
@@ -34,6 +35,14 @@ public partial class GateNodeObject : MeshNodeObject
         base._Ready();
         Animation.Play("show");
         spawn_time = GameTime.Time + 0.5f;
+    }
+
+    public override void Initialize(string name)
+    {
+        Gate = GateController.Instance.GetGate(name);
+        Label.Text = name;
+        UpdateIcon(Gate.Type);
+        base.Initialize(name);
     }
 
     protected override void Node_Created(NodeObject node)
@@ -60,27 +69,19 @@ public partial class GateNodeObject : MeshNodeObject
         ImageMapTarget = ImageMapController.Instance.GetMapMarker(Gate.Name);
     }
 
-    protected override void SearchValid()
+    protected override void DisplayValid(bool valid)
     {
-        base.SearchValid();
-        Animation_Search.Play("show");
-        LoadColorPalette();
-    }
-
-    protected override void SearchInvalid()
-    {
-        base.SearchInvalid();
-        Animation_Search.Play("hide");
-        LoadColorPalette(GreyedOutColorPalette);
-    }
-
-    public void SetGate(GateNode gate)
-    {
-        Gate = gate;
-        Label.Text = gate.Name;
-        LoadColorPalette();
-        UpdateIcon(gate.Type);
-        InitializeOtherNodes();
+        base.DisplayValid(valid);
+        if (valid)
+        {
+            Animation_Search.Play("show");
+            LoadColorPalette();
+        }
+        else
+        {
+            Animation_Search.Play("hide");
+            LoadColorPalette(GreyedOutColorPalette);
+        }
     }
 
     public override void _MouseEnter()
@@ -125,13 +126,7 @@ public partial class GateNodeObject : MeshNodeObject
         };
     }
 
-    private void LoadColorPalette()
-    {
-        var info = ColorPaletteController.Instance.GetInfo(Gate.Area);
-        LoadColorPalette(info);
-    }
-
-    private void LoadColorPalette(ColorPaletteInfo info)
+    protected override void LoadColorPalette(ColorPaletteInfo info)
     {
         SetColor(info.GetColor(2));
         Label.Modulate = info.GetColor(4);
@@ -140,6 +135,12 @@ public partial class GateNodeObject : MeshNodeObject
         IconShortcut.Modulate = info.GetColor(1);
         IconShortcutOneway.Modulate = info.GetColor(1);
         IconLocked.Modulate = info.GetColor(1);
+    }
+
+    protected override void LoadGreyedOutColorPalette()
+    {
+        base.LoadGreyedOutColorPalette();
+        LoadColorPalette(GreyedOutColorPalette);
     }
 
     public override void AddConnection(string id, NodeObject node)
