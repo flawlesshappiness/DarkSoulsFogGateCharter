@@ -188,6 +188,7 @@ public partial class GateController : SingletonController
         if (gate == null) return false;
 
         var fully_connected = NodeController.Instance.IsNodeFullyConnected(name);
+        var no_location = string.IsNullOrEmpty(gate.Location);
         var wrong_type_list = new List<string>
         {
             GateType.ShortcutExit,
@@ -200,7 +201,7 @@ public partial class GateController : SingletonController
 
         var wrong_type = wrong_type_list.Contains(gate.Type);
 
-        return !(fully_connected || wrong_type);
+        return !(fully_connected || wrong_type || no_location);
     }
 
     public bool IsShortcut(string name)
