@@ -209,7 +209,7 @@ public partial class NodeObject : Area3D
             {
                 ToggleSelected();
             }
-            else if (!has_dragged || duration_handled < 0.2f)
+            else if (!has_dragged || duration_handled < 0.15f)
             {
                 SelectionController.Instance.ClearSelection();
                 OnClicked?.Invoke();

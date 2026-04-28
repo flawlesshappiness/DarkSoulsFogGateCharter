@@ -299,8 +299,9 @@ public partial class NodeController : SingletonController
         var node = GetNode(name);
         var pos = GetNextNodePosition(node);
         var exit = GateController.Instance.GetGateExit(name);
+        var exit_location = GateController.Instance.GetNextValidGate(exit.Location);
 
-        StartCreateNode(exit.Name, pos, node);
+        StartCreateNode(exit_location, pos, node);
     }
 
     public NodeObject StartCreateNode(string name, Vector3 position, NodeObject node_prev = null)
@@ -360,6 +361,10 @@ public partial class NodeController : SingletonController
                 var node = GetNode(name);
                 ConnectNodes(node_prev, node);
                 return node;
+            }
+            else if (gate.Type == GateType.LockedDoor && HasNode(Gate.GetGateExit(name).Name))
+            {
+                return CreateNode(Gate.GetGateExit(name).Name, position, node_prev);
             }
             else
             {
