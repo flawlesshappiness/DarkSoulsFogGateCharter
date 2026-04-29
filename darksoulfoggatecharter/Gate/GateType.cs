@@ -9,6 +9,7 @@ public class GateType
     public const string MinorPVP = "MinorPVP";
     public const string PVP = "PVP";
     public const string Objective = "Objective";
+    public const string OptionalObjective = "OptionalObjective";
     public const string Area = "Area";
     public const string Golden = "Golden";
     public const string LockedDoor = "LockedDoor";

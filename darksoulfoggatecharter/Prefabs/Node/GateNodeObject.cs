@@ -76,7 +76,9 @@ public partial class GateNodeObject : MeshNodeObject
 
     protected override bool ShouldDisplayValid()
     {
-        return base.ShouldDisplayValid() && (!IsDeadEnd || !SearchController.Instance.OpenGateToggled);
+        var open_gate = !SearchController.Instance.OpenGateToggled || !IsDeadEnd;
+        var objective = !SearchController.Instance.OpenGateToggled || (Gate.Type != GateType.Objective && Gate.Type != GateType.OptionalObjective);
+        return base.ShouldDisplayValid() && open_gate && objective;
     }
 
     protected override void DisplayValid(bool valid)
