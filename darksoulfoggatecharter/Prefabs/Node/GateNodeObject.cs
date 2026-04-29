@@ -22,11 +22,15 @@ public partial class GateNodeObject : MeshNodeObject
     public Sprite3D IconLocked;
 
     [Export]
+    public Sprite3D IconDeadEnd;
+
+    [Export]
     public ColorPaletteInfo GreyedOutColorPalette;
 
     public override string NodeName => Gate.Name;
     public override string NodeArea => Gate.Area;
     public GateNode Gate { get; private set; }
+    public bool IsDeadEnd { get; private set; }
 
     private float spawn_time;
 
@@ -42,6 +46,7 @@ public partial class GateNodeObject : MeshNodeObject
         Gate = GateController.Instance.GetGate(name);
         Label.Text = Gate.DisplayName;
         UpdateIcon(Gate.Type);
+        SetDeadEnd(false);
         base.Initialize(name);
     }
 
@@ -67,6 +72,11 @@ public partial class GateNodeObject : MeshNodeObject
 
         // ImageMapMode
         ImageMapTarget = ImageMapController.Instance.GetMapMarker(Gate.Name);
+    }
+
+    protected override bool ShouldDisplayValid()
+    {
+        return base.ShouldDisplayValid() && (!IsDeadEnd || !SearchController.Instance.OpenGateToggled);
     }
 
     protected override void DisplayValid(bool valid)
@@ -207,5 +217,17 @@ public partial class GateNodeObject : MeshNodeObject
 
         if (icon == null) return;
         icon.Show();
+    }
+
+    public void SetDeadEnd(bool is_dead_end)
+    {
+        IsDeadEnd = is_dead_end;
+        IconDeadEnd.Visible = is_dead_end;
+        UpdateValidDisplay();
+    }
+
+    public void ToggleDeadEnd()
+    {
+        SetDeadEnd(!IsDeadEnd);
     }
 }

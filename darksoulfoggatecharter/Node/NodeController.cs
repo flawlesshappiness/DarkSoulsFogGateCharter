@@ -91,6 +91,12 @@ public partial class NodeController : SingletonController
         }
     }
 
+    public void ToggleDeadEnd(GateNodeObject node)
+    {
+        node.ToggleDeadEnd();
+        OnNodeChanges?.Invoke();
+    }
+
     // OTHER NODE //
     public T CreateOtherNode<T>(PackedScene prefab) where T : NodeObject
     {
@@ -476,7 +482,7 @@ public partial class NodeController : SingletonController
         {
             if (!HasNode(gate.Name)) continue;
 
-            var node = GetNode(gate.Name);
+            var node = GetNode(gate.Name) as GateNodeObject;
             var p = node.GlobalPosition;
             var connections = node.ConnectedNodes.Values.Select(x => x.NodeName).ToList();
             var data = new GateData
@@ -485,6 +491,7 @@ public partial class NodeController : SingletonController
                 X = p.X,
                 Y = p.Y,
                 Z = p.Z,
+                IsDeadEnd = node.IsDeadEnd,
                 Connections = connections
             };
 
@@ -526,6 +533,10 @@ public partial class NodeController : SingletonController
             {
                 Log.Warning($"Failed to load node: {data.Name}");
                 continue;
+            }
+            else if (node is GateNodeObject gate_node)
+            {
+                gate_node.SetDeadEnd(data.IsDeadEnd);
             }
 
             node.GlobalPosition = position;

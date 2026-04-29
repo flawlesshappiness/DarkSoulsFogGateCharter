@@ -87,6 +87,7 @@ public partial class MainView : View
         PopupMenu.AddActionItem("Create", () => OpenGateSearch(position));
         PopupMenu.Show();
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
+        PopupMenu.Size = Vector2I.Zero;
         PopupMenu.Popup();
     }
 
@@ -108,7 +109,12 @@ public partial class MainView : View
 
         if (GateController.Instance.CanTraverse(node.Gate.Name))
         {
-            PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
+            if (!node.IsDeadEnd)
+            {
+                PopupMenu.AddActionItem("Traverse", () => OpenGateSearch(node));
+            }
+
+            PopupMenu.AddActionItem("Toggle dead end", () => ToggleDeadEnd(node));
             show = true;
         }
         else if (node.Gate.Type == GateType.LockedDoor && !node.IsFullyConnected)
@@ -121,6 +127,7 @@ public partial class MainView : View
 
         PopupMenu.Show();
         PopupMenu.Position = (Vector2I)GetViewport().GetMousePosition();
+        PopupMenu.Size = Vector2I.Zero;
         PopupMenu.Popup();
     }
 
@@ -223,5 +230,11 @@ public partial class MainView : View
     {
         has_popup_menu = false;
         NodeController.Instance.TraverseLockedDoor(name);
+    }
+
+    private void ToggleDeadEnd(GateNodeObject node)
+    {
+        has_popup_menu = false;
+        NodeController.Instance.ToggleDeadEnd(node);
     }
 }

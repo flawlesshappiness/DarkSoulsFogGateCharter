@@ -6,5 +6,6 @@ public class GateData
     public float X { get; set; }
     public float Y { get; set; }
     public float Z { get; set; }
+    public bool IsDeadEnd { get; set; }
     public List<string> Connections { get; set; } = new();
 }

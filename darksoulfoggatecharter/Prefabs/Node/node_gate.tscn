@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c7378janorkoj"]
+[gd_scene load_steps=24 format=3 uid="uid://c7378janorkoj"]
 
 [ext_resource type="Script" uid="uid://bfx1ef8t76xlv" path="res://Prefabs/Node/GateNodeObject.cs" id="1_d6nvu"]
 [ext_resource type="Resource" uid="uid://lgh1w5rcnu4r" path="res://ColorPalette/Resources/_GreyedOut.tres" id="2_m2fqg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bdx0fxlrhinkl" path="res://Assets/Icons/icon_shortcut_oneway.png" id="4_m2fqg"]
 [ext_resource type="Texture2D" uid="uid://eqv6d5cdo42i" path="res://Assets/Icons/icon_shortcut.png" id="4_po7yq"]
 [ext_resource type="Texture2D" uid="uid://blofv7cjlmrgu" path="res://Assets/Icons/icon_lock.png" id="5_m2fqg"]
+[ext_resource type="Texture2D" uid="uid://bwxr3kc0ti3pd" path="res://Assets/Icons/icon_dead_end.png" id="7_ibiu8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d6nvu"]
 
@@ -264,7 +265,7 @@ _data = {
 &"show": SubResource("Animation_po7yq")
 }
 
-[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "Animation_Search", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "Label", "Mesh", "Mesh_Select")]
+[node name="NodeGate" type="Area3D" node_paths=PackedStringArray("Animation", "Animation_Search", "IconObjective", "IconShortcut", "IconShortcutOneway", "IconLocked", "IconDeadEnd", "Label", "Mesh", "Mesh_Select")]
 script = ExtResource("1_d6nvu")
 Animation = NodePath("AnimationPlayer")
 Animation_Search = NodePath("AnimationPlayer_Search")
@@ -272,6 +273,7 @@ IconObjective = NodePath("Anim/AnimSearch/icons/icon_objective")
 IconShortcut = NodePath("Anim/AnimSearch/icons/icon_shortcut")
 IconShortcutOneway = NodePath("Anim/AnimSearch/icons/icon_shortcut_oneway")
 IconLocked = NodePath("Anim/AnimSearch/icons/icon_locked")
+IconDeadEnd = NodePath("Anim/AnimSearch/icons/icon_dead_end")
 GreyedOutColorPalette = ExtResource("2_m2fqg")
 Label = NodePath("Anim/AnimSearch/Label3D")
 Mesh = NodePath("Anim/AnimSearch/MeshInstance3D2")
@@ -329,6 +331,11 @@ transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 
 visible = false
 modulate = Color(0.19633, 0.29, 0.1798, 1)
 texture = ExtResource("5_m2fqg")
+
+[node name="icon_dead_end" type="Sprite3D" parent="Anim/AnimSearch/icons"]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, 0.4, 0, -0.4, -1.74846e-08, 0, 0.01, 0)
+visible = false
+texture = ExtResource("7_ibiu8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

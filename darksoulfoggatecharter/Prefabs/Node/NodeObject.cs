@@ -111,14 +111,14 @@ public partial class NodeObject : Area3D
         RemoveRelation(node.NodeName);
     }
 
-    private void UpdateValidDisplay()
+    protected void UpdateValidDisplay()
     {
         var valid = ShouldDisplayValid();
         if (valid == IsDisplayingValid) return;
         DisplayValid(valid);
     }
 
-    private bool ShouldDisplayValid()
+    protected virtual bool ShouldDisplayValid()
     {
         var term = SearchController.Instance.CurrentSearchTerm;
         var open_gate = SearchController.Instance.OpenGateToggled;
