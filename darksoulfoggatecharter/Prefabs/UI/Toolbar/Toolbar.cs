@@ -58,6 +58,7 @@ public partial class Toolbar : MarginContainer
 
         NodeController.Instance.OnNodeChanges += Node_Changes;
         NodeController.Instance.OnClear += Node_Clear;
+        SelectionController.Instance.OnDragSelectionEnd += Node_Changes;
         InputController.Instance.OnShortcutQuicksave += QuickSave;
 
         SetUnsavedChanges(false);

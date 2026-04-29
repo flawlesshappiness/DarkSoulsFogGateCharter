@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,8 @@ public partial class SelectionController : SingletonController
     public Vector3 DragStart { get; private set; }
     public Vector3 DragEnd { get; private set; }
     public bool HasSelection => selected_nodes.Count > 0;
+
+    public event Action OnDragSelectionEnd;
 
     private List<NodeObject> selected_nodes = new();
 
@@ -131,5 +134,7 @@ public partial class SelectionController : SingletonController
             UndoController.Instance.AddMoveNodeAction(node.NodeName, node.DragStartPosition, node.DragEndPosition);
         }
         UndoController.Instance.EndUndoAction();
+
+        OnDragSelectionEnd?.Invoke();
     }
 }
