@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsrn3adn4dyow"]
+[gd_scene load_steps=5 format=3 uid="uid://dsrn3adn4dyow"]
 
 [ext_resource type="Script" uid="uid://by3dqwy62j24r" path="res://Prefabs/UI/SearchBar/SearchBar.cs" id="1_2828x"]
 [ext_resource type="Texture2D" uid="uid://cxvb035k6h2nj" path="res://Assets/Icons/icon_search.png" id="1_kjd4a"]
 [ext_resource type="Texture2D" uid="uid://c6g5bcja0yxp7" path="res://Assets/Icons/icon_open_gate.png" id="2_n3wlc"]
+[ext_resource type="PackedScene" uid="uid://cpuk7kaldrnkg" path="res://Prefabs/UI/ButtonLabel/button_label.tscn" id="3_ouuhy"]
 
 [node name="SearchBar" type="MarginContainer" node_paths=PackedStringArray("TextEdit", "SearchButton", "OpenGateButton")]
 anchors_preset = 15
@@ -41,6 +42,19 @@ custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 icon = ExtResource("2_n3wlc")
 expand_icon = true
+
+[node name="ButtonLabel" parent="Control/MarginContainer/HBoxContainer/OpenGateButton" node_paths=PackedStringArray("Button") instance=ExtResource("3_ouuhy")]
+layout_mode = 1
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -87.0
+offset_top = 5.0
+offset_right = 88.0
+offset_bottom = 30.0
+grow_vertical = 0
+Text = "Highlight Open Gates"
+Button = NodePath("..")
 
 [node name="SearchBar" type="TextEdit" parent="Control/MarginContainer/HBoxContainer"]
 layout_mode = 2

@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpuk7kaldrnkg"]
+
+[ext_resource type="Script" uid="uid://beg5wh3ibgv2p" path="res://Prefabs/UI/ButtonLabel/ButtonLabel.cs" id="1_1t1yc"]
+
+[node name="ButtonLabel" type="MarginContainer" node_paths=PackedStringArray("Label")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -12.0
+offset_right = 6.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_1t1yc")
+Text = "Button"
+Label = NodePath("MarginContainer/Label")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Button"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqw0lkmli5wsu"]
+[gd_scene load_steps=11 format=3 uid="uid://dqw0lkmli5wsu"]
 
 [ext_resource type="Script" uid="uid://c0fa2ebh4g8pl" path="res://Prefabs/UI/Toolbar/Toolbar.cs" id="1_pkhvg"]
 [ext_resource type="Texture2D" uid="uid://l4taen6w7jel" path="res://Assets/Icons/icon_files.png" id="1_wgobe"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://nn8gmajvgswa" path="res://Assets/Icons/icon_redo.png" id="6_78tfo"]
 [ext_resource type="Texture2D" uid="uid://df454avxje6by" path="res://Assets/Icons/icon_node_map.png" id="6_j7coh"]
 [ext_resource type="Texture2D" uid="uid://cu36r8dpjm7ca" path="res://Assets/Icons/icon_image_map.png" id="8_r68u1"]
+[ext_resource type="PackedScene" uid="uid://cpuk7kaldrnkg" path="res://Prefabs/UI/ButtonLabel/button_label.tscn" id="10_rj3a2"]
 
 [node name="Toolbar" type="MarginContainer" node_paths=PackedStringArray("NewButton", "OpenButton", "SaveButton", "NodesButton", "UndoButton", "RedoButton", "ImageMapButton", "NodeMapButton", "OpenFileDialog", "SaveFileDialog", "UnsavedChangesLabel")]
 anchors_preset = 15
@@ -105,6 +106,122 @@ custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 icon = ExtResource("6_78tfo")
 expand_icon = true
+
+[node name="Labels" type="Control" parent="Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="New" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 45.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "New"
+Button = NodePath("../../HBoxContainer/NewButton")
+
+[node name="Open" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 25.0
+offset_top = 0.0
+offset_right = 77.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "Open"
+Button = NodePath("../../HBoxContainer/OpenButton")
+
+[node name="Save" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 57.0
+offset_top = 0.0
+offset_right = 109.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "Save"
+Button = NodePath("../../HBoxContainer/SaveButton")
+
+[node name="GateList" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 80.0
+offset_top = 0.0
+offset_right = 158.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "Gate List"
+Button = NodePath("../../HBoxContainer/NodesButton")
+
+[node name="MapMode" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 105.0
+offset_top = 0.0
+offset_right = 197.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "Map Mode"
+Button = NodePath("../../HBoxContainer/ImageMapButton")
+
+[node name="Undo" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 204.0
+offset_top = 0.0
+offset_right = 256.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "Undo"
+Button = NodePath("../../HBoxContainer/UndoButton")
+
+[node name="Redo" parent="Buttons/VBoxContainer/Labels" node_paths=PackedStringArray("Button") instance=ExtResource("10_rj3a2")]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 237.0
+offset_top = 0.0
+offset_right = 287.0
+offset_bottom = 25.0
+grow_horizontal = 1
+grow_vertical = 1
+Text = "Redo"
+Button = NodePath("../../HBoxContainer/RedoButton")
 
 [node name="OpenFileDialog" type="FileDialog" parent="."]
 title = "Open a File"
