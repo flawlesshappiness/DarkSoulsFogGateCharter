@@ -17,13 +17,26 @@ public partial class MainView : View
     public SessionSettingsControl SessionSettings;
 
     [Export]
+    public SearchBar SearchBar;
+
+    [Export]
+    public Toolbar Toolbar;
+
+    [Export]
+    public LogContainer LogContainer;
+
+    [Export]
     public Control Selection;
+
+    [Export]
+    public UnsavedChangesPopup UnsavedChangesPopup;
 
     private GateController Gate => GateController.Instance;
     private MainScene Scene => MainScene.Instance;
     private NodeController Node => NodeController.Instance;
 
     private bool has_popup_menu;
+    private bool is_trying_to_quit;
 
     public override void _Ready()
     {
@@ -31,10 +44,42 @@ public partial class MainView : View
         Instance = this;
         SearchList.Hide();
         SessionSettings.Hide();
+        UnsavedChangesPopup.Hide();
 
         SessionSettings.ConfirmButton.Pressed += SessionSettingsConfirm_Pressed;
+        Toolbar.OnSaveSuccess += Toolbar_SaveSuccess;
+        Toolbar.OnSaveFailed += Toolbar_SaveFailed;
+        UnsavedChangesPopup.YesPressed += UnsavedChanges_YesPressed;
+        UnsavedChangesPopup.NoPressed += UnsavedChanges_NoPressed;
+        UnsavedChangesPopup.CancelPressed += UnsavedChanges_CancelPressed;
 
         MouseVisibility.Show(nameof(MainView));
+
+        GetTree().AutoAcceptQuit = false;
+    }
+
+    public override void _Notification(int what)
+    {
+        base._Notification(what);
+
+        if (what == NotificationWMCloseRequest)
+        {
+            is_trying_to_quit = true;
+            if (Toolbar.HasUnsavedChanged)
+            {
+                PopupMenu.Hide();
+                Toolbar.Hide();
+                SearchList.Hide();
+                SearchBar.Hide();
+                LogContainer.Hide();
+                SessionSettings.Hide();
+                UnsavedChangesPopup.Show();
+            }
+            else
+            {
+                Quit();
+            }
+        }
     }
 
     public override void _Process(double delta)
@@ -236,5 +281,46 @@ public partial class MainView : View
     {
         has_popup_menu = false;
         NodeController.Instance.ToggleDeadEnd(node);
+    }
+
+    private void UnsavedChanges_YesPressed()
+    {
+        Toolbar.QuickSave();
+    }
+
+    private void UnsavedChanges_NoPressed()
+    {
+        Quit();
+    }
+
+    private void UnsavedChanges_CancelPressed()
+    {
+        is_trying_to_quit = false;
+
+        Toolbar.Show();
+        SearchBar.Show();
+        LogContainer.Show();
+    }
+
+    private void Toolbar_SaveSuccess()
+    {
+        if (is_trying_to_quit)
+        {
+            Quit();
+        }
+    }
+
+    private void Toolbar_SaveFailed()
+    {
+        is_trying_to_quit = false;
+
+        Toolbar.Show();
+        SearchBar.Show();
+        LogContainer.Show();
+    }
+
+    private void Quit()
+    {
+        GetTree().Quit();
     }
 }

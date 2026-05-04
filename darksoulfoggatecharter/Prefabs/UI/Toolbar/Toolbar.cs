@@ -38,6 +38,11 @@ public partial class Toolbar : MarginContainer
     [Export]
     public Label UnsavedChangesLabel;
 
+    public bool HasUnsavedChanged { get; private set; }
+
+    public event Action OnSaveSuccess;
+    public event Action OnSaveFailed;
+
     private string selected_save_path;
     private const string WindowTitle = "Dark Souls Fog Gate Charter";
 
@@ -55,6 +60,7 @@ public partial class Toolbar : MarginContainer
 
         OpenFileDialog.FileSelected += OpenFile_Selected;
         SaveFileDialog.FileSelected += SafeFile_Selected;
+        SaveFileDialog.Canceled += SafeFile_Canceled;
 
         NodeController.Instance.OnNodeChanges += Node_Changes;
         NodeController.Instance.OnClear += Node_Clear;
@@ -195,6 +201,11 @@ public partial class Toolbar : MarginContainer
         }
     }
 
+    private void SafeFile_Canceled()
+    {
+        OnSaveFailed?.Invoke();
+    }
+
     private void Save(string path)
     {
         var extension = path.GetExtension();
@@ -215,9 +226,11 @@ public partial class Toolbar : MarginContainer
         }
 
         SetUnsavedChanges(false);
+
+        OnSaveSuccess?.Invoke();
     }
 
-    private void QuickSave()
+    public void QuickSave()
     {
         if (string.IsNullOrEmpty(selected_save_path))
         {
@@ -244,5 +257,7 @@ public partial class Toolbar : MarginContainer
         var title = has_unsaved_changes ? $"{WindowTitle} *" : WindowTitle;
         UnsavedChangesLabel.Visible = has_unsaved_changes;
         DisplayServer.WindowSetTitle(title);
+
+        HasUnsavedChanged = has_unsaved_changes;
     }
 }

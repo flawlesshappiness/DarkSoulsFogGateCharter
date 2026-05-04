@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ba2lcgh1l41v5"]
+[gd_scene load_steps=9 format=3 uid="uid://ba2lcgh1l41v5"]
 
 [ext_resource type="Script" uid="uid://3fc7ycbd12b5" path="res://Views/MainView/MainView.cs" id="1_qg6sy"]
 [ext_resource type="PackedScene" uid="uid://b4fb8t62jq6f3" path="res://Prefabs/UI/SearchList/search_list_control.tscn" id="2_g5bbi"]
@@ -7,8 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dsrn3adn4dyow" path="res://Prefabs/UI/SearchBar/search_bar.tscn" id="5_6qf0b"]
 [ext_resource type="PackedScene" uid="uid://b814v08ei12em" path="res://Prefabs/UI/Log/log.tscn" id="5_jrpvu"]
 [ext_resource type="Script" uid="uid://cs4ht1xspdo6x" path="res://Views/MainView/ScrollPopupMenu.cs" id="5_k4w8c"]
+[ext_resource type="PackedScene" uid="uid://bfsaxhbwjlglu" path="res://Prefabs/UI/UnsavedChangesPopup/unsaved_changes_popup.tscn" id="7_0s3g6"]
 
-[node name="MainView" type="Control" node_paths=PackedStringArray("PopupMenu", "SearchList", "SessionSettings", "Selection")]
+[node name="MainView" type="Control" node_paths=PackedStringArray("PopupMenu", "SearchList", "SessionSettings", "SearchBar", "Toolbar", "LogContainer", "Selection", "UnsavedChangesPopup")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +21,11 @@ script = ExtResource("1_qg6sy")
 PopupMenu = NodePath("ScrollPopupMenu")
 SearchList = NodePath("SearchListControl")
 SessionSettings = NodePath("SessionSettingsControl")
+SearchBar = NodePath("SearchBar")
+Toolbar = NodePath("Toolbar")
+LogContainer = NodePath("Log")
 Selection = NodePath("Selection")
+UnsavedChangesPopup = NodePath("UnsavedChangesPopup")
 
 [node name="Toolbar" parent="." instance=ExtResource("4_gb8h6")]
 layout_mode = 1
@@ -55,6 +60,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0.196078)
+
+[node name="UnsavedChangesPopup" parent="." instance=ExtResource("7_0s3g6")]
+layout_mode = 1
 
 [node name="ScrollPopupMenu" type="PopupMenu" parent="."]
 position = Vector2i(365, 0)
